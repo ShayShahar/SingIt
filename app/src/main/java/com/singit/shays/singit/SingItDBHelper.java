@@ -40,12 +40,8 @@ class SingItDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String sql_create_table;
-        sql_create_table = "CREATE TABLE songs ("
-                            + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                            + "artist_name TEXT, "
-                            + "song_name TEXT); ";
-        db.execSQL(sql_create_table);
+        updateMyDB(db, 0, DB_VERSION);
+
     }
 
     /**
@@ -70,6 +66,30 @@ class SingItDBHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        updateMyDB(db, oldVersion, newVersion);
+
+    }
+
+
+
+    /**
+    * Updates the DB according to the version.
+    * @param db         The database.
+    * @param oldVersion The old database version.
+    * @param newVersion The new database version.
+    */
+    public void updateMyDB(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        if ( oldVersion < 1)
+        {
+            String sql_create_table;
+            sql_create_table = "CREATE TABLE songs ("
+                    + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "artist_name TEXT, "
+                    + "song_name TEXT); ";
+            db.execSQL(sql_create_table);
+        }
 
     }
 }

@@ -1,6 +1,7 @@
 package com.singit.shays.singit;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,8 +13,14 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
+
+    private TextView songName;
+    private LyricsAPI api;
+    private static final String TAG = "SingDebug";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +29,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Log.d(TAG, "onCreate() Start");
         String[] items = {"Something", "SDFSD", "sDSF", "SGSDG"};
         ListAdapter adapter = new CustomAdapter(this,items);
         ListView list = (ListView) findViewById(R.id.lastSearchesList);
         list.setAdapter(adapter);
+
+        songName  = (TextView) findViewById(R.id.songNameTxt);
+        api = new LyricsAPI();
+
+        Log.d(TAG, "onCreate() Finish");
     }
 
     @Override
@@ -48,5 +61,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClickSearchLyricsButton(View view){
+
+        Log.d(TAG, "onClickSearchLyricsButton() Start");
+
+        if (songName.getText().toString().isEmpty() || songName.getText().toString() == null){
+            return;
+        }
+        String name = songName.getText().toString();
+
+        try{
+            String lyrics = api.getLyrics(name);
+            Intent intent = new Intent(this,LyricsView.class);
+            intent.putExtra("lyrics",lyrics);
+            startActivity(intent);
+
+        }catch (Exception e){
+            Log.d(TAG, "onClickSearchLyricsButton() Error");
+        }
+
+
+
     }
 }

@@ -13,8 +13,53 @@
     tools:showIn="@layout/activity_main"
     tools:context="com.singit.shays.singit.MainActivity">
 
-    <TextView
-        android:text="Hello World!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:weightSum="1"
+        android:paddingBottom="0dp"
+        android:padding="0dp"
+        android:paddingTop="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingLeft="20dp">
+
+            <EditText
+                android:layout_width="255dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/songNameTxt"
+                android:hint="Song Name..." />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:id="@+id/searchBtn" />
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:text="Last Searches:"
+            android:editable="false"
+            android:layout_marginTop="10dp"/>
+
+        <ListView
+            android:id="@+id/lastSearchesList"
+            android:layout_width="fill_parent"
+            android:layout_height="468dp"
+            android:divider="#b5b5b5"
+            android:dividerHeight="1dp"
+            android:layout_weight="0.65" />
+    </LinearLayout>
 </RelativeLayout>

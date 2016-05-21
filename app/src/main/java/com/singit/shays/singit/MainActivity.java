@@ -1,7 +1,10 @@
 package com.singit.shays.singit;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +18,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,6 +70,16 @@ public class MainActivity extends AppCompatActivity {
     public void onClickSearchLyricsButton(View view){
 
         Log.d(TAG, "onClickSearchLyricsButton() Start");
+
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            Log.d(TAG, "interent connected");
+        } else {
+            Toast.makeText(getApplicationContext(),"Error: No internet connection",Toast.LENGTH_LONG).show();
+            return;
+        }
 
         if (songName.getText().toString().isEmpty() || songName.getText().toString() == null){
             return;

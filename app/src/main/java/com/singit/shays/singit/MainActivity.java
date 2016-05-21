@@ -88,12 +88,17 @@ public class MainActivity extends AppCompatActivity {
 
         try{
             String lyrics = api.getLyrics(name);
+            System.out.println ("1");
             Intent intent = new Intent(this,LyricsView.class);
+            System.out.println ("2");
             intent.putExtra("lyrics",lyrics);
+            System.out.println ("3");
             startActivity(intent);
+            System.out.println ("Success");
 
         }catch (Exception e){
             Log.d(TAG, "onClickSearchLyricsButton() Error");
+            System.out.println ("Error");
         }
 
 

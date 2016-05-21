@@ -9,12 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-public class LyricsView extends AppCompatActivity {
+public class LyricsViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lyrics_view);
+        setContentView(R.layout.activity_lyrics_view2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -27,12 +27,10 @@ public class LyricsView extends AppCompatActivity {
             }
         });
 
-
         Intent intent = getIntent();
         String lyrics = intent.getStringExtra("lyrics");
 
-        TextView show = (TextView) findViewById(R.id.lyricsText);
+        TextView show = (TextView) findViewById(R.id.lyricsTextView);
         show.setText(lyrics);
     }
-
 }

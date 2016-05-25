@@ -8,11 +8,43 @@
     tools:context="com.singit.shays.singit.LyricsViewActivity"
     tools:showIn="@layout/activity_lyrics_view2">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text"
-        android:id="@+id/lyricsTextView" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Artist Name"
+            android:id="@+id/artistName"
+            android:background="#9B26AF"
+            android:layout_weight="0.02"
+            android:textColor="#ffffff"
+            android:paddingLeft="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Song Name"
+            android:id="@+id/textView"
+            android:background="#7A1EA1"
+            android:textAlignment="center"
+            android:textColor="#f4f4f4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/large_text"
+            android:id="@+id/lyricsTextView" />
+
+    </LinearLayout>
+
 
 </android.support.v4.widget.NestedScrollView>

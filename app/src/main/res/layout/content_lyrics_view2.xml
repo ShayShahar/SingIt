@@ -18,24 +18,26 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Artist Name"
+            android:text="Song Name"
             android:id="@+id/artistName"
-            android:background="#9B26AF"
-            android:layout_weight="0.02"
+            android:background="#e91e63"
             android:textColor="#ffffff"
-            android:paddingLeft="8dp" />
+            android:paddingLeft="8dp"
+            android:textSize="30dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Song Name"
+            android:text="Artist Name"
             android:id="@+id/textView"
-            android:background="#7A1EA1"
-            android:textAlignment="center"
-            android:textColor="#f4f4f4" />
+            android:background="#d81b60"
+            android:textAlignment="viewStart"
+            android:textColor="#f4f4f4"
+            android:textSize="20dp"
+            android:paddingLeft="8dp" />
 
         <TextView
             android:layout_width="wrap_content"

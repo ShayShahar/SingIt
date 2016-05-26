@@ -31,21 +31,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:paddingLeft="20dp">
+            android:paddingLeft="0dp"
+            android:weightSum="1">
 
             <EditText
-                android:layout_width="255dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/songNameTxt"
-                android:hint="Song Name..." />
+                android:hint="Song Name..."
+                android:layout_weight="0.75" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Search"
                 android:id="@+id/searchBtn"
-                android:onClick="onClickSearchLyricsButton" />
+                android:onClick="onClickSearchLyricsButton"
+                android:layout_weight="0.09"
+                android:layout_marginLeft="40dp"
+                android:layout_gravity="right" />
         </LinearLayout>
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar1"
+            android:layout_gravity="center_horizontal" />
 
         <EditText
             android:layout_width="match_parent"
@@ -62,5 +74,7 @@
             android:divider="#b5b5b5"
             android:dividerHeight="1dp"
             android:layout_weight="0.65" />
+
+
     </LinearLayout>
 </RelativeLayout>

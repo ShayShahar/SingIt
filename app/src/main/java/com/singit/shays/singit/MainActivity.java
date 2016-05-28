@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,14 +17,22 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ProgressBar spinner;
     private TextView songName;
     private LyricsAPI api;
+
+    public void setLyrics(String lyrics) {
+        this.lyrics = lyrics;
+    }
+
+    private String lyrics;
     private static final String TAG = "SingDebug";
 
     @Override
@@ -32,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
 
-        Log.d(TAG, "onCreate() Start");
+                Log.d(TAG, "onCreate() Start");
         String[] items = {"Something", "SDFSD", "sDSF", "SGSDG"};
         ListAdapter adapter = new CustomAdapter(this,items);
         ListView list = (ListView) findViewById(R.id.lastSearchesList);
@@ -67,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     public void onClickSearchLyricsButton(View view){
 
         Log.d(TAG, "onClickSearchLyricsButton() Start");
@@ -78,16 +91,18 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "interent connected");
         } else {
             Toast.makeText(getApplicationContext(),"Error: No internet connection",Toast.LENGTH_LONG).show();
+            spinner.setVisibility(View.GONE);
             return;
         }
 
         if (songName.getText().toString().isEmpty() || songName.getText().toString() == null){
+            spinner.setVisibility(View.GONE);
             return;
         }
-        String name = songName.getText().toString();
-
+       final String name = songName.getText().toString();
         try{
-            String lyrics = api.getLyrics(name);
+            lyrics = api.getLyrics(name);
+
             Intent intent = new Intent(this,LyricsViewActivity.class);
             intent.putExtra("lyrics",lyrics);
             startActivity(intent);

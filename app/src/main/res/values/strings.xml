@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SingIt</string>
     <string name="action_settings">Settings</string>
-    <string name="db_name">SingItDataBase</string>
+    <string name="db_name">SingItDataBase.db</string>
     <string name="title_activity_lyrics_view"></string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

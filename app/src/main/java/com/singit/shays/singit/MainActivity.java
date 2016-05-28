@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView songName;
     private LyricsAPI api;
     private String name;
+    private SingItDBHelper db;
 
     public void setLyrics(String lyrics) {
         this.lyrics = lyrics;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.db = new SingItDBHelper(this);
+        this.db.insert_song_to_songs_table("Song name test","Author name test","/data/data/...");
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 

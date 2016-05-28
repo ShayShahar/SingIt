@@ -1,20 +1,16 @@
 package com.singit.shays.singit;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -27,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar spinner;
     private TextView songName;
     private LyricsAPI api;
+    private String name;
 
     public void setLyrics(String lyrics) {
         this.lyrics = lyrics;
@@ -82,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickSearchLyricsButton(View view){
 
+        spinner.setVisibility(View.VISIBLE);
+
         Log.d(TAG, "onClickSearchLyricsButton() Start");
 
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -99,19 +98,51 @@ public class MainActivity extends AppCompatActivity {
             spinner.setVisibility(View.GONE);
             return;
         }
-       final String name = songName.getText().toString();
-        try{
-            lyrics = api.getLyrics(name);
 
-            Intent intent = new Intent(this,LyricsViewActivity.class);
-            intent.putExtra("lyrics",lyrics);
-            startActivity(intent);
+        name = songName.getText().toString();
 
-        }catch (Exception e){
-            Log.d(TAG, "onClickSearchLyricsButton() Error");
+        new SearchLyrics().execute();
+    }
+
+
+    class SearchLyrics extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (lyrics != null){
+                Intent intent = new Intent(MainActivity.this,LyricsViewActivity.class);
+                intent.putExtra("lyrics",lyrics);
+                startActivity(intent);
+                spinner.setVisibility(View.GONE);
+            }
 
+            else{
+                Toast.makeText(getApplicationContext(),"Server connection error",Toast.LENGTH_LONG).show();
+                spinner.setVisibility(View.GONE);
 
+            }
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try{
+                Log.d(TAG, "Searching lyrics...");
+                lyrics = api.getLyrics(name);
+            }catch (Exception e) {
+                Log.d(TAG, "Server error");
+            }
+
+            return null;
+        }
     }
 }

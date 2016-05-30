@@ -25,11 +25,11 @@ public class LyricsAPI {
     }
 
     public LyricsRes getLyrics(LyricsRes song) throws IOException, JSONException {
-        String lyricsURL = baseURL + "track.lyrics.get/?track_id="+song.id+"&apikey="+this.API_KEY;
+        String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+this.API_KEY;
         String json = httpRequest(lyricsURL);
         JSONObject jsnOb = new JSONObject(json);
 
-        song.lyrics =jsnOb.getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
+        song.lyrics =jsnOb.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
         return song;
     }
 
@@ -49,7 +49,7 @@ public class LyricsAPI {
     private List<LyricsRes> extractList(String json) throws JSONException
     {
         JSONObject jsnOb = new JSONObject(json);
-        JSONArray arrayOfJacksons = (JSONArray) ((JSONObject) jsnOb.get("body")).get("track_list");
+        JSONArray arrayOfJacksons = jsnOb.getJSONObject("message").getJSONObject("body").getJSONArray("track_list");
 
         List<LyricsRes> listRes = new ArrayList<LyricsRes>();
         for (int i=0; i<arrayOfJacksons.length(); i++)

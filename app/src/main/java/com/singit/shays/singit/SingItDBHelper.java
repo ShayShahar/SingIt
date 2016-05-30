@@ -1,11 +1,13 @@
 package com.singit.shays.singit;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.util.Log;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by lions on 07/05/2016.
@@ -21,7 +23,7 @@ class SingItDBHelper extends SQLiteOpenHelper
 
     private static final String DB_NAME = "SingItDataBase.db";
     private static final int DB_VERSION = 1;
-    private static final String TAG = "SingDebug";
+    private static final String TAG = "DBDebug";
     /**
      * Create a helper object to create, open, and/or manage a database.
      * This method always returns very quickly.  The database is not actually
@@ -118,8 +120,8 @@ class SingItDBHelper extends SQLiteOpenHelper
                 + "artist_name TEXT, "
                 + "song_name TEXT, "
                 + "lyrics TEXT, "
-                + "image_path TEXT, "
-                + "image_url TEXT); ";
+                + "image_url TEXT, "
+                + "image_path TEXT);";
 
         db.execSQL(sql_create_table);
     }
@@ -137,8 +139,9 @@ class SingItDBHelper extends SQLiteOpenHelper
                 + "artist_name TEXT, "
                 + "song_name TEXT, "
                 + "lyrics TEXT, "
-                + "image_path TEXT, "
-                + "image_url TEXT); ";
+                + "image_url TEXT, "
+                + "image_path TEXT);";
+
 
         db.execSQL(sql_create_table);
     }
@@ -174,7 +177,7 @@ class SingItDBHelper extends SQLiteOpenHelper
      * @param image_path        Picture path in device.
      * @param image_url         Image URL in api web.
      */
-    public void insert_song_to_favorites_table(int song_id, String artist_name, String song_name, String lyrics, String image_path, String image_url)
+    public void insert_song_to_favorites_table(int song_id, String artist_name, String song_name, String lyrics, String image_url,String image_path)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
@@ -183,8 +186,8 @@ class SingItDBHelper extends SQLiteOpenHelper
         song_values.put("artist_name",artist_name);
         song_values.put("song_name",song_name);
         song_values.put("lyrics",lyrics);
-        song_values.put("image_path",image_path);
         song_values.put("image_url",image_url);
+        song_values.put("image_path",image_path);
 
         db.insert("favorites",null,song_values);
     }
@@ -199,7 +202,7 @@ class SingItDBHelper extends SQLiteOpenHelper
      * @param image_path        Picture path in device.
      * @param image_url         Image URL in api web.
      */
-    public void insert_song_to_last_searches(int song_id, String artist_name, String song_name, String lyrics, String image_path, String image_url)
+    public void insert_song_to_last_searches(int song_id, String artist_name, String song_name, String lyrics, String image_url,String image_path)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
@@ -208,11 +211,78 @@ class SingItDBHelper extends SQLiteOpenHelper
         song_values.put("artist_name",artist_name);
         song_values.put("song_name",song_name);
         song_values.put("lyrics",lyrics);
-        song_values.put("image_path",image_path);
         song_values.put("image_url",image_url);
+        song_values.put("image_path",image_path);
 
         db.insert("last_searches",null,song_values);
     }
 
+    /**
+     * Goes over the table in the DB and returns the table as list of LyricsRes objects.
+     *
+     * @param table The table of songs needed to be retrieved.
+     * @return ArrayList of all the rows in a table as LyricsRes.
+     */
+    public ArrayList<LyricsRes> get_all_songs(String table)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<HashMap<String, String>> map_list = new ArrayList<>();
+        ArrayList<LyricsRes> result_list = new ArrayList<>();
+
+        Cursor result =  db.rawQuery("SELECT * FROM " + table, null);
+
+        // Looping through all rows and adding to list.
+        if (result.moveToFirst())
+        {
+            do
+            {
+                HashMap<String, String> map = new HashMap<>();
+
+                for(int i=1; i<result.getColumnCount()-1; i++)
+                {
+                    if (!result.getColumnName(i).equals("song_id"))
+                        map.put(result.getColumnName(i), result.getString(i));
+                    else
+                        map.put(result.getColumnName(i), String.valueOf(result.getInt(i)));
+                }
+                map_list.add(map);
+            } while (result.moveToNext());
+        }
+
+        // Looping through the map list and filling the result list.
+        for (HashMap<String, String> song:map_list)
+        {
+            LyricsRes lyrics_result = new LyricsRes(song.get("song_name"),
+                    song.get("artist_name"),
+                    song.get("lyrics"),
+                    song.get("image_url"),
+                    Integer.valueOf(song.get("song_id")));
+
+            result_list.add(lyrics_result);
+        }
+
+        result.close();
+        return result_list;
+    }
+
+    /**
+     * Get the last searched songs from the DB.
+     *
+     * @return  ArrayList of all the rows in a last_searches table as LyricsRes objects.
+     */
+    public ArrayList<LyricsRes> get_last_searched_songs()
+    {
+        return get_all_songs("last_searches");
+    }
+
+    /**
+     * Get the last favorite songs from the DB.
+     *
+     * @return  ArrayList of all the rows in a favorites table as LyricsRes objects.
+     */
+    public ArrayList<LyricsRes> get_favorite_songs()
+    {
+        return get_all_songs("favorites");
+    }
 
 }

@@ -19,6 +19,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,8 +44,13 @@ public class MainActivity extends AppCompatActivity {
         this.db = new SingItDBHelper(this);
         // Insert to db example.
         this.db.insert_song_to_songs_table(12358,"Song name test","Author name test","Translated song song song...");
-        this.db.insert_song_to_favorites_table(65989,"Song name test","Author name test","Song song song...","/data/data/...","http://www.api.com/12545");
-        this.db.insert_song_to_last_searches(47578,"Song name test","Author name test","Song song song...","/data/data/...","http://www.api.com/125775");
+        this.db.insert_song_to_favorites_table(65989,"Author 48461 test","Song name fasd45fas","Song song song...","http://www.api.com/12545","/data/data/...");
+        this.db.insert_song_to_favorites_table(65989,"Author a465awf test","Song name fasd45fas","Song song song...","http://www.api.com/12545","/data/data/...");
+        this.db.insert_song_to_favorites_table(65989,"Author 8a4 test","Song name fasd45fas","Song song song...","http://www.api.com/12545","/data/data/...");
+        this.db.insert_song_to_last_searches(47578,"Author aaaawf test","Song name fasd45fas","Song song song...","http://www.api.com/125775","/data/data/...");
+        this.db.insert_song_to_last_searches(21321,"Author ss test","Song name f66dsfas","Song song song adas...","http://www.api.com/125775","/data/data/aaa...");
+        this.db.insert_song_to_last_searches(41231,"Author aawfff test","Song name asdadsfas","Song song song ada...","http://www.api.com/125775","/data/data/sds...");
+
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

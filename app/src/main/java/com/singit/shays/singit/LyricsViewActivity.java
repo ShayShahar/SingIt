@@ -1,6 +1,9 @@
 package com.singit.shays.singit;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.InputStream;
 
 public class LyricsViewActivity extends AppCompatActivity {
 
@@ -29,10 +34,39 @@ public class LyricsViewActivity extends AppCompatActivity {
         LyricsRes lyrics = (LyricsRes)getIntent().getSerializableExtra("view");
         Log.d(TAG, "lyrics deserialized");
         Log.d(TAG,lyrics.artist);
-        //ImageView artist = (ImageView)
+        ImageView image = (ImageView) findViewById(R.id.artistImage);
         TextView show = (TextView) findViewById(R.id.lyricsTextView);
-        show.setText(lyrics.artist);
-        //show.setText(lyrics.lyrics);
+        TextView arist = (TextView) findViewById(R.id.artistName);
+        TextView song = (TextView) findViewById(R.id.songName);
+        song.setText(lyrics.title);
+        arist.setText(lyrics.artist);
+        show.setText(lyrics.lyrics);
+        new DownloadImageTask(image)
+                .execute(lyrics.imageURL);
+    }
 
+    class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 }

@@ -18,12 +18,15 @@ import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private ProgressBar spinner;
     private TextView songName;
     private LyricsAPI api;
     private String name;
+    private ArrayList<LyricsRes> result;
     private SingItDBHelper db;
 
     public void setLyrics(String lyrics) {
@@ -50,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
-                Log.d(TAG, "onCreate() Start");
+       /*         Log.d(TAG, "onCreate() Start");
         String[] items = {"Something", "SDFSD", "sDSF", "SGSDG"};
         ListAdapter adapter = new CustomAdapter(this,items);
         ListView list = (ListView) findViewById(R.id.lastSearchesList);
         list.setAdapter(adapter);
-
+        */
         songName  = (TextView) findViewById(R.id.songNameTxt);
         api = new LyricsAPI();
 
@@ -122,9 +125,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (lyrics != null){
-                Intent intent = new Intent(MainActivity.this,LyricsViewActivity.class);
-                intent.putExtra("lyrics",lyrics);
+            if (result != null){
+                LyricsResWrapper wrapper = new LyricsResWrapper(result);
+                Intent intent = new Intent(MainActivity.this,SearchViewActivity.class);
+                intent.putExtra("lyrics",wrapper);
                 startActivity(intent);
                 spinner.setVisibility(View.GONE);
             }
@@ -146,7 +150,8 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             try{
                 Log.d(TAG, "Searching lyrics...");
-               // lyrics = api.getLyrics(name);
+                result = new ArrayList<LyricsRes>(api.Search(name));
+                Log.d(TAG,"lyrics recieved");
             }catch (Exception e) {
                 Log.d(TAG, "Server error");
             }

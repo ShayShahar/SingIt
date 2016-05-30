@@ -1,10 +1,13 @@
 package com.singit.shays.singit;
 
+import java.io.Serializable;
+
 /**
  * Created by DalitB on 26/05/16.
  */
-public class LyricsRes
+public class LyricsRes implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     String title, artist, lyrics, imageURL ;
     int id;
 

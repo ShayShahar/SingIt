@@ -33,6 +33,10 @@
         <activity
             android:name=".LyricsViewActivity"
             android:label="@string/title_activity_lyrics_view"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SearchViewActivity"
+            android:label="@string/title_activity_search_view"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

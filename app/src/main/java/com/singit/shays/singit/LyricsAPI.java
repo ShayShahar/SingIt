@@ -1,6 +1,11 @@
 package com.singit.shays.singit;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.StrictMode;
+import android.util.Log;
+import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -18,6 +24,8 @@ import java.util.List;
 public class LyricsAPI {
     private final String API_KEY = "e971f3a40404f1b0eacaa5e567b28736";
     private final String baseURL = "http://api.musixmatch.com/ws/1.1/";
+    private static final String TAG = "SingDebug";
+
     public LyricsAPI()
     {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -46,6 +54,8 @@ public class LyricsAPI {
      * @throws JSONException
      */
     public LyricsRes getLyrics(LyricsRes song) throws IOException, JSONException {
+        Log.d(TAG,song.artist);
+        Log.d(TAG,Integer.toString(song.id));
         String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+this.API_KEY;
         String json = httpRequest(lyricsURL);
         JSONObject jsnOb = new JSONObject(json);
@@ -120,5 +130,33 @@ public class LyricsAPI {
 
         return response.toString();
 
+    }
+
+
+    class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        Bitmap bmImage;
+
+        public DownloadImageTask(Bitmap bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+
+            bmImage = result;
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.singit.shays.singit;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
  */
 class CustomAdapter extends ArrayAdapter<LyricsRes> {
 
+    Bitmap bmp;
+
     CustomAdapter(Context context, ArrayList<LyricsRes> details){
         super(context,R.layout.custom_row,details);
     }
@@ -28,17 +31,20 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.custom_row,parent,false);
-        LyricsRes res = getItem(position);
+        final LyricsRes result = getItem(position);
 
         TextView artistText = (TextView) customView.findViewById(R.id.artistText);
         TextView songText = (TextView) customView.findViewById(R.id.songText);
         ImageView artistImage = (ImageView) customView.findViewById(R.id.artistImage);
 
-        artistText.setText(res.artist);
-        songText.setText(res.title);
+        artistText.setText(result.artist);
+        songText.setText(result.title);
 
-        new DownloadImageTask(artistImage)
-                .execute(res.imageURL);
+            new DownloadImageTask(artistImage)
+                    .execute(result.imageURL);
+            //result.image = bmp;
+
+
         return customView;
     }
 
@@ -56,7 +62,11 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
+                bmp = mIcon11;
+
             } catch (Exception e) {
+                bmp = BitmapFactory.decodeResource(getContext().getResources(),
+                        R.drawable.no_img);
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
             }

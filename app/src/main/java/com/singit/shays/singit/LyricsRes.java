@@ -1,5 +1,7 @@
 package com.singit.shays.singit;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -9,6 +11,7 @@ public class LyricsRes implements Serializable
 {
     private static final long serialVersionUID = 1L;
     String title, artist, lyrics, imageURL ;
+    Bitmap image;
     int id;
 
     /**

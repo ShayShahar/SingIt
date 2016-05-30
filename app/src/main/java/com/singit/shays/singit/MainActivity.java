@@ -127,9 +127,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             if (result != null){
                 LyricsResWrapper wrapper = new LyricsResWrapper(result);
+                Log.d(TAG,"create wrapper");
                 Intent intent = new Intent(MainActivity.this,SearchViewActivity.class);
+                Log.d(TAG,"create intent");
                 intent.putExtra("lyrics",wrapper);
+                Log.d(TAG,"put extra");
                 startActivity(intent);
+                Log.d(TAG,"Intent search result");
                 spinner.setVisibility(View.GONE);
             }
 

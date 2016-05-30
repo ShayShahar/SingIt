@@ -31,11 +31,17 @@ public class SearchViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
+        Log.d(TAG,"read intent");
         LyricsResWrapper wrapper = (LyricsResWrapper)getIntent().getSerializableExtra("lyrics");
+        Log.d(TAG,"read wrapper");
         final ArrayList<LyricsRes> lyrics = wrapper.getItemDetails();
+        Log.d(TAG,"read result array");
         ListAdapter adapter = new CustomAdapter(this,lyrics);
-        final ListView list = (ListView) findViewById(R.id.searchResultList);
+        Log.d(TAG,"create adapter");
+        ListView list = (ListView) findViewById(R.id.searchResultList);
+        Log.d(TAG,"set view");
         list.setAdapter(adapter);
+        Log.d(TAG,"set adapter");
 
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
@@ -48,7 +54,7 @@ public class SearchViewActivity extends AppCompatActivity {
                 try{
                     pass = api.getLyrics(selected);
                 }catch(Exception e){
-
+                    Log.d(TAG,e.toString());
                 }
                 Intent intent = new Intent(SearchViewActivity.this,LyricsViewActivity.class);
                 intent.putExtra("view",pass);

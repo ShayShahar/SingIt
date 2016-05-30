@@ -8,6 +8,14 @@ public class LyricsRes
     String title, artist, lyrics, imageURL ;
     int id;
 
+    /**
+     * Constructor
+     * @param Title
+     * @param Artist
+     * @param Lyrics
+     * @param imageURL
+     * @param id
+     */
     LyricsRes (String Title, String Artist, String Lyrics, String imageURL, int id)
     {
         this.title = Title;

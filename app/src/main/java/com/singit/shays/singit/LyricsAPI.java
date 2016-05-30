@@ -24,6 +24,27 @@ public class LyricsAPI {
         StrictMode.setThreadPolicy(policy);
     }
 
+    /**
+     * Search the song lyrics from the query, return List of songs suggestions
+     * @param query
+     * @return List of LyricsRes
+     * @throws IOException
+     * @throws JSONException
+     */
+    public List<LyricsRes> Search (String query) throws IOException, JSONException {
+        String encodedQuery = URLEncoder.encode(query, "UTF-8");
+        String searchURL = baseURL + "track.search?apikey="+this.API_KEY+"&q=" + encodedQuery;
+        String json = httpRequest(searchURL);
+        return extractList(json);
+    }
+
+    /**
+     * find the lyrics, fill it in the LyricsRes song object and return the full object.
+     * @param song
+     * @return full object- LyricsRes song (with the lyrics)
+     * @throws IOException
+     * @throws JSONException
+     */
     public LyricsRes getLyrics(LyricsRes song) throws IOException, JSONException {
         String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+this.API_KEY;
         String json = httpRequest(lyricsURL);
@@ -33,17 +54,10 @@ public class LyricsAPI {
         return song;
     }
 
-    public List<LyricsRes> Search (String query) throws IOException, JSONException {
-        String encodedQuery = URLEncoder.encode(query, "UTF-8");
-        String searchURL = baseURL + "track.search?apikey="+this.API_KEY+"&q=" + encodedQuery;
-        String json = httpRequest(searchURL);
-        return extractList(json);
-    }
-
     /**
-     * extractList - parse the json to ArrayList of LyricsRes
+     * parse the json to ArrayList of LyricsRes
      * @param json
-     * @return ArrayList of LyricsRes
+     * @return List of LyricsRes
      * @throws JSONException
      */
     private List<LyricsRes> extractList(String json) throws JSONException
@@ -63,7 +77,7 @@ public class LyricsAPI {
     }
 
     /**
-     * This is a skelaton method
+     * This is a skeleton method
      * @param html
      * @return
      */
@@ -77,6 +91,12 @@ public class LyricsAPI {
         return html.substring(lyricsStartIndex, lyricsEndIndex);
     }
 
+    /**
+     * basic http GET Request
+     * @param url
+     * @return String response
+     * @throws IOException
+     */
     private String httpRequest(String url) throws IOException
     {
         URL obj = new URL(url);

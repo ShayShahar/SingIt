@@ -36,11 +36,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.db = new SingItDBHelper(this);
+        // Insert to db example.
+        this.db.insert_song_to_songs_table(12358,"Song name test","Author name test","Translated song song song...");
+        this.db.insert_song_to_favorites_table(65989,"Song name test","Author name test","Song song song...","/data/data/...","http://www.api.com/12545");
+        this.db.insert_song_to_last_searches(47578,"Song name test","Author name test","Song song song...","/data/data/...","http://www.api.com/125775");
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.db = new SingItDBHelper(this);
-        this.db.insert_song_to_songs_table("Song name test","Author name test","/data/data/...");
+
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
@@ -140,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             try{
                 Log.d(TAG, "Searching lyrics...");
-                lyrics = api.getLyrics(name);
+               // lyrics = api.getLyrics(name);
             }catch (Exception e) {
                 Log.d(TAG, "Server error");
             }

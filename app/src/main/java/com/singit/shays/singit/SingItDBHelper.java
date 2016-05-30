@@ -10,7 +10,14 @@ import android.util.Log;
 /**
  * Created by lions on 07/05/2016.
  */
-class SingItDBHelper extends SQLiteOpenHelper {
+class SingItDBHelper extends SQLiteOpenHelper
+{
+    /**
+     * Insert to db example.
+     this.db.insert_song_to_songs_table(12358,"Song name test","Author name test","Translated song song song...");
+     this.db.insert_song_to_favorites_table(65989,"Song name test","Author name test","Song song song...","/data/data/...","http://www.api.com/12545");
+     this.db.insert_song_to_last_searches(47578,"Song name test","Author name test","Song song song...","/data/data/...","http://www.api.com/125775");
+     */
 
     private static final String DB_NAME = "SingItDataBase.db";
     private static final int DB_VERSION = 1;
@@ -90,9 +97,10 @@ class SingItDBHelper extends SQLiteOpenHelper {
         String sql_create_table;
         sql_create_table = "CREATE TABLE songs ("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "song_id INTEGER, "
                 + "artist_name TEXT, "
-                + "song_name TEXT,"
-                + "translated_song TEXT); ";
+                + "song_name TEXT, "
+                + "translated_lyrics TEXT); ";
 
         db.execSQL(sql_create_table);
     }
@@ -106,10 +114,12 @@ class SingItDBHelper extends SQLiteOpenHelper {
         String sql_create_table;
         sql_create_table = "CREATE TABLE favorites ("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "song_id INTEGER"
+                + "song_id INTEGER, "
                 + "artist_name TEXT, "
                 + "song_name TEXT, "
-                + "picture_path TEXT); ";
+                + "lyrics TEXT, "
+                + "image_path TEXT, "
+                + "image_url TEXT); ";
 
         db.execSQL(sql_create_table);
     }
@@ -123,62 +133,84 @@ class SingItDBHelper extends SQLiteOpenHelper {
         String sql_create_table;
         sql_create_table = "CREATE TABLE last_searches ("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "song_id INTEGER"
+                + "song_id INTEGER, "
                 + "artist_name TEXT, "
                 + "song_name TEXT, "
-                + "picture_path TEXT); ";
+                + "lyrics TEXT, "
+                + "image_path TEXT, "
+                + "image_url TEXT); ";
 
         db.execSQL(sql_create_table);
     }
 
     /**
      * Insert song to the song table, after translation.
+     *
+     * @param song_id           Song id in api web.
      * @param song_name         Name of the song to insert.
      * @param artist_name       Name of the song's artist to insert.
-     * @param translated_song   The song after being translated.
+     * @param translated_lyrics   The song after being translated.
      */
-    public void insert_song_to_songs_table(String song_name,String artist_name, String translated_song)
+    public void insert_song_to_songs_table(int song_id, String song_name,String artist_name, String translated_lyrics)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues song_values = new ContentValues();
+
+        song_values.put("song_id",song_id);
         song_values.put("song_name",song_name);
         song_values.put("artist_name",artist_name);
-        song_values.put("translated_song",translated_song);
+        song_values.put("translated_lyrics",translated_lyrics);
+
         db.insert("songs",null,song_values);
     }
 
     /**
      * Insert song to the favorites table, after chose as favorite.
-     * @param song_name         Name of the song to insert.
+     *
+     * @param song_id           Song id in api web.
      * @param artist_name       Name of the song's artist to insert.
-     * @param picture_path      Picture path in device.
+     * @param song_name         Name of the song to insert.
+     * @param lyrics            Lyrics of the song.
+     * @param image_path        Picture path in device.
+     * @param image_url         Image URL in api web.
      */
-    public void insert_song_to_favorites_table(String song_name, String artist_name, String picture_path)
+    public void insert_song_to_favorites_table(int song_id, String artist_name, String song_name, String lyrics, String image_path, String image_url)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues song_values = new ContentValues();
-        song_values.put("song_name",song_name);
+
+        song_values.put("song_id",song_id);
         song_values.put("artist_name",artist_name);
-        song_values.put("picture_path",picture_path);
+        song_values.put("song_name",song_name);
+        song_values.put("lyrics",lyrics);
+        song_values.put("image_path",image_path);
+        song_values.put("image_url",image_url);
+
         db.insert("favorites",null,song_values);
     }
 
     /**
-     * Insert song to the favorites table, just some last searches to b defined.
-     * @param song_name         Name of the song to insert.
+     *  Insert song to last searches song.
+     *
+     * @param song_id           Song id in api web.
      * @param artist_name       Name of the song's artist to insert.
-     * @param picture_path      Picture path in device.
+     * @param song_name         Name of the song to insert.
+     * @param lyrics            Lyrics of the song.
+     * @param image_path        Picture path in device.
+     * @param image_url         Image URL in api web.
      */
-    public void insert_song_to_last_searches(String song_name, String artist_name, String picture_path)
+    public void insert_song_to_last_searches(int song_id, String artist_name, String song_name, String lyrics, String image_path, String image_url)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues song_values = new ContentValues();
-        song_values.put("song_name",song_name);
+
+        song_values.put("song_id",song_id);
         song_values.put("artist_name",artist_name);
-        song_values.put("picture_path",picture_path);
+        song_values.put("song_name",song_name);
+        song_values.put("lyrics",lyrics);
+        song_values.put("image_path",image_path);
+        song_values.put("image_url",image_url);
+
         db.insert("last_searches",null,song_values);
     }
 

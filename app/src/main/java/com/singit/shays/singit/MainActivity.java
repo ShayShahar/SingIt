@@ -69,6 +69,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
+        ListAdapter adapter = new CustomAdapter(this,last_searches);
+        ListView list = (ListView) findViewById(R.id.lastSearchesList);
+        list.setAdapter(adapter);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -76,7 +85,13 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_favorites) {
+            Intent intent = new Intent(this, FavoritesActivity.class);
+            this.startActivity(intent);
+            //Intent intent = new Intent(MainActivity.this,FavoritesActivity.class);
+            //startActivity(intent);
+            //new FavoritesActivity();
+            spinner.setVisibility(View.GONE);
             return true;
         }
 

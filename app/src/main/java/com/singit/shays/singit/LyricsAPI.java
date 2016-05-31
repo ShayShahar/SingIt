@@ -54,25 +54,14 @@ public class LyricsAPI {
      * @throws JSONException
      */
     public LyricsRes getLyrics(LyricsRes song) throws IOException, JSONException {
-        /*
-        Log.d(TAG,song.artist);
-        Log.d(TAG,Integer.toString(song.id));
         String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+this.API_KEY;
         String json = httpRequest(lyricsURL);
         JSONObject jsnOb = new JSONObject(json);
 
         song.lyrics =jsnOb.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
-        return song;*/
-
-            LyricsRes return_song = new LyricsRes(song.title,song.artist,"",song.imageURL, song.id);
-
-            String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+this.API_KEY;
-            String json = httpRequest(lyricsURL);
-            JSONObject jsnOb = new JSONObject(json);
-
-            return_song.lyrics =jsnOb.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
-            return return_song;
-
+        song.lyrics =jsnOb.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
+        song.lyrics = song.lyrics.split("\\*\\*\\*\\*\\*\\*\\*")[0];
+        return song;
     }
 
     /**
@@ -90,7 +79,7 @@ public class LyricsAPI {
         for (int i=0; i<arrayOfJacksons.length(); i++)
         {
             JSONObject track = arrayOfJacksons.getJSONObject(i).getJSONObject("track");
-            LyricsRes tmp= new LyricsRes (track.getString("track_name"), track.getString("artist_name"), "", track.getString("album_coverart_500x500"), track.getInt("track_id"));
+            LyricsRes tmp= new LyricsRes (track.getString("track_name"), track.getString("artist_name"), "", track.getString("album_coverart_500x500"), track.getString("album_coverart_100x100"), track.getInt("track_id") );
             listRes.add (tmp);
         }
 

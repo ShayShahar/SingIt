@@ -22,6 +22,7 @@ import java.util.ArrayList;
 class CustomAdapter extends ArrayAdapter<LyricsRes> {
 
     Bitmap bmp;
+    private static final String TAG = "SingDebug";
 
     CustomAdapter(Context context, ArrayList<LyricsRes> details){
         super(context,R.layout.custom_row,details);
@@ -35,8 +36,9 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
 
         TextView artistText = (TextView) customView.findViewById(R.id.artistText);
         TextView songText = (TextView) customView.findViewById(R.id.songText);
-        ImageView artistImage = (ImageView) customView.findViewById(R.id.artistImage);
-
+        Log.d(TAG,"set components");
+        de.hdodenhof.circleimageview.CircleImageView artistImage = (de.hdodenhof.circleimageview.CircleImageView) customView.findViewById(R.id.profile_image);
+        Log.d(TAG,"set image");
         artistText.setText(result.artist);
         songText.setText(result.title);
 
@@ -63,11 +65,16 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
                 InputStream in = new java.net.URL(urldisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
                 bmp = mIcon11;
+                Log.d(TAG,"image set");
 
             } catch (Exception e) {
-                bmp = BitmapFactory.decodeResource(getContext().getResources(),
-                        R.drawable.no_img);
-                Log.e("Error", e.getMessage());
+                ImageView image = (ImageView) getView().findViewById(R.id.artistImage);
+                InputStream is = getContext().getResources().openRawResource(drawable.no_img);
+                Bitmap originalBitmap = BitmapFactory.decodeStream(is);
+                bmp = originalBitmap;
+                /*bmp = BitmapFactory.decodeResource(getContext().getResources(),
+                        R.drawable.no_img);*/
+                Log.d(TAG,"no image");
                 e.printStackTrace();
             }
             return mIcon11;

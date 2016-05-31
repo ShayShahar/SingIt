@@ -6,6 +6,7 @@
     <string name="large_text">lyrics here</string>
     <string name="title_activity_search_view">Search Result</string>
     <string name="title_activity_favorites">Favorites</string>
+    <string name="title_activity_favorites_view">Favorites</string>
     <string name="artist_name">artist_name</string>
     <string name="song_id">song_id</string>
     <string name="song_name">song_name</string>

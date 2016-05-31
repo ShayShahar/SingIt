@@ -1,0 +1,35 @@
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.singit.shays.singit.LyricsViewActivity"
+    tools:showIn="@layout/activity_favorites">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/title_activity_favorites"
+            android:id="@+id/favoritesTitle"
+            android:background="@color/colorPrimary"
+            android:layout_weight="0.02"
+            android:textColor="#ffffff"
+            android:paddingLeft="15dp" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
+            android:layout_centerHorizontal="true"
+            android:choiceMode="singleChoice" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

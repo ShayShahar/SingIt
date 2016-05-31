@@ -17,10 +17,10 @@
         android:divider="@null"/>
 
     <TextView
-        android:id="@+id/empty"
+        android:id="@+id/emptyFavorites"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:layout_marginLeft="10dp"
-        android:text="There is no favorites to show."/>
+        android:text="title_activity_favorites_no_items_to_show"/> //TODO: change to @string/ after commit
 </RelativeLayout>

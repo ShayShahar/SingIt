@@ -2,6 +2,7 @@ package com.singit.shays.singit;
 
 import android.app.LauncherActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
 /**
  * The favorites activity logic
  */
@@ -25,6 +28,8 @@ public class FavoritesViewActivity extends AppCompatActivity {
     private SingItDBHelper dbHelper;
     private ListView list;
     private  ListAdapter adapter;
+    private static final String TAG = "SingDebug";
+    private LyricsAPI api = new LyricsAPI();
     @Override
 /**
  * This method run when the activity is created and upload the favorites list
@@ -43,10 +48,11 @@ public class FavoritesViewActivity extends AppCompatActivity {
 
         adapter = new CustomAdapter(this,favorites);
         list = (ListView) findViewById(R.id.favoritesList);
-        list.setEmptyView(findViewById(R.id.empty));
+        list.setEmptyView(findViewById(R.id.emptyFavorites));
         list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> a, View v, final int position, long id) {
+
+    list.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> a, View v, final int position, long id) {
                 AlertDialog.Builder adb=new AlertDialog.Builder(FavoritesViewActivity.this);
                 adb.setTitle("Delete?");
                 LyricsRes item = (LyricsRes)list.getItemAtPosition(position);
@@ -60,7 +66,36 @@ public class FavoritesViewActivity extends AppCompatActivity {
                         adapter.notifyAll();
                     }});
                 adb.show();
+                return true;
             }
         });
+
+
+        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View container, int position, long id) {
+
+                Log.d(TAG,"On item click..");
+                LyricsRes selected = (LyricsRes)list.getItemAtPosition(position);
+                LyricsRes pass = selected;
+                Log.d(TAG,selected.artist);
+                Log.d(TAG,Integer.toString(selected.id));
+                try{
+                    pass = api.getLyrics((LyricsRes)list.getItemAtPosition(position));
+                }catch(Exception e){
+                    Log.d(TAG,e.toString());
+                }
+                dbHelper.insert_song_to_last_searches(pass,"","");
+                Intent intent = new Intent(FavoritesViewActivity.this,LyricsViewActivity.class);
+                intent.putExtra("view",pass);
+                startActivity(intent);
+                Log.d(TAG,"Call another activity");
+
+            }
+        };
+
+        list.setOnItemClickListener(itemClickListener);
+
         }
+
     }

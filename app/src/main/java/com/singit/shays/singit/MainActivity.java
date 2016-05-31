@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,SearchViewActivity.class);
                 Log.d(TAG,"create intent");
                 intent.putExtra("lyrics",wrapper);
+                intent.putExtra("name",name);
                 Log.d(TAG,"put extra");
                 startActivity(intent);
                 Log.d(TAG,"Intent search result");

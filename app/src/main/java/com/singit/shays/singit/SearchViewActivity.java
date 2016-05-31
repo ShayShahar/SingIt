@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
@@ -22,8 +23,9 @@ public class SearchViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        EditText search = (EditText) findViewById(R.id.passText);
         Intent intent = getIntent();
+        search.setText(intent.getStringExtra("name"));
         Log.d(TAG,"read intent");
         LyricsResWrapper wrapper = (LyricsResWrapper)getIntent().getSerializableExtra("lyrics");
         Log.d(TAG,"read wrapper");

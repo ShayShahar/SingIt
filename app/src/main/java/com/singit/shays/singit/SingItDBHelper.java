@@ -2,10 +2,13 @@ package com.singit.shays.singit;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,28 +16,34 @@ import java.util.HashMap;
 /**
  * Created by lions on 07/05/2016.
  */
-class SingItDBHelper extends SQLiteOpenHelper
-{
-    /**
-     * Insert to db example.
-     this.db.insert_song_to_songs_table(12358,"Song name test","Author name test","Translated song song song...");
-     this.db.insert_song_to_favorites_table(65989,"Song name test","Author name test","Song song song...","/data/data/...","http://www.api.com/12545");
-     this.db.insert_song_to_last_searches(47578,"Song name test","Author name test","Song song song...","/data/data/...","http://www.api.com/125775");
-     */
 
+class SingItDBHelper extends SQLiteOpenHelper {
+
+    private static final String TAG = "DBDebug";
     private static final String DB_NAME = "SingItDataBase.db";
     private static final int DB_VERSION = 1;
-    private static final String TAG = "DBDebug";
+    private static final String ARTIST_NAME = "artist_name";
+    private static final String SONG_id = "song_id";
+    private static final String SONG_NAME = "song_name";
+    private static final String LYRICS = "lyrics";
+    private static final String TRANSLATED_LYRICS = "translated_lyrics";
+    private static final String IMAGE_URL = "image_url";
+    private static final String THUMBNAIL_URL = "thumbnail_url";
+    private static final String IMAGE_PATH = "image_path";
+    private static final String THUMBNAIL_PATH = "thumbnail_path";
+    private static final String SONGS_TABLE = "songs";
+    private static final String FAVORITES_TABLE = "favorites";
+    private static final String LAST_SEARCHES_TABLE = "last_searches";
+
     /**
      * Create a helper object to create, open, and/or manage a database.
      * This method always returns very quickly.  The database is not actually
      * created or opened until one of {@link #getWritableDatabase} or
      * {@link #getReadableDatabase} is called.
      *
-     * @param context to use to open or create the database
+     * @param context to use to open or create the database.
      */
-    public SingItDBHelper(Context context)
-    {
+    public SingItDBHelper(Context context) {
         //The second parameter is th DB name, null for debug purpose.
         super(context, DB_NAME, null, DB_VERSION);
         Log.d(TAG, "DB creation started");
@@ -47,8 +56,7 @@ class SingItDBHelper extends SQLiteOpenHelper
      * @param db The database.
      */
     @Override
-    public void onCreate(SQLiteDatabase db)
-    {
+    public void onCreate(SQLiteDatabase db) {
         updateMyDB(db, 0, DB_VERSION);
     }
 
@@ -69,21 +77,19 @@ class SingItDBHelper extends SQLiteOpenHelper
      * @param newVersion The new database version.
      */
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-    {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         updateMyDB(db, oldVersion, newVersion);
     }
 
     /**
-    * Updates the DB according to the version.
-    * @param db         The database.
-    * @param oldVersion The old database version.
-    * @param newVersion The new database version.
-    */
-    public void updateMyDB(SQLiteDatabase db, int oldVersion, int newVersion)
-    {
-        if ( oldVersion < 1)
-        {
+     * Updates the DB according to the version.
+     *
+     * @param db         The database.
+     * @param oldVersion The old database version.
+     * @param newVersion The new database version.
+     */
+    public void updateMyDB(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 1) {
             create_songs_table(db);
             create_favorites_table(db);
             create_last_searches_table(db);
@@ -93,59 +99,59 @@ class SingItDBHelper extends SQLiteOpenHelper
 
     /**
      * Creates song table.
-     * @param db The database
+     *
+     * @param db The database.
      */
-    public void create_songs_table(SQLiteDatabase db)
-    {
+    public void create_songs_table(SQLiteDatabase db) {
         String sql_create_table;
-        sql_create_table = "CREATE TABLE songs ("
+        sql_create_table = "CREATE TABLE " + SONGS_TABLE + " ("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "song_id INTEGER, "
-                + "artist_name TEXT, "
-                + "song_name TEXT, "
-                + "translated_lyrics TEXT); ";
+                + SONG_id + " INTEGER NOT NULL UNIQUE, "
+                + ARTIST_NAME + " TEXT NOT NULL, "
+                + SONG_NAME + " TEXT NOT NULL, "
+                + TRANSLATED_LYRICS + " TEXT NOT NULL); ";
 
         db.execSQL(sql_create_table);
     }
 
     /**
      * Creates favorites table.
-     * @param db The database
+     *
+     * @param db The database.
      */
-    public void create_favorites_table(SQLiteDatabase db)
-    {
+    public void create_favorites_table(SQLiteDatabase db) {
         String sql_create_table;
-        sql_create_table = "CREATE TABLE favorites ("
+        sql_create_table = "CREATE TABLE " + FAVORITES_TABLE + " ("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "song_id INTEGER, "
-                + "artist_name TEXT, "
-                + "song_name TEXT, "
-                + "lyrics TEXT, "
-                + "image_url TEXT, "
-                + "thumbnail_url TEXT, "
-                + "image_path TEXT, "
-                + "thumbnail_path TEXT);";
+                + SONG_id + " INTEGER NOT NULL UNIQUE, "
+                + ARTIST_NAME + " TEXT NOT NULL, "
+                + SONG_NAME + " TEXT NOT NULL, "
+                + LYRICS + " TEXT NOT NULL, "
+                + IMAGE_URL + " TEXT, "
+                + THUMBNAIL_URL + " TEXT, "
+                + IMAGE_PATH + " TEXT, "
+                + THUMBNAIL_PATH + " TEXT);";
 
         db.execSQL(sql_create_table);
     }
 
     /**
      * Creates last searches table.
-     * @param db The database
+     *
+     * @param db The database.
      */
-    public static void create_last_searches_table(SQLiteDatabase db)
-    {
+    public static void create_last_searches_table(SQLiteDatabase db) {
         String sql_create_table;
-        sql_create_table = "CREATE TABLE last_searches ("
+        sql_create_table = "CREATE TABLE " + LAST_SEARCHES_TABLE + " ("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "song_id INTEGER, "
-                + "artist_name TEXT, "
-                + "song_name TEXT, "
-                + "lyrics TEXT, "
-                + "image_url TEXT, "
-                + "thumbnail_url TEXT, "
-                + "image_path TEXT, "
-                + "thumbnail_path TEXT);";
+                + SONG_id + " INTEGER NOT NULL UNIQUE, "
+                + ARTIST_NAME + " TEXT NOT NULL, "
+                + SONG_NAME + " TEXT NOT NULL, "
+                + LYRICS + " TEXT NOT NULL, "
+                + IMAGE_URL + " TEXT, "
+                + THUMBNAIL_URL + " TEXT, "
+                + IMAGE_PATH + " TEXT, "
+                + THUMBNAIL_PATH + " TEXT);";
 
         db.execSQL(sql_create_table);
     }
@@ -153,70 +159,87 @@ class SingItDBHelper extends SQLiteOpenHelper
     /**
      * Insert song to the song table, after translation.
      *
-     * @param song_id             Song id in api web.
-     * @param song_name           Name of the song to insert.
-     * @param artist_name         Name of the song's artist to insert.
-     * @param translated_lyrics   The song after being translated.
+     * @param song_id           Song id in api web.
+     * @param song_name         Name of the song to insert.
+     * @param artist_name       Name of the song's artist to insert.
+     * @param translated_lyrics The song after being translated.
      */
-    public void insert_song_to_songs_table(int song_id, String song_name,String artist_name, String translated_lyrics)
-    {
+    public DBResult insert_song_to_songs_table(int song_id, String song_name, String artist_name, String translated_lyrics)
+            throws SQLiteConstraintException {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
 
-        song_values.put("song_id",song_id);
-        song_values.put("song_name",song_name);
-        song_values.put("artist_name",artist_name);
-        song_values.put("translated_lyrics",translated_lyrics);
+        song_values.put(SONG_id, song_id);
+        song_values.put(SONG_NAME, song_name);
+        song_values.put(ARTIST_NAME, artist_name);
+        song_values.put(TRANSLATED_LYRICS, translated_lyrics);
 
-        db.insert("songs",null,song_values);
+        try {
+
+            db.insertOrThrow(SONGS_TABLE, null, song_values);
+        } catch (SQLiteConstraintException e) {
+            Log.d(TAG, "SQLiteConstraintException " + e.getStackTrace().toString());
+            return DBResult.ITEM_NOT_EXSITS_ERROR;
+        }
+        return DBResult.OK;
     }
 
     /**
      * Insert song to the favorites table, after chose as favorite.
      *
-     * @param lyrics            LyricsRes object of the song.
-     * @param thumbnail_path    Thumbnail path in device.
-     *
+     * @param lyrics         LyricsRes object of the song.
+     * @param thumbnail_path Thumbnail path in device.
      */
-    public void insert_song_to_favorites_table(LyricsRes lyrics, String image_path, String thumbnail_path)
-    {
+    public DBResult insert_song_to_favorites_table(LyricsRes lyrics, String image_path, String thumbnail_path)
+            throws SQLiteConstraintException {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
 
-        song_values.put("song_id", lyrics.id);
-        song_values.put("artist_name",lyrics.artist);
-        song_values.put("song_name",lyrics.title);
-        song_values.put("lyrics",lyrics.lyrics);
-        song_values.put("image_url",lyrics.imageURL);
-        song_values.put("thumbnail_url",lyrics.thumbnailURL);
-        song_values.put("image_path",image_path);
-        song_values.put("thumbnail_path",thumbnail_path);
+        song_values.put(SONG_id, lyrics.id);
+        song_values.put(ARTIST_NAME, lyrics.artist);
+        song_values.put(SONG_NAME, lyrics.title);
+        song_values.put(LYRICS, lyrics.lyrics);
+        song_values.put(IMAGE_URL, lyrics.imageURL);
+        song_values.put(THUMBNAIL_URL, lyrics.thumbnailURL);
+        song_values.put(IMAGE_PATH, image_path);
+        song_values.put(THUMBNAIL_PATH, thumbnail_path);
 
-        db.insert("favorites",null,song_values);
+        try {
+            db.insertOrThrow(FAVORITES_TABLE, null, song_values);
+        } catch (SQLiteConstraintException e) {
+            Log.d(TAG, "SQLiteConstraintException " + e.getStackTrace().toString());
+            return DBResult.ITEM_NOT_EXSITS_ERROR;
+        }
+        return DBResult.OK;
     }
 
     /**
-     *  Insert song to last searches song.
+     * Insert song to last searches song.
      *
-     * @param lyrics            LyricsRes object of the song.
-     * @param thumbnail_path    Thumbnail path in device.
-     *
+     * @param lyrics         LyricsRes object of the song.
+     * @param thumbnail_path Thumbnail path in device.
      */
-    public void insert_song_to_last_searches(LyricsRes lyrics, String image_path, String thumbnail_path)
-    {
+    public DBResult insert_song_to_last_searches_table(LyricsRes lyrics, String image_path, String thumbnail_path)
+            throws SQLiteConstraintException {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
 
-        song_values.put("song_id", lyrics.id);
-        song_values.put("artist_name",lyrics.artist);
-        song_values.put("song_name",lyrics.title);
-        song_values.put("lyrics",lyrics.lyrics);
-        song_values.put("image_url",lyrics.imageURL);
-        song_values.put("thumbnail_url",lyrics.thumbnailURL);
-        song_values.put("image_path",image_path);
-        song_values.put("thumbnail_path",thumbnail_path);
+        song_values.put(SONG_id, lyrics.id);
+        song_values.put(ARTIST_NAME, lyrics.artist);
+        song_values.put(SONG_NAME, lyrics.title);
+        song_values.put(LYRICS, lyrics.lyrics);
+        song_values.put(IMAGE_URL, lyrics.imageURL);
+        song_values.put(THUMBNAIL_URL, lyrics.thumbnailURL);
+        song_values.put(IMAGE_PATH, image_path);
+        song_values.put(THUMBNAIL_PATH, thumbnail_path);
 
-        db.insert("last_searches",null,song_values);
+        try {
+            db.insertOrThrow(LAST_SEARCHES_TABLE, null, song_values);
+        } catch (SQLiteConstraintException e) {
+            delete_song_by_song_id(LAST_SEARCHES_TABLE, lyrics.id);
+            insert_song_to_last_searches_table(lyrics, image_path, thumbnail_path);
+        }
+        return DBResult.OK;
     }
 
     /**
@@ -225,24 +248,20 @@ class SingItDBHelper extends SQLiteOpenHelper
      * @param table The table of songs needed to be retrieved.
      * @return ArrayList of all the rows in a table as LyricsRes.
      */
-    public ArrayList<LyricsRes> get_all_songs(String table)
-    {
+    private ArrayList<LyricsRes> get_all_songs(String table) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> map_list = new ArrayList<>();
         ArrayList<LyricsRes> result_list = new ArrayList<>();
 
-        Cursor result =  db.rawQuery("SELECT * FROM " + table, null);
+        Cursor result = db.rawQuery("SELECT * FROM " + table, null);
 
         // Looping through all rows and adding to list.
-        if (result.moveToFirst())
-        {
-            do
-            {
+        if (result.moveToFirst()) {
+            do {
                 HashMap<String, String> map = new HashMap<>();
 
-                for(int i=1; i<result.getColumnCount(); i++)
-                {
-                    if (!result.getColumnName(i).equals("song_id"))
+                for (int i = 1; i < result.getColumnCount(); i++) {
+                    if (!result.getColumnName(i).equals(SONG_id))
                         map.put(result.getColumnName(i), result.getString(i));
                     else
                         map.put(result.getColumnName(i), String.valueOf(result.getInt(i)));
@@ -252,14 +271,13 @@ class SingItDBHelper extends SQLiteOpenHelper
         }
 
         // Looping through the map list and filling the result list.
-        for (HashMap<String, String> song:map_list)
-        {
-            LyricsRes lyrics_result = new LyricsRes(song.get("song_name"),
-                    song.get("artist_name"),
-                    song.get("lyrics"),
-                    song.get("image_url"),
-                    song.get("thumbnail_url"),
-                    Integer.valueOf(song.get("song_id")));
+        for (HashMap<String, String> song : map_list) {
+            LyricsRes lyrics_result = new LyricsRes(song.get(SONG_NAME),
+                    song.get(ARTIST_NAME),
+                    song.get(LYRICS),
+                    song.get(IMAGE_URL),
+                    song.get(THUMBNAIL_URL),
+                    Integer.valueOf(song.get(SONG_id)));
 
             result_list.add(lyrics_result);
         }
@@ -271,11 +289,10 @@ class SingItDBHelper extends SQLiteOpenHelper
     /**
      * Get the last searched songs from the DB.
      *
-     * @return  ArrayList of all the rows in a last_searches table as LyricsRes objects.
+     * @return ArrayList of all the rows in a last_searches table as LyricsRes objects.
      */
-    public ArrayList<LyricsRes> get_last_searched_songs()
-    {
-        ArrayList<LyricsRes> result_list = get_all_songs("last_searches");
+    public ArrayList<LyricsRes> get_last_searched_songs() {
+        ArrayList<LyricsRes> result_list = get_all_songs(LAST_SEARCHES_TABLE);
         Collections.reverse(result_list);
 
         return result_list;
@@ -284,11 +301,54 @@ class SingItDBHelper extends SQLiteOpenHelper
     /**
      * Get the last favorite songs from the DB.
      *
-     * @return  ArrayList of all the rows in a favorites table as LyricsRes objects.
+     * @return ArrayList of all the rows in a favorites table as LyricsRes objects.
      */
-    public ArrayList<LyricsRes> get_favorite_songs()
-    {
-        return get_all_songs("favorites");
+    public ArrayList<LyricsRes> get_favorite_songs() {
+        return get_all_songs(FAVORITES_TABLE);
     }
 
+    /**
+     * Deletes song from table in the DB by song id.
+     *
+     * @param table   Table of the lyrics to be deleted.
+     * @param song_id Song id to be deleted.
+     * @return DBResult.
+     * @throws SQLiteException
+     */
+    private DBResult delete_song_by_song_id(String table, int song_id)
+            throws SQLiteException {
+        String sql_delete_song;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        sql_delete_song = "DELETE FROM " + table + " WHERE song_id = " + song_id + ";";
+
+        try {
+            db.execSQL(sql_delete_song);
+        } catch (SQLiteException e) {
+            Log.d(TAG, "SQLiteException " + e.getStackTrace().toString());
+            return DBResult.ITEM_NOT_EXSITS_ERROR;
+        }
+
+        return DBResult.OK;
+    }
+
+    /**
+     * Deletes song from favorites table, by song id.
+     *
+     * @param song_id Song id to be deleted.
+     * @return DBResult.
+     * @throws SQLiteException
+     */
+    public DBResult delete_song_from_favorites(int song_id)
+            throws SQLiteException {
+        return delete_song_by_song_id(FAVORITES_TABLE, song_id);
+    }
+
+}
+
+/**
+ * DBResult enum for DB returned value for error handling.
+ */
+enum DBResult {
+    GENERIC_ERROR, OK, ITEM_NOT_EXSITS_ERROR
 }

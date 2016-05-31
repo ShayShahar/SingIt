@@ -6,5 +6,17 @@
     <string name="large_text">lyrics here</string>
     <string name="title_activity_search_view">Search Result</string>
     <string name="title_activity_favorites">Favorites</string>
-    <string name="title_activity_favorites_view">Favorites</string>
+    <string name="artist_name">artist_name</string>
+    <string name="song_id">song_id</string>
+    <string name="song_name">song_name</string>
+    <string name="lyrics">lyrics</string>
+    <string name="translated_lyrics">translated_lyrics</string>
+    <string name="image_url">image_url</string>
+    <string name="thumbnail_url">thumbnail_url</string>
+    <string name="image_path">image_path</string>
+    <string name="thumbnail_path">thumbnail_path</string>
+    <string name="songs">songs_table</string>
+    <string name="favorites">favorites_table</string>
+    <string name="last_searches">last_searches_table</string>
+
 </resources>

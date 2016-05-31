@@ -43,7 +43,7 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
         songText.setText(result.title);
 
             new DownloadImageTask(artistImage)
-                    .execute(result.imageURL);
+                    .execute(result.thumbnailURL);
             //result.image = bmp;
 
 
@@ -68,10 +68,10 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
                 Log.d(TAG,"image set");
 
             } catch (Exception e) {
-                ImageView image = (ImageView) getView().findViewById(R.id.artistImage);
-                InputStream is = getContext().getResources().openRawResource(drawable.no_img);
-                Bitmap originalBitmap = BitmapFactory.decodeStream(is);
-                bmp = originalBitmap;
+                //ImageView image = (ImageView) getView().findViewById(R.id.artistImage);
+               // InputStream is = getContext().getResources().openRawResource(drawable.no_img);
+                //Bitmap originalBitmap = BitmapFactory.decodeStream(is);
+                //bmp = originalBitmap;
                 /*bmp = BitmapFactory.decodeResource(getContext().getResources(),
                         R.drawable.no_img);*/
                 Log.d(TAG,"no image");

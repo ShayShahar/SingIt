@@ -19,12 +19,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class LyricsAPI {
     private final String API_KEY = "e971f3a40404f1b0eacaa5e567b28736";
     private final String baseURL = "http://api.musixmatch.com/ws/1.1/";
     private static final String TAG = "SingDebug";
+    private static HashMap<Integer,LyricsRes> lyricsCache = new HashMap<Integer,LyricsRes>();
 
     public LyricsAPI()
     {
@@ -54,13 +56,19 @@ public class LyricsAPI {
      * @throws JSONException
      */
     public LyricsRes getLyrics(LyricsRes song) throws IOException, JSONException {
+        if (lyricsCache.containsKey(song.id)) // check if exist in the lyricsCache
+        {
+            return lyricsCache.get(song.id);
+        }
         String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+this.API_KEY;
         String json = httpRequest(lyricsURL);
         JSONObject jsnOb = new JSONObject(json);
 
         song.lyrics =jsnOb.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
-        song.lyrics =jsnOb.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
         song.lyrics = song.lyrics.split("\\*\\*\\*\\*\\*\\*\\*")[0];
+
+        //add song to cache
+        lyricsCache.put(song.id, song);
         return song;
     }
 

@@ -62,7 +62,7 @@ public class FavoritesViewActivity extends AppCompatActivity {
                 adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         LyricsRes item = (LyricsRes)list.getItemAtPosition(position);
-                        //dbHelper.remove(item.id);
+                        DBResult res = dbHelper.delete_song_from_favorites(item.id);
                         adapter.notifyAll();
                     }});
                 adb.show();
@@ -85,7 +85,6 @@ public class FavoritesViewActivity extends AppCompatActivity {
                 }catch(Exception e){
                     Log.d(TAG,e.toString());
                 }
-                dbHelper.insert_song_to_last_searches(pass,"","");
                 Intent intent = new Intent(FavoritesViewActivity.this,LyricsViewActivity.class);
                 intent.putExtra("view",pass);
                 startActivity(intent);

@@ -45,5 +45,13 @@
         android:id="@+id/searchResultList"
         android:divider="@null"
         android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/emptySearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/resultLayout"
+        android:text="title_activity_search_no_items_to_show"/> //TODO: change to @string/ after commit
 
 </RelativeLayout>

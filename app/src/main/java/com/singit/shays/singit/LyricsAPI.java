@@ -41,7 +41,7 @@ public class LyricsAPI {
      */
     public List<LyricsRes> Search (String query) throws IOException, JSONException {
         String encodedQuery = URLEncoder.encode(query, "UTF-8");
-        String searchURL = baseURL + "track.search?apikey="+this.API_KEY+"&q=" + encodedQuery;
+        String searchURL = baseURL + "track.search?apikey="+this.API_KEY+"&f_has_lyrics=1&s_artist_rating=desc&s_track_rating=desc&q=" + encodedQuery;
         String json = httpRequest(searchURL);
         return extractList(json);
     }

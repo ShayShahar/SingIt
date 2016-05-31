@@ -42,7 +42,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         this.db = new SingItDBHelper(this);
+        LyricsRes lyrics1 = new LyricsRes("Song name test","Author name test","Song song song...","http://www.api.com/12545","http://www.api.com/12545",
+                1);
+        LyricsRes lyrics11 = new LyricsRes("Song name test","Author name test","Song song song...","http://www.api.com/12545","http://www.api.com/12545",
+                2);
+        LyricsRes lyrics111 = new LyricsRes("Song name test","Author name test","Song song song...","http://www.api.com/12545","http://www.api.com/12545",
+                3);
+        LyricsRes lyrics2 = new LyricsRes("Song name test222","Author name test222","Song song song...22","http://www.api.com/1254522","http://www.api.com/1254522",
+                654321);
+        this.db.insert_song_to_favorites_table(lyrics2, "/data/data/...","/data/data/...");
+        this.db.insert_song_to_favorites_table(lyrics2, "/data/data/...","/data/data/...");
+        this.db.insert_song_to_favorites_table(lyrics2, "/data/data/...","/data/data/...");
+        this.db.insert_song_to_last_searches(lyrics1,   "/data/data/...1","/data/data/...");
+        this.db.insert_song_to_last_searches(lyrics11,  "/data/data/...2","/data/data/...");
+        this.db.insert_song_to_last_searches(lyrics111, "/data/data/...3","/data/data/...");
+        /*ArrayList<LyricsRes> LyricsRes_list;
+        LyricsRes_list = this.db.get_last_searched_songs();
 
+        for (LyricsRes lyrics:LyricsRes_list)
+        {
+            Log.d(TAG, lyrics.title);
+            Log.d(TAG, lyrics.artist);
+            Log.d(TAG, lyrics.imageURL);
+            Log.d(TAG, lyrics.thumbnailURL);
+            Log.d(TAG, String.valueOf(lyrics.id));
+        }*/
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

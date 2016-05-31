@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.util.Log;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -152,9 +153,9 @@ class SingItDBHelper extends SQLiteOpenHelper
     /**
      * Insert song to the song table, after translation.
      *
-     * @param song_id           Song id in api web.
-     * @param song_name         Name of the song to insert.
-     * @param artist_name       Name of the song's artist to insert.
+     * @param song_id             Song id in api web.
+     * @param song_name           Name of the song to insert.
+     * @param artist_name         Name of the song's artist to insert.
      * @param translated_lyrics   The song after being translated.
      */
     public void insert_song_to_songs_table(int song_id, String song_name,String artist_name, String translated_lyrics)
@@ -173,27 +174,21 @@ class SingItDBHelper extends SQLiteOpenHelper
     /**
      * Insert song to the favorites table, after chose as favorite.
      *
-     * @param song_id           Song id in api web.
-     * @param artist_name       Name of the song's artist to insert.
-     * @param song_name         Name of the song to insert.
-     * @param lyrics            Lyrics of the song.
-     * @param image_url         Image URL in api web.
-     * @param thumbnail_url     Thumbnail URL in api web.
-     * @param image_path        Picture path in device.
+     * @param lyrics            LyricsRes object of the song.
      * @param thumbnail_path    Thumbnail path in device.
+     *
      */
-    public void insert_song_to_favorites_table(int song_id, String artist_name, String song_name, String lyrics,
-                                               String thumbnail_url, String image_url, String image_path, String thumbnail_path)
+    public void insert_song_to_favorites_table(LyricsRes lyrics, String image_path, String thumbnail_path)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
 
-        song_values.put("song_id",song_id);
-        song_values.put("artist_name",artist_name);
-        song_values.put("song_name",song_name);
-        song_values.put("lyrics",lyrics);
-        song_values.put("image_url",image_url);
-        song_values.put("thumbnail_url",thumbnail_url);
+        song_values.put("song_id", lyrics.id);
+        song_values.put("artist_name",lyrics.artist);
+        song_values.put("song_name",lyrics.title);
+        song_values.put("lyrics",lyrics.lyrics);
+        song_values.put("image_url",lyrics.imageURL);
+        song_values.put("thumbnail_url",lyrics.thumbnailURL);
         song_values.put("image_path",image_path);
         song_values.put("thumbnail_path",thumbnail_path);
 
@@ -203,27 +198,21 @@ class SingItDBHelper extends SQLiteOpenHelper
     /**
      *  Insert song to last searches song.
      *
-     * @param song_id           Song id in api web.
-     * @param artist_name       Name of the song's artist to insert.
-     * @param song_name         Name of the song to insert.
-     * @param lyrics            Lyrics of the song.
-     * @param image_url         Image URL in api web.
-     * @param thumbnail_url     Thumbnail URL in api web.
-     * @param image_path        Picture path in device.
+     * @param lyrics            LyricsRes object of the song.
      * @param thumbnail_path    Thumbnail path in device.
+     *
      */
-    public void insert_song_to_last_searches(int song_id, String artist_name, String song_name, String lyrics,
-                                             String thumbnail_url, String image_url, String image_path, String thumbnail_path)
+    public void insert_song_to_last_searches(LyricsRes lyrics, String image_path, String thumbnail_path)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
 
-        song_values.put("song_id",song_id);
-        song_values.put("artist_name",artist_name);
-        song_values.put("song_name",song_name);
-        song_values.put("lyrics",lyrics);
-        song_values.put("image_url",image_url);
-        song_values.put("thumbnail_url",thumbnail_url);
+        song_values.put("song_id", lyrics.id);
+        song_values.put("artist_name",lyrics.artist);
+        song_values.put("song_name",lyrics.title);
+        song_values.put("lyrics",lyrics.lyrics);
+        song_values.put("image_url",lyrics.imageURL);
+        song_values.put("thumbnail_url",lyrics.thumbnailURL);
         song_values.put("image_path",image_path);
         song_values.put("thumbnail_path",thumbnail_path);
 
@@ -286,7 +275,10 @@ class SingItDBHelper extends SQLiteOpenHelper
      */
     public ArrayList<LyricsRes> get_last_searched_songs()
     {
-        return get_all_songs("last_searches");
+        ArrayList<LyricsRes> result_list = get_all_songs("last_searches");
+        Collections.reverse(result_list);
+
+        return result_list;
     }
 
     /**

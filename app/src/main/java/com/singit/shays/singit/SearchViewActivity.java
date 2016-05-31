@@ -53,7 +53,7 @@ public class SearchViewActivity extends AppCompatActivity {
                 }catch(Exception e){
                     Log.d(TAG,e.toString());
                 }
-                dbHelper.insert_song_to_last_searches(pass.id, pass.artist,pass.title,pass.lyrics,pass.thumbnailURL,pass.imageURL,"","");
+                dbHelper.insert_song_to_last_searches(pass,"","");
                 Intent intent = new Intent(SearchViewActivity.this,LyricsViewActivity.class);
                 intent.putExtra("view",pass);
                 startActivity(intent);

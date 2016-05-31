@@ -46,6 +46,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Lyrics"
+            android:id="@+id/textView"
+            android:layout_weight="0.02"
+            android:paddingLeft="15dp"
+            android:paddingTop="8dp"
+            android:textColor="#d81b60"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:text="@string/large_text"
             android:id="@+id/lyricsTextView" />

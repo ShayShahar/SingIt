@@ -121,7 +121,9 @@ class SingItDBHelper extends SQLiteOpenHelper
                 + "song_name TEXT, "
                 + "lyrics TEXT, "
                 + "image_url TEXT, "
-                + "image_path TEXT);";
+                + "thumbnail_url TEXT, "
+                + "image_path TEXT, "
+                + "thumbnail_path TEXT);";
 
         db.execSQL(sql_create_table);
     }
@@ -140,8 +142,9 @@ class SingItDBHelper extends SQLiteOpenHelper
                 + "song_name TEXT, "
                 + "lyrics TEXT, "
                 + "image_url TEXT, "
-                + "image_path TEXT);";
-
+                + "thumbnail_url TEXT, "
+                + "image_path TEXT, "
+                + "thumbnail_path TEXT);";
 
         db.execSQL(sql_create_table);
     }
@@ -174,10 +177,13 @@ class SingItDBHelper extends SQLiteOpenHelper
      * @param artist_name       Name of the song's artist to insert.
      * @param song_name         Name of the song to insert.
      * @param lyrics            Lyrics of the song.
-     * @param image_path        Picture path in device.
      * @param image_url         Image URL in api web.
+     * @param thumbnail_url     Thumbnail URL in api web.
+     * @param image_path        Picture path in device.
+     * @param thumbnail_path    Thumbnail path in device.
      */
-    public void insert_song_to_favorites_table(int song_id, String artist_name, String song_name, String lyrics, String image_url,String image_path)
+    public void insert_song_to_favorites_table(int song_id, String artist_name, String song_name, String lyrics,
+                                               String thumbnail_url, String image_url, String image_path, String thumbnail_path)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
@@ -187,7 +193,9 @@ class SingItDBHelper extends SQLiteOpenHelper
         song_values.put("song_name",song_name);
         song_values.put("lyrics",lyrics);
         song_values.put("image_url",image_url);
+        song_values.put("thumbnail_url",thumbnail_url);
         song_values.put("image_path",image_path);
+        song_values.put("thumbnail_path",thumbnail_path);
 
         db.insert("favorites",null,song_values);
     }
@@ -199,10 +207,13 @@ class SingItDBHelper extends SQLiteOpenHelper
      * @param artist_name       Name of the song's artist to insert.
      * @param song_name         Name of the song to insert.
      * @param lyrics            Lyrics of the song.
-     * @param image_path        Picture path in device.
      * @param image_url         Image URL in api web.
+     * @param thumbnail_url     Thumbnail URL in api web.
+     * @param image_path        Picture path in device.
+     * @param thumbnail_path    Thumbnail path in device.
      */
-    public void insert_song_to_last_searches(int song_id, String artist_name, String song_name, String lyrics, String image_url,String image_path)
+    public void insert_song_to_last_searches(int song_id, String artist_name, String song_name, String lyrics,
+                                             String thumbnail_url, String image_url, String image_path, String thumbnail_path)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
@@ -212,7 +223,9 @@ class SingItDBHelper extends SQLiteOpenHelper
         song_values.put("song_name",song_name);
         song_values.put("lyrics",lyrics);
         song_values.put("image_url",image_url);
+        song_values.put("thumbnail_url",thumbnail_url);
         song_values.put("image_path",image_path);
+        song_values.put("thumbnail_path",thumbnail_path);
 
         db.insert("last_searches",null,song_values);
     }
@@ -238,7 +251,7 @@ class SingItDBHelper extends SQLiteOpenHelper
             {
                 HashMap<String, String> map = new HashMap<>();
 
-                for(int i=1; i<result.getColumnCount()-1; i++)
+                for(int i=1; i<result.getColumnCount(); i++)
                 {
                     if (!result.getColumnName(i).equals("song_id"))
                         map.put(result.getColumnName(i), result.getString(i));
@@ -256,6 +269,7 @@ class SingItDBHelper extends SQLiteOpenHelper
                     song.get("artist_name"),
                     song.get("lyrics"),
                     song.get("image_url"),
+                    song.get("thumbnail_url"),
                     Integer.valueOf(song.get("song_id")));
 
             result_list.add(lyrics_result);

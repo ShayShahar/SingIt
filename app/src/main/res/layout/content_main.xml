@@ -65,14 +65,16 @@
             android:id="@+id/editText"
             android:text="Last Searches:"
             android:editable="false"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:textStyle="italic"
+            android:textSize="23dp"
+            android:textColor="@color/bright_foreground_disabled_material_light" />
 
         <ListView
             android:id="@+id/lastSearchesList"
-            android:layout_width="fill_parent"
-            android:layout_height="468dp"
-            android:divider="#b5b5b5"
-            android:dividerHeight="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
             android:layout_weight="0.65" />
 
 

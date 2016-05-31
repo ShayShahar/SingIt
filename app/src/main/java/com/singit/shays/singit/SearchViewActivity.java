@@ -16,6 +16,7 @@ public class SearchViewActivity extends AppCompatActivity {
 
     private static final String TAG = "SingDebug";
     private LyricsAPI api = new LyricsAPI();
+    private SingItDBHelper dbHelper = new SingItDBHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class SearchViewActivity extends AppCompatActivity {
                 }catch(Exception e){
                     Log.d(TAG,e.toString());
                 }
+                dbHelper.insert_song_to_last_searches(pass.id, pass.artist,pass.title,pass.lyrics,pass.thumbnailURL,pass.imageURL,"","");
                 Intent intent = new Intent(SearchViewActivity.this,LyricsViewActivity.class);
                 intent.putExtra("view",pass);
                 startActivity(intent);

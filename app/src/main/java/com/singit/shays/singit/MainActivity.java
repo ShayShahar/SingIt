@@ -42,21 +42,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         this.db = new SingItDBHelper(this);
-        // Insert to db example.
-        this.db.insert_song_to_songs_table(12358,"Song name test","Author name test","Translated song song song...");
-        this.db.insert_song_to_favorites_table(65989,"Author 48461 test","Song name fasd45fas","Song song song...",
-                "http://www.api.com/12545","http://www.api.com/12545","/data/data/...","/data/data/...");
-        this.db.insert_song_to_favorites_table(65989,"Author a465awf test","Song name fasd45fas","Song song song...",
-                "http://www.api.com/12545","http://www.api.com/12545","/data/data/...","/data/data/...");
-        this.db.insert_song_to_favorites_table(65989,"Author 8a4 test","Song name fasd45fas","Song song song...",
-                "http://www.api.com/12545","http://www.api.com/12545","/data/data/...","/data/data/...");
-        this.db.insert_song_to_last_searches(47578,"Author aaaawf test","Song name fasd45fas","Song song song...",
-                "http://www.api.com/12545","http://www.api.com/125775","/data/data/...","/data/data/...");
-        this.db.insert_song_to_last_searches(21321,"Author ss test","Song name f66dsfas","Song song song adas...",
-                "http://www.api.com/12545","http://www.api.com/125775","/data/data/aaa...","/data/data/...");
-        this.db.insert_song_to_last_searches(41231,"Author aawfff test","Song name asdadsfas","Song song song ada...",
-                "http://www.api.com/12545","http://www.api.com/125775","/data/data/sds...","/data/data/...");
-
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -65,12 +50,12 @@ public class MainActivity extends AppCompatActivity {
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
-       /*         Log.d(TAG, "onCreate() Start");
-        String[] items = {"Something", "SDFSD", "sDSF", "SGSDG"};
-        ListAdapter adapter = new CustomAdapter(this,items);
+        Log.d(TAG, "onCreate() Start");
+        ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
+        ListAdapter adapter = new CustomAdapter(this,last_searches);
         ListView list = (ListView) findViewById(R.id.lastSearchesList);
         list.setAdapter(adapter);
-        */
+
         songName  = (TextView) findViewById(R.id.songNameTxt);
         api = new LyricsAPI();
 

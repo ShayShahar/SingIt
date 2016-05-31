@@ -11,7 +11,7 @@ public class LyricsRes implements Serializable
 {
     private static final long serialVersionUID = 1L;
     String title, artist, lyrics, imageURL ;
-    Bitmap image;
+   // Bitmap image;
     int id;
 
     /**

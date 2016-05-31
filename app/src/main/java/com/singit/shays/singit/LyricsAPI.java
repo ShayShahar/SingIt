@@ -54,6 +54,7 @@ public class LyricsAPI {
      * @throws JSONException
      */
     public LyricsRes getLyrics(LyricsRes song) throws IOException, JSONException {
+        /*
         Log.d(TAG,song.artist);
         Log.d(TAG,Integer.toString(song.id));
         String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+this.API_KEY;
@@ -61,7 +62,17 @@ public class LyricsAPI {
         JSONObject jsnOb = new JSONObject(json);
 
         song.lyrics =jsnOb.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
-        return song;
+        return song;*/
+
+            LyricsRes return_song = new LyricsRes(song.title,song.artist,"",song.imageURL, song.id);
+
+            String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+this.API_KEY;
+            String json = httpRequest(lyricsURL);
+            JSONObject jsnOb = new JSONObject(json);
+
+            return_song.lyrics =jsnOb.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
+            return return_song;
+
     }
 
     /**

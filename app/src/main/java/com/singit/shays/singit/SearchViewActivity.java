@@ -2,26 +2,19 @@ package com.singit.shays.singit;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchViewActivity extends AppCompatActivity {
 
     private static final String TAG = "SingDebug";
-    private LyricsAPI api;
+    private LyricsAPI api = new LyricsAPI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +44,9 @@ public class SearchViewActivity extends AppCompatActivity {
                 LyricsRes selected = lyrics.get(position);
                 LyricsRes pass = selected;
                 Log.d(TAG,selected.artist);
+                Log.d(TAG,Integer.toString(selected.id));
                 try{
-                    pass = api.getLyrics(selected);
+                    pass = api.getLyrics(lyrics.get(position));
                 }catch(Exception e){
                     Log.d(TAG,e.toString());
                 }
@@ -64,11 +58,6 @@ public class SearchViewActivity extends AppCompatActivity {
             }
         };
 
-
-
         list.setOnItemClickListener(itemClickListener);
     }
-
-
-
 }

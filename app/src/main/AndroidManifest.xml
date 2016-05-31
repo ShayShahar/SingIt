@@ -37,6 +37,10 @@
         <activity
             android:name=".SearchViewActivity"
             android:label="@string/title_activity_search_view"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FavoritesViewActivity"
+            android:label="@string/title_activity_favorites_view"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

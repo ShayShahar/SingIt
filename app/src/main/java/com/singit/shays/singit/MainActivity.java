@@ -86,11 +86,9 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_favorites) {
-            Intent intent = new Intent(this, FavoritesActivity.class);
+            Intent intent = new Intent(this, FavoritesViewActivity.class);
             this.startActivity(intent);
-            //Intent intent = new Intent(MainActivity.this,FavoritesActivity.class);
-            //startActivity(intent);
-            //new FavoritesActivity();
+
             spinner.setVisibility(View.GONE);
             return true;
         }

@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,6 +20,8 @@ public class LyricsViewActivity extends AppCompatActivity {
 
 
     private static final String TAG = "SingDebug";
+    private LyricsRes lyrics;
+    private SingItDBHelper dbHelper;
 
 
     @Override
@@ -31,11 +31,9 @@ public class LyricsViewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        dbHelper = new SingItDBHelper(this);
         Intent intent = getIntent();
-        Log.d(TAG, "get inent");
-        LyricsRes lyrics = (LyricsRes)getIntent().getSerializableExtra("view");
-        Log.d(TAG, "lyrics deserialized");
-        Log.d(TAG,lyrics.artist);
+        lyrics = (LyricsRes)getIntent().getSerializableExtra("view");
         ImageView image = (ImageView) findViewById(R.id.artistImage);
         TextView show = (TextView) findViewById(R.id.lyricsTextView);
         TextView arist = (TextView) findViewById(R.id.artistName);
@@ -66,6 +64,10 @@ public class LyricsViewActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClickAddToFavorites(View view) {
+        dbHelper.insert_song_to_favorites_table(lyrics,"","");
     }
 
 

@@ -61,9 +61,14 @@ public class FavoritesViewActivity extends AppCompatActivity {
                 adb.setNegativeButton("Cancel", null);
                 adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG,"get in on click");
                         LyricsRes item = (LyricsRes)list.getItemAtPosition(position);
+                        Log.d(TAG,"get the item"+item.toString());
                         DBResult res = dbHelper.delete_song_from_favorites(item.id);
-                        adapter.notifyAll();
+                        Log.d(TAG,"the result from DB: "+res.toString());
+                        //TODO: need to add the apted list after delete
+                        Log.d(TAG,"notify");
+
                     }});
                 adb.show();
                 return true;

@@ -52,6 +52,6 @@
         android:layout_margin="8dp"
         android:layout_marginLeft="10dp"
         android:layout_below="@id/resultLayout"
-        android:text="title_activity_search_no_items_to_show"/> //TODO: change to @string/ after commit
+        android:text="@string/title_activity_favorites_no_items_to_show"/>
 
 </RelativeLayout>

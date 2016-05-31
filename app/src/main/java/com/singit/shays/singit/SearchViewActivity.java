@@ -38,7 +38,7 @@ public class SearchViewActivity extends AppCompatActivity {
         Log.d(TAG,"set view");
         list.setAdapter(adapter);
         Log.d(TAG,"set adapter");
-
+        list.setEmptyView(findViewById(R.id.emptySearch));
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View container, int position, long id) {

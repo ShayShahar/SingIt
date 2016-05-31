@@ -19,5 +19,7 @@
     <string name="songs">songs_table</string>
     <string name="favorites">favorites_table</string>
     <string name="last_searches">last_searches_table</string>
+    <string name="title_activity_favorites_no_items_to_show">There is no items to show.</string>
+
 
 </resources>

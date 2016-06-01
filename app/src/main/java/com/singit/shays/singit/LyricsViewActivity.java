@@ -69,8 +69,12 @@ public class LyricsViewActivity extends AppCompatActivity {
 
     public void onClickAddToFavorites(View view) {
 
-        dbHelper.insert_song_to_favorites_table(lyrics,"","");
+        if (dbHelper.insert_song_to_favorites_table(lyrics,"","") == DBResult.OK)
         Toast.makeText(getApplicationContext(),"Lyrics added to favorites!",Toast.LENGTH_LONG).show();
+        else{
+            Toast.makeText(getApplicationContext(),"Item is already in favorites",Toast.LENGTH_LONG).show();
+
+        }
 
     }
 

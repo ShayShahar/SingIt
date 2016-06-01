@@ -9,4 +9,12 @@
         android:icon="@drawable/ic_share_2x"
         android:actionProviderClass=
             "android.widget.ShareActionProvider" />
+
+    <item
+        android:id="@+id/menu_translate"
+        app:showAsAction="always"
+        android:title="Translate"
+        android:icon="@drawable/ic_g_translate_2x"
+        android:actionProviderClass=
+            "android.widget.ShareActionProvider" />
 </menu>

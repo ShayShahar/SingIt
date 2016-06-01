@@ -35,7 +35,8 @@
             android:id="@+id/passText"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold|italic"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
     </LinearLayout>
 
     <ListView

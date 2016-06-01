@@ -179,7 +179,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
             db.insertOrThrow(SONGS_TABLE, null, song_values);
         } catch (SQLiteConstraintException e) {
             Log.d(TAG, "SQLiteConstraintException " + e.getStackTrace().toString());
-            return DBResult.ITEM_NOT_EXSITS_ERROR;
+            return DBResult.ITEM_NOT_EXISTS_ERROR;
         }
         return DBResult.OK;
     }
@@ -208,7 +208,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
             db.insertOrThrow(FAVORITES_TABLE, null, song_values);
         } catch (SQLiteConstraintException e) {
             Log.d(TAG, "SQLiteConstraintException " + e.getStackTrace().toString());
-            return DBResult.ITEM_NOT_EXSITS_ERROR;
+            return DBResult.ITEM_NOT_EXISTS_ERROR;
         }
         return DBResult.OK;
     }
@@ -217,7 +217,10 @@ class SingItDBHelper extends SQLiteOpenHelper {
      * Insert song to last searches song.
      *
      * @param lyrics         LyricsRes object of the song.
+     * @param image_path     The path of the image in the device.
      * @param thumbnail_path Thumbnail path in device.
+     * @return DBResult of OK.
+     * @throws SQLiteConstraintException
      */
     public DBResult insert_song_to_last_searches_table(LyricsRes lyrics, String image_path, String thumbnail_path)
             throws SQLiteConstraintException {
@@ -312,7 +315,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
      *
      * @param table   Table of the lyrics to be deleted.
      * @param song_id Song id to be deleted.
-     * @return DBResult.
+     * @return DBResult of ITEM_NOT_EXISTS_ERROR or OK.
      * @throws SQLiteException
      */
     private DBResult delete_song_by_song_id(String table, int song_id)
@@ -326,7 +329,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
             db.execSQL(sql_delete_song);
         } catch (SQLiteException e) {
             Log.d(TAG, "SQLiteException " + e.getStackTrace().toString());
-            return DBResult.ITEM_NOT_EXSITS_ERROR;
+            return DBResult.ITEM_NOT_EXISTS_ERROR;
         }
 
         return DBResult.OK;
@@ -344,11 +347,31 @@ class SingItDBHelper extends SQLiteOpenHelper {
         return delete_song_by_song_id(FAVORITES_TABLE, song_id);
     }
 
+    /**
+     *
+     * @param   song_id The id of the song to check.
+     * @return  DBResult of ITEM_EXISTS or ITEM_NOT_EXISTS.
+     */
+    public DBResult is_favorite_song(int song_id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql_check_favorite = "SELECT * FROM " + FAVORITES_TABLE + " WHERE " + SONG_id + " = " + song_id;
+        Cursor result = db.rawQuery(sql_check_favorite, null);
+
+        if(result.getCount() <= 0)
+        {
+            result.close();
+            return DBResult.ITEM_NOT_EXISTS;
+        }
+        result.close();
+        return DBResult.ITEM_EXISTS;
+    }
+
 }
 
 /**
  * DBResult enum for DB returned value for error handling.
  */
 enum DBResult {
-    GENERIC_ERROR, OK, ITEM_NOT_EXSITS_ERROR
+    GENERIC_ERROR, OK, ITEM_NOT_EXISTS_ERROR, ITEM_NOT_EXISTS, ITEM_EXISTS
 }

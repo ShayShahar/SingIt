@@ -43,9 +43,6 @@ public class FavoritesViewActivity extends AppCompatActivity {
 
         dbHelper = new SingItDBHelper(this);
         ArrayList<LyricsRes> favorites = dbHelper.get_favorite_songs();
-
-
-
         adapter = new CustomAdapter(this,favorites);
         list = (ListView) findViewById(R.id.favoritesList);
         list.setEmptyView(findViewById(R.id.emptyFavorites));
@@ -66,8 +63,11 @@ public class FavoritesViewActivity extends AppCompatActivity {
                         Log.d(TAG,"get the item"+item.toString());
                         DBResult res = dbHelper.delete_song_from_favorites(item.id);
                         Log.d(TAG,"the result from DB: "+res.toString());
-                        //TODO: need to add the apted list after delete
-                        Log.d(TAG,"notify");
+                        ArrayList<LyricsRes> refresh = dbHelper.get_favorite_songs();
+                        adapter = new CustomAdapter(getBaseContext(),refresh);
+                        list = (ListView) findViewById(R.id.favoritesList);
+                        list.setEmptyView(findViewById(R.id.emptyFavorites));
+                        list.setAdapter(adapter);                        Log.d(TAG,"notify");
 
                     }});
                 adb.show();

@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -52,11 +53,36 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate() Start");
         ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
         ListAdapter adapter = new CustomAdapter(this,last_searches);
-        ListView list = (ListView) findViewById(R.id.lastSearchesList);
+        final ListView list = (ListView) findViewById(R.id.lastSearchesList);
         list.setAdapter(adapter);
 
         songName  = (TextView) findViewById(R.id.songNameTxt);
         api = new LyricsAPI();
+
+
+        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View container, int position, long id) {
+
+                Log.d(TAG,"On item click..");
+                LyricsRes selected = (LyricsRes)list.getItemAtPosition(position);
+                LyricsRes pass = selected;
+                Log.d(TAG,selected.artist);
+                Log.d(TAG,Integer.toString(selected.id));
+                try{
+                    pass = api.getLyrics((LyricsRes)list.getItemAtPosition(position));
+                }catch(Exception e){
+                    Log.d(TAG,e.toString());
+                }
+                Intent intent = new Intent(MainActivity.this,LyricsViewActivity.class);
+                intent.putExtra("view",pass);
+                startActivity(intent);
+                Log.d(TAG,"Call another activity");
+
+            }
+        };
+
+        list.setOnItemClickListener(itemClickListener);
 
         Log.d(TAG, "onCreate() Finish");
     }

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
 
     Bitmap bmp;
     private static final String TAG = "SingDebug";
+    private int lastPosition = -1;
 
     CustomAdapter(Context context, ArrayList<LyricsRes> details){
         super(context,R.layout.custom_row,details);
@@ -39,11 +42,15 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
         Log.d(TAG,"set components");
         de.hdodenhof.circleimageview.CircleImageView artistImage = (de.hdodenhof.circleimageview.CircleImageView) customView.findViewById(R.id.profile_image);
         Log.d(TAG,"set image");
+        new DownloadImageTask(artistImage)
+                .execute(result.thumbnailURL);
         artistText.setText(result.artist);
         songText.setText(result.title);
 
-            new DownloadImageTask(artistImage)
-                    .execute(result.thumbnailURL);
+        Animation animation = AnimationUtils.loadAnimation(getContext(),(position>lastPosition)? R.anim.up_from_buttom : R.anim.down_from_top);
+        customView.startAnimation(animation);
+        lastPosition = position;
+
             //result.image = bmp;
 
 
@@ -84,4 +91,5 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
             bmImage.setImageBitmap(result);
         }
     }
+
 }

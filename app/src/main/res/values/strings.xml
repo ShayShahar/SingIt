@@ -20,6 +20,11 @@
     <string name="favorites">favorites_table</string>
     <string name="last_searches">last_searches_table</string>
     <string name="title_activity_favorites_no_items_to_show">There is no items to show.</string>
+    <string name="drawer_open">drawer open</string>
+    <string name="drawer_close">drawer close</string>
+
+    <string name="menu_search" />
+    <string name="search_hint">Artist, Song Name</string>
 
 
 </resources>

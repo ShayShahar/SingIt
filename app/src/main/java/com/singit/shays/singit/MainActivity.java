@@ -1,12 +1,16 @@
 package com.singit.shays.singit;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -20,7 +24,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private String name;
     private ArrayList<LyricsRes> result;
     private SingItDBHelper db;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     public void setLyrics(String lyrics) {
         this.lyrics = lyrics;
@@ -41,12 +47,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         this.db = new SingItDBHelper(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
@@ -56,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         final ListView list = (ListView) findViewById(R.id.lastSearchesList);
         list.setAdapter(adapter);
 
-        songName  = (TextView) findViewById(R.id.songNameTxt);
+      //  songName  = (TextView) findViewById(R.id.songNameTxt);
         api = new LyricsAPI();
 
 
@@ -88,115 +97,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        actionBarDrawerToggle.syncState();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
         return true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        /*
         ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
         ListAdapter adapter = new CustomAdapter(this,last_searches);
         ListView list = (ListView) findViewById(R.id.lastSearchesList);
-        list.setAdapter(adapter);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_favorites) {
-            Intent intent = new Intent(this, FavoritesViewActivity.class);
-            this.startActivity(intent);
-
-            spinner.setVisibility(View.GONE);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        list.setAdapter(adapter);*/
     }
 
 
 
-    public void onClickSearchLyricsButton(View view){
-
-        spinner.setVisibility(View.VISIBLE);
-
-        Log.d(TAG, "onClickSearchLyricsButton() Start");
-
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            Log.d(TAG, "interent connected");
-        } else {
-            Toast.makeText(getApplicationContext(),"Error: No internet connection",Toast.LENGTH_LONG).show();
-            spinner.setVisibility(View.GONE);
-            return;
-        }
-
-        if (songName.getText().toString().isEmpty() || songName.getText().toString() == null){
-            spinner.setVisibility(View.GONE);
-            return;
-        }
-
-        name = songName.getText().toString();
-
-        new SearchLyrics().execute();
-    }
-
-
-    class SearchLyrics extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if (result != null){
-                LyricsResWrapper wrapper = new LyricsResWrapper(result);
-                Log.d(TAG,"create wrapper");
-                Intent intent = new Intent(MainActivity.this,SearchViewActivity.class);
-                Log.d(TAG,"create intent");
-                intent.putExtra("lyrics",wrapper);
-                intent.putExtra("name",name);
-                Log.d(TAG,"put extra");
-                startActivity(intent);
-                Log.d(TAG,"Intent search result");
-                spinner.setVisibility(View.GONE);
-            }
-
-            else{
-                Toast.makeText(getApplicationContext(),"Server connection error",Toast.LENGTH_LONG).show();
-                spinner.setVisibility(View.GONE);
-
-            }
-
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try{
-                Log.d(TAG, "Searching lyrics...");
-                result = new ArrayList<LyricsRes>(api.Search(name));
-                Log.d(TAG,"lyrics recieved");
-            }catch (Exception e) {
-                Log.d(TAG, "Server error");
-            }
-
-            return null;
-        }
-    }
 }

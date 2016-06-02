@@ -61,9 +61,9 @@ public class LyricsViewActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_favorites) {
+        /*if (id == R.id.action_favorites) {
         }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 

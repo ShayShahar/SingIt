@@ -32,23 +32,6 @@
             android:paddingLeft="0dp"
             android:weightSum="1">
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/songNameTxt"
-                android:hint="Name, Artist"
-                android:layout_weight="0.75"
-                android:layout_marginLeft="10dp" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search"
-                android:id="@+id/searchBtn"
-                android:onClick="onClickSearchLyricsButton"
-                android:layout_weight="0.09"
-                android:layout_marginLeft="40dp"
-                android:layout_gravity="right" />
         </LinearLayout>
 
         <ProgressBar
@@ -64,7 +47,7 @@
             android:id="@+id/editText"
             android:text="Last Searches:"
             android:editable="false"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="40dp"
             android:textStyle="italic"
             android:textSize="23dp"
             android:textColor="@color/bright_foreground_disabled_material_light"

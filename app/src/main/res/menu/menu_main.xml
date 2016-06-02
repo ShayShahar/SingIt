@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.singit.shays.singit.MainActivity" >
 
-    <item android:id="@+id/action_about"
+  <!--  <item android:id="@+id/action_about"
         android:title="About"
         android:orderInCategory="100"
         app:showAsAction="never"/>
@@ -12,6 +12,12 @@
         android:title="Favorites"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/ic_star"/>
+        android:icon="@drawable/ic_star"/>-->
+
+    <item android:id="@+id/search"
+        android:title="Search"
+        android:icon="@drawable/ic_search_2x"
+        android:showAsAction="collapseActionView|ifRoom"
+        android:actionViewClass="android.widget.SearchView"/>
 
 </menu>

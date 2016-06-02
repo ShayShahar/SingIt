@@ -77,27 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-/*
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Log.d(TAG,"On item click..");
-                LyricsRes selected = (LyricsRes)gridView.getItemAtPosition(position);
-                LyricsRes pass = selected;
-                Log.d(TAG,selected.artist);
-                Log.d(TAG,Integer.toString(selected.id));
-                try{
-                    pass = api.getLyrics((LyricsRes)gridView.getItemAtPosition(position));
-                }catch(Exception e){
-                    Log.d(TAG,e.toString());
-                }
-                Intent intent = new Intent(MainActivity.this,LyricsViewActivity.class);
-                intent.putExtra("view",pass);
-                startActivity(intent);
-                Log.d(TAG,"Call another activity");
-
-            }
-        });*/
 
         Log.d(TAG, "onCreate() Finish");
     }
@@ -121,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 searchManager.getSearchableInfo(getComponentName()));
 
         ((EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setHintTextColor(Color.WHITE);
+        ((EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setTextColor(Color.WHITE);
 
         return true;
     }
@@ -128,11 +108,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        /*
+        
         ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
-        ListAdapter adapter = new CustomAdapter(this,last_searches);
-        ListView list = (ListView) findViewById(R.id.lastSearchesList);
-        list.setAdapter(adapter);*/
+        gridView.setAdapter(new CustomGrid(this,last_searches));
     }
 
 

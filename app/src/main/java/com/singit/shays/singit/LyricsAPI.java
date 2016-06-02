@@ -27,6 +27,7 @@ public class LyricsAPI {
     private final String baseURL = "http://api.musixmatch.com/ws/1.1/";
     private static final String TAG = "SingDebug";
     private static HashMap<Integer,LyricsRes> lyricsCache = new HashMap<Integer,LyricsRes>();
+    private static HashMap<String,List<LyricsRes>> searchesCache = new HashMap<String,List<LyricsRes>>();
 
     public LyricsAPI()
     {
@@ -42,10 +43,16 @@ public class LyricsAPI {
      * @throws JSONException
      */
     public List<LyricsRes> Search (String query) throws IOException, JSONException {
+        if (searchesCache.containsKey(query)) // check if exist in the lyricsCache
+        {
+            return searchesCache.get(query);
+        }
         String encodedQuery = URLEncoder.encode(query, "UTF-8");
         String searchURL = baseURL + "track.search?apikey="+this.API_KEY+"&f_has_lyrics=1&s_artist_rating=desc&s_track_rating=desc&q=" + encodedQuery;
         String json = httpRequest(searchURL);
-        return extractList(json);
+        List<LyricsRes> resList = extractList(json);
+        searchesCache.put(query, resList);
+        return resList;
     }
 
     /**

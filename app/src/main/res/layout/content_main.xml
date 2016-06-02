@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
         android:id="@+id/topLayoutSearch"
@@ -24,7 +24,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="1"
             android:layout_marginTop="0dp">
@@ -44,20 +44,23 @@
                     android:textColor="@color/material_grey_850" />
 
                 <Button
-                    android:layout_width="40dp"
-                    android:layout_height="18dp"
+                    android:layout_width="44dp"
+                    android:layout_height="22dp"
                     android:text="@string/more"
                     android:id="@+id/moreSearches"
                     android:hint="More Searches"
                     android:enabled="true"
-                    android:textSize="10dp"
+                    android:textSize="11.5dp"
                     android:textStyle="bold"
                     android:textColor="#ffffff"
                     android:background="#d81b60"
-                    android:layout_marginLeft="160dp"
                     android:elevation="1dp"
                     android:shadowColor="#000000"
-                    android:translationZ="3.5dp" />
+                    android:translationZ="3.5dp"
+                    android:layout_gravity="top|right"
+                    android:layout_marginLeft="190dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"/>
 
             </LinearLayout>
 

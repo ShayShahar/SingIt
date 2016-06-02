@@ -1,6 +1,7 @@
 package com.singit.shays.singit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ public class CustomGrid extends BaseAdapter {
     private TextView song;
     private ImageView img;
     private Bitmap bmp;
+    private LyricsAPI api;
 
 
     private static LayoutInflater inflater=null;
@@ -66,15 +68,6 @@ public class CustomGrid extends BaseAdapter {
 
         new DownloadImageTask(img)
                 .execute(result.get(position).imageURL);
-
-        rowView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-               // Toast.makeText(context, "You Clicked "+result[position], Toast.LENGTH_LONG).show();
-            }
-        });
 
         return rowView;
     }

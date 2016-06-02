@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -30,14 +31,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private GridView gridView;
-    private ProgressBar spinner;
-    private TextView songName;
-    private LyricsAPI api;
-    private String name;
-    private ArrayList<LyricsRes> result;
     private SingItDBHelper db;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
+    private LyricsAPI api;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     public void setLyrics(String lyrics) {
@@ -51,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        //toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         this.db = new SingItDBHelper(this);
         setContentView(R.layout.activity_main);
@@ -60,30 +56,38 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-       // spinner = (ProgressBar)findViewById(R.id.progressBar1);
-       // spinner.setVisibility(View.GONE);
         gridView = (GridView) findViewById(R.id.gridView);
-        ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
-        //ListAdapter adapter = new CustomAdapter(this,last_searches);
-       // final ListView list = (ListView) findViewById(R.id.lastSearchesList);
+        final ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
         gridView.setAdapter(new CustomGrid(this,last_searches));
 
-      //  songName  = (TextView) findViewById(R.id.songNameTxt);
-        api = new LyricsAPI();
 
-        /*
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
 
-        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View container, int position, long id) {
-
+                LyricsRes selected = last_searches.get(position);
+                LyricsRes pass = selected;
+                try{
+                    pass = api.getLyrics(selected);
+                }catch(Exception e){
+                    Log.d(TAG,e.toString());
+                }
+                Intent intent = new Intent(MainActivity.this,LyricsViewActivity.class);
+                intent.putExtra("view",pass);
+                startActivity(intent);
+            }
+        });
+/*
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
                 Log.d(TAG,"On item click..");
-                LyricsRes selected = (LyricsRes)list.getItemAtPosition(position);
+                LyricsRes selected = (LyricsRes)gridView.getItemAtPosition(position);
                 LyricsRes pass = selected;
                 Log.d(TAG,selected.artist);
                 Log.d(TAG,Integer.toString(selected.id));
                 try{
-                    pass = api.getLyrics((LyricsRes)list.getItemAtPosition(position));
+                    pass = api.getLyrics((LyricsRes)gridView.getItemAtPosition(position));
                 }catch(Exception e){
                     Log.d(TAG,e.toString());
                 }
@@ -93,9 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG,"Call another activity");
 
             }
-        };
-
-        list.setOnItemClickListener(itemClickListener);*/
+        });*/
 
         Log.d(TAG, "onCreate() Finish");
     }
@@ -117,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
                 (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+
+        ((EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setHintTextColor(Color.WHITE);
 
         return true;
     }

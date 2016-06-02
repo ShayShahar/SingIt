@@ -12,7 +12,9 @@
             android:layout_margin="5dp"
             android:background="#FFFFFF"
             android:transitionGroup="true"
-            android:translationZ="7dp">
+            android:translationZ="7dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            >
 
             <ImageView
                 android:layout_width="130dp"

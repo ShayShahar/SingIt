@@ -302,6 +302,33 @@ class SingItDBHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Get the last nine searched songs from the DB.
+     *
+     * @return ArrayList of all the nine first rows in a last_searches table as LyricsRes objects.
+     */
+    public ArrayList<LyricsRes> get_last_nine_searched_songs() {
+        ArrayList<LyricsRes> result_list = get_all_songs(LAST_SEARCHES_TABLE);
+        int limit = 9;
+
+        Collections.reverse(result_list);
+        if(result_list.size() <= limit)
+        {
+            return result_list;
+        }
+        else
+        {
+            int num_to_remove, result_size;
+            result_size = result_list.size();
+            num_to_remove = result_list.size() - limit;
+            for (int i = 0; i< num_to_remove ; i++)
+            {
+                result_list.remove(result_size - i - 1);
+            }
+        }
+        return result_list;
+    }
+
+    /**
      * Get the last favorite songs from the DB.
      *
      * @return ArrayList of all the rows in a favorites table as LyricsRes objects.

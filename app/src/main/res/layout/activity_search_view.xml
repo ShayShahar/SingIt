@@ -22,16 +22,6 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.NavigationView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/navigation_view_s"
-        android:layout_gravity="start"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:menu="@menu/drawer_menu"
-        app:headerLayout="@layout/navigation_drawer_header">
-
-    </android.support.design.widget.NavigationView>
 
     <include layout="@layout/content_search_view"/>
 

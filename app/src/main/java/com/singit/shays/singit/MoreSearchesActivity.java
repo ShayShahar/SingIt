@@ -24,11 +24,9 @@ public class MoreSearchesActivity extends AppCompatActivity {
 
     private SingItDBHelper dbHelper;
     private Toolbar toolbar;
-    private DrawerLayout drawerLayout;
     private LyricsAPI api;
     private ListView list;
     private ListAdapter adapter;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
 
 
     @Override
@@ -40,9 +38,6 @@ public class MoreSearchesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_m);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
         dbHelper = new SingItDBHelper(this);
         ArrayList<LyricsRes> searches = dbHelper.get_last_searched_songs();
         adapter = new CustomAdapter(this,searches);
@@ -68,13 +63,6 @@ public class MoreSearchesActivity extends AppCompatActivity {
         };
 
         list.setOnItemClickListener(itemClickListener);
-    }
-
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState){
-        super.onPostCreate(savedInstanceState);
-        actionBarDrawerToggle.syncState();
     }
 
     @Override

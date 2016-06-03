@@ -3,34 +3,27 @@ package com.singit.shays.singit;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.util.Log;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity{
 
     private GridView gridView;
     private SingItDBHelper db;
     private Toolbar toolbar;
-    private DrawerLayout drawerLayout;
     private LyricsAPI api;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
     private static final String TAG = "SingDebug";
-    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +33,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //Initializing NavigationView
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
-        navigationView.setNavigationItemSelectedListener(this);
-
-        // Initializing Drawer Layout and ActionBarToggle
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
-
-        //Setting the actionbarToggle to drawer layout
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
         api = new LyricsAPI();
         this.db = new SingItDBHelper(this);
@@ -77,48 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    public void selectDrawerItem(MenuItem menuItem) {
-
-        switch(menuItem.getItemId()) {
-            case R.id.home:
-                Log.d(TAG,"home");
-                break;
-            case R.id.action_favorites:
-                Log.d(TAG,"action_favorites");
-                break;
-            case R.id.action_about:
-                Log.d(TAG,"about");
-                break;
-            default:
-                Log.d(TAG,"home");
-                break;
-        }
-
-
-        // Highlight the selected item has been done by NavigationView
-
-        menuItem.setChecked(true);
-        // Set action bar title
-
-        setTitle(menuItem.getTitle());
-        // Close the navigation drawer
-
-        drawerLayout.closeDrawers();
-    }
-
-
-    public void onMoreSearchesButtonClick(View view) {
-
-        Intent intent = new Intent(this, MoreSearchesActivity.class);
-        this.startActivity(intent);
-
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        actionBarDrawerToggle.syncState();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,13 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        actionBarDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
 
@@ -153,9 +84,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         gridView.setAdapter(new CustomGrid(this, last_searches));
     }
 
+
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        selectDrawerItem(item);
-        return false;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+       if (id == R.id.action_favorites) {
+            Intent intent = new Intent(this, FavoritesViewActivity.class);
+            this.startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onMoreSearchesButtonClick(View view) {
+
+        Intent intent = new Intent(this, MoreSearchesActivity.class);
+        this.startActivity(intent);
+
     }
 }

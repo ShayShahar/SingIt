@@ -14,13 +14,14 @@
         android:id="@+id/favoritesList"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="55dp"
         android:divider="@null"/>
 
     <TextView
         android:id="@+id/emptyFavorites"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_marginTop="70dp"
         android:layout_marginLeft="10dp"
         android:text="@string/title_activity_favorites_no_items_to_show"/>
 </RelativeLayout>

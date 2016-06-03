@@ -29,8 +29,6 @@ public class SearchResultsActivity extends AppCompatActivity {
     private SingItDBHelper dbHelper = new SingItDBHelper(this);
     private TextView search;
     private Toolbar toolbar;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +41,6 @@ public class SearchResultsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_s);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
-
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState){
-        super.onPostCreate(savedInstanceState);
-        actionBarDrawerToggle.syncState();
     }
 
     @Override

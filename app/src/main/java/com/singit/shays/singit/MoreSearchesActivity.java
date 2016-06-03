@@ -4,89 +4,73 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MoreSearchesActivity extends AppCompatActivity {
 
-    private GridView gridView;
-    private SingItDBHelper db;
+    private SingItDBHelper dbHelper;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private LyricsAPI api;
+    private ListView list;
+    private ListAdapter adapter;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    public void setLyrics(String lyrics) {
-        this.lyrics = lyrics;
-    }
-
-    private String lyrics;
-    private static final String TAG = "SingDebug";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_more_searches);
+        api = new LyricsAPI();
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.db = new SingItDBHelper(this);
-        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_m);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-        gridView = (GridView) findViewById(R.id.gridView);
-        final ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
-        gridView.setAdapter(new CustomGrid(this,last_searches));
+        dbHelper = new SingItDBHelper(this);
+        ArrayList<LyricsRes> searches = dbHelper.get_last_searched_songs();
+        adapter = new CustomAdapter(this,searches);
+        list = (ListView) findViewById(R.id.moreSearches);
+        list.setAdapter(adapter);
 
+        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View container, int position, long id) {
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-
-                LyricsRes selected = last_searches.get(position);
+                LyricsRes selected = (LyricsRes)list.getItemAtPosition(position);
                 LyricsRes pass = selected;
+
                 try{
-                    pass = api.getLyrics(selected);
+                    pass = api.getLyrics((LyricsRes)list.getItemAtPosition(position));
                 }catch(Exception e){
-                    Log.d(TAG,e.toString());
                 }
-                Intent intent = new Intent(MainActivity.this,LyricsViewActivity.class);
+                Intent intent = new Intent(MoreSearchesActivity.this,LyricsViewActivity.class);
                 intent.putExtra("view",pass);
                 startActivity(intent);
+
             }
-        });
+        };
 
-        Log.d(TAG, "onCreate() Finish");
+        list.setOnItemClickListener(itemClickListener);
     }
 
-    public void onMoreSearchesButtonClick(View view){
 
-        Intent intent = new Intent(this, MoreSearchesActivity.class);
-        this.startActivity(intent);
-
-    }
     @Override
     protected void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);
@@ -110,15 +94,5 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
-        gridView.setAdapter(new CustomGrid(this,last_searches));
-    }
-
-
 
 }

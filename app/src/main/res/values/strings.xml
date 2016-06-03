@@ -27,6 +27,8 @@
     <string name="last_searches_txt">Last Searches</string>
     <string name="lastSearchesHint">Display your last searches on Singit application</string>
     <string name="more">MORE</string>
+    <string name="more_searches_activity_name">Last Searches</string>
+
 
 
 </resources>

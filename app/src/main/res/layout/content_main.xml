@@ -49,6 +49,7 @@
                     android:text="@string/more"
                     android:id="@+id/moreSearches"
                     android:hint="More Searches"
+                    android:onClick="onMoreSearchesButtonClick"
                     android:enabled="true"
                     android:textSize="11.5dp"
                     android:textStyle="bold"

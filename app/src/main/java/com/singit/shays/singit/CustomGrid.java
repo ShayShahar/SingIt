@@ -24,14 +24,9 @@ public class CustomGrid extends BaseAdapter {
 
     private Context context;
     private ArrayList<LyricsRes> result;
-    //private TextView artist;
-    //private TextView song;
-   // private ImageView img;
     private Bitmap bmp;
-    private LyricsAPI api;
+    private static LayoutInflater inflater = null;
 
-
-    private static LayoutInflater inflater=null;
     public CustomGrid(MainActivity mainActivity, ArrayList<LyricsRes> resArrayList) {
         result=resArrayList;
         context=mainActivity;
@@ -80,10 +75,6 @@ public class CustomGrid extends BaseAdapter {
         else{
             rowView = convertView;
         }
-
-
-       // Holder vholder = (Holder) rowView.getTag();
-       // vholder.appLable.setText("position " + position);
 
         return rowView;
     }

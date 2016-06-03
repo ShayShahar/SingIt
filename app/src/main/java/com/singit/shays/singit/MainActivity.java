@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity{
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
+                //menuItem.setChecked(true);
                 switch (menuItem.getItemId()) {
                     case R.id.home:
                         drawerLayout.closeDrawer(GravityCompat.START);
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity{
         api = new LyricsAPI();
         this.db = new SingItDBHelper(this);
         gridView = (GridView) findViewById(R.id.gridView);
-        final ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
+        final ArrayList<LyricsRes> last_searches = db.get_last_nine_searched_songs();
         gridView.setAdapter(new CustomGrid(this,last_searches));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,

@@ -25,61 +25,59 @@ public class CustomGrid extends BaseAdapter {
     private Context context;
     private ArrayList<LyricsRes> result;
     private Bitmap bmp;
+    private ImageView img;
+    private TextView artist;
+    private TextView song;
     private static LayoutInflater inflater = null;
 
     public CustomGrid(MainActivity mainActivity, ArrayList<LyricsRes> resArrayList) {
         result=resArrayList;
         context=mainActivity;
-        inflater = ( LayoutInflater )context.
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
+        // TODO Auto-generated method stub
         return result.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return position;
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        // TODO Auto-generated method stub
+        return 0;
     }
 
-    static class Holder
-    {
-        TextView artist;
-        TextView song;
-        ImageView img;
-    }
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View rowView = null;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // TODO Auto-generated method stub
+        View grid;
+        inflater = ( LayoutInflater )context.
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (rowView == null){
-            final Holder holder=new Holder();
-            rowView = inflater.inflate(R.layout.custom_grid, null);
-            holder.artist =(TextView) rowView.findViewById(R.id.artistNameGrid);
-            holder.song =(TextView) rowView.findViewById(R.id.songNameGrid);
-            holder.img =(ImageView) rowView.findViewById(R.id.coverImage);
+        if (convertView == null) {
 
-            holder.artist.setText(result.get(position).artist);
-            holder.song.setText(result.get(position).title);
+            grid = new View(context);
+            grid = inflater.inflate(R.layout.custom_grid, null);
+            artist =(TextView) grid.findViewById(R.id.artistNameGrid);
+            song =(TextView) grid.findViewById(R.id.songNameGrid);
+            img =(ImageView) grid.findViewById(R.id.coverImage);
+            artist.setText(result.get(position).artist);
+            song.setText(result.get(position).title);
 
-            new DownloadImageTask(holder.img)
+            new DownloadImageTask(img)
                     .execute(result.get(position).imageURL);
-        }
-        else{
-            rowView = convertView;
+        } else {
+            grid = (View) convertView;
         }
 
-        return rowView;
+        return grid;
     }
-
-
 
     class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;

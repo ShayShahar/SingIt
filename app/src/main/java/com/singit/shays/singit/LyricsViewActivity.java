@@ -23,7 +23,8 @@ public class LyricsViewActivity extends AppCompatActivity {
     private static final String TAG = "SingDebug";
     private LyricsRes lyrics;
     private SingItDBHelper dbHelper;
-
+    private boolean isFav = false;
+    private android.support.design.widget.FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +32,15 @@ public class LyricsViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lyrics_view2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        fab = (android.support.design.widget.FloatingActionButton)findViewById(R.id.fab);
         dbHelper = new SingItDBHelper(this);
         Intent intent = getIntent();
         lyrics = (LyricsRes)getIntent().getSerializableExtra("view");
+        if (dbHelper.is_favorite_song(lyrics.id) == DBResult.ITEM_EXISTS)
+        {
+            isFav = true;
+            fab.setImageResource(R.drawable.star_gold);
+        }
         ImageView image = (ImageView) findViewById(R.id.artistImage);
         TextView show = (TextView) findViewById(R.id.lyricsTextView);
         TextView arist = (TextView) findViewById(R.id.artistName);
@@ -69,13 +75,20 @@ public class LyricsViewActivity extends AppCompatActivity {
 
     public void onClickAddToFavorites(View view) {
 
-        if (dbHelper.insert_song_to_favorites_table(lyrics,"","") == DBResult.OK)
-        Toast.makeText(getApplicationContext(),"Lyrics added to favorites!",Toast.LENGTH_LONG).show();
-        else{
-            Toast.makeText(getApplicationContext(),"Item is already in favorites",Toast.LENGTH_LONG).show();
+        if (isFav == true){
+            dbHelper.delete_song_from_favorites(lyrics.id);
+            isFav = false;
+            fab.setImageResource(R.drawable.star);
+            Toast.makeText(getApplicationContext(),"Lyrics removed from favorites",Toast.LENGTH_LONG).show();
 
         }
-
+        else{
+            if (dbHelper.insert_song_to_favorites_table(lyrics,"","") == DBResult.OK){
+                Toast.makeText(getApplicationContext(),"Lyrics added to favorites!",Toast.LENGTH_LONG).show();
+                isFav = true;
+                fab.setImageResource(R.drawable.star_gold);
+            }
+        }
     }
 
 

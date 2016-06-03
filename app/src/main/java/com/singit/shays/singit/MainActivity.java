@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        
+
         ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
         gridView.setAdapter(new CustomGrid(this,last_searches));
     }

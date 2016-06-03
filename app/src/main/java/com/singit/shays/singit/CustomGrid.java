@@ -24,9 +24,9 @@ public class CustomGrid extends BaseAdapter {
 
     private Context context;
     private ArrayList<LyricsRes> result;
-    private TextView artist;
-    private TextView song;
-    private ImageView img;
+    //private TextView artist;
+    //private TextView song;
+   // private ImageView img;
     private Bitmap bmp;
     private LyricsAPI api;
 
@@ -54,20 +54,36 @@ public class CustomGrid extends BaseAdapter {
         return position;
     }
 
+    static class Holder
+    {
+        TextView artist;
+        TextView song;
+        ImageView img;
+    }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View rowView;
+        View rowView = null;
 
-        rowView = inflater.inflate(R.layout.custom_grid, null);
-        artist =(TextView) rowView.findViewById(R.id.artistNameGrid);
-        song =(TextView) rowView.findViewById(R.id.songNameGrid);
-        img =(ImageView) rowView.findViewById(R.id.coverImage);
+        if (rowView == null){
+            final Holder holder=new Holder();
+            rowView = inflater.inflate(R.layout.custom_grid, null);
+            holder.artist =(TextView) rowView.findViewById(R.id.artistNameGrid);
+            holder.song =(TextView) rowView.findViewById(R.id.songNameGrid);
+            holder.img =(ImageView) rowView.findViewById(R.id.coverImage);
 
-        artist.setText(result.get(position).artist);
-        song.setText(result.get(position).title);
+            holder.artist.setText(result.get(position).artist);
+            holder.song.setText(result.get(position).title);
 
-        new DownloadImageTask(img)
-                .execute(result.get(position).imageURL);
+            new DownloadImageTask(holder.img)
+                    .execute(result.get(position).imageURL);
+        }
+        else{
+            rowView = convertView;
+        }
+
+
+       // Holder vholder = (Holder) rowView.getTag();
+       // vholder.appLable.setText("position " + position);
 
         return rowView;
     }

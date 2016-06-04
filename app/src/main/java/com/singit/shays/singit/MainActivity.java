@@ -80,8 +80,25 @@ public class MainActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 
-        ArrayList<LyricsRes> last_searches = db.get_last_searched_songs();
+        final ArrayList<LyricsRes> last_searches = db.get_last_nine_searched_songs();
         gridView.setAdapter(new CustomGrid(this, last_searches));
+        gridView.setAdapter(new CustomGrid(this, last_searches));
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                LyricsRes selected = last_searches.get(position);
+                LyricsRes pass = selected;
+                try {
+                    pass = api.getLyrics(selected);
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
+                Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
+                intent.putExtra("view", pass);
+                startActivity(intent);
+            }
+        });
     }
 
 

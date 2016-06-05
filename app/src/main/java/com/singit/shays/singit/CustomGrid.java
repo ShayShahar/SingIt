@@ -21,10 +21,9 @@ import java.util.ArrayList;
  */
 public class CustomGrid extends BaseAdapter {
 
-
+    private static final String TAG = "SingDebug";
     private Context context;
     private ArrayList<LyricsRes> result;
-    private Bitmap bmp;
     private ImageView img;
     private TextView artist;
     private TextView song;
@@ -33,6 +32,7 @@ public class CustomGrid extends BaseAdapter {
     public CustomGrid(MainActivity mainActivity, ArrayList<LyricsRes> resArrayList) {
         result = resArrayList;
         context = mainActivity;
+        Log.d(TAG,result.get(0).title);
     }
 
     @Override
@@ -52,23 +52,34 @@ public class CustomGrid extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Log.d(TAG,"view");
 
         View grid;
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-
+            Log.d(TAG,"create view");
             grid = new View(context);
             grid = inflater.inflate(R.layout.custom_grid, null);
             artist =(TextView) grid.findViewById(R.id.artistNameGrid);
             song =(TextView) grid.findViewById(R.id.songNameGrid);
             img =(ImageView) grid.findViewById(R.id.coverImage);
+            Log.d(TAG,result.get(position).artist);
             artist.setText(result.get(position).artist);
             song.setText(result.get(position).title);
+            if (result.get(0).type == LyricsRes.Type.SEARCH){
 
-            new DownloadImageTask(img)
-                    .execute(result.get(position).imageURL);
+                img.setImageResource(R.drawable.no_search);
+            }
+            else if (result.get(0).type == LyricsRes.Type.FAV) {
+                img.setImageResource(R.drawable.no_fav);
+            }
+            else{
+                new DownloadImageTask(img)
+                        .execute(result.get(position).imageURL);
+            }
+
         } else {
             grid = (View) convertView;
         }
@@ -89,8 +100,6 @@ public class CustomGrid extends BaseAdapter {
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
-                bmp = mIcon11;
-
             } catch (Exception e) {
                 e.printStackTrace();
                 mIcon11 = BitmapFactory.decodeResource(context.getResources(),R.drawable.no_img);

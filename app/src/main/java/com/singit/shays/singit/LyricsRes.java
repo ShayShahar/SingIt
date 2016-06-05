@@ -11,7 +11,18 @@ public class LyricsRes implements Serializable
 {
     private static final long serialVersionUID = 1L;
     String title, artist, lyrics, imageURL, thumbnailURL;
+    Type type;
     int id;
+
+    enum Type {
+        FAV, SEARCH, LYRICS
+    }
+
+    LyricsRes(String Title, String Artist, Type type){
+        this.title = Title;
+        this.artist = Artist;
+        this.type = type;
+    }
 
     /**
      * Constructor
@@ -30,5 +41,6 @@ public class LyricsRes implements Serializable
         this.imageURL= imageURL;
         this.id= id;
         this.thumbnailURL= thumbnailURL;
+        this.type = Type.LYRICS;
     }
 }

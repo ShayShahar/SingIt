@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity{
     private Toolbar toolbar;
     private LyricsAPI api;
     private static final String TAG = "SingDebug";
+    private static LyricsRes emptyFav;
+    private static LyricsRes emptySearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +42,34 @@ public class MainActivity extends AppCompatActivity{
         this.db = new SingItDBHelper(this);
         gridView = (MyGridView) findViewById(R.id.gridView);
         final ArrayList<LyricsRes> last_searches = db.get_last_six_searched_songs();
-        gridView.setAdapter(new CustomGrid(this, last_searches));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
+        if (last_searches.isEmpty()){
+            Log.d(TAG,"empty search");
+            emptySearch = new LyricsRes("Make your first Search!","Start singing now", LyricsRes.Type.SEARCH);
+            ArrayList<LyricsRes> emptys = new ArrayList<>();
+            emptys.add(emptySearch);
+            Log.d(TAG,emptySearch.type.toString());
+            Log.d(TAG,emptys.get(0).artist);
+            gridView.setAdapter(new CustomGrid(this, emptys));
+        }
+        else{
+            gridView.setAdapter(new CustomGrid(this, last_searches));
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
 
-                LyricsRes selected = last_searches.get(position);
-                LyricsRes pass = selected;
-                try {
-                    pass = api.getLyrics(selected);
-                } catch (Exception e) {
-                    Log.d(TAG, e.toString());
+                    LyricsRes selected = last_searches.get(position);
+                    LyricsRes pass = selected;
+                    try {
+                        pass = api.getLyrics(selected);
+                    } catch (Exception e) {
+                        Log.d(TAG, e.toString());
+                    }
+                    Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
+                    intent.putExtra("view", pass);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
-                intent.putExtra("view", pass);
-                startActivity(intent);
-            }
-        });
+            });
+        }
 
         gridView.setOnTouchListener(new View.OnTouchListener(){
 
@@ -73,23 +86,33 @@ public class MainActivity extends AppCompatActivity{
 
         gridView2 = (MyGridView) findViewById(R.id.gridView2);
         final ArrayList<LyricsRes> last_fav = db.get_last_six_favorites_songs();
-        gridView2.setAdapter(new CustomGrid(this, last_fav));
-        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
 
-                LyricsRes selected = last_fav.get(position);
-                LyricsRes pass = selected;
-                try {
-                    pass = api.getLyrics(selected);
-                } catch (Exception e) {
-                    Log.d(TAG, e.toString());
+        if (last_fav.size() == 0){
+            Log.d(TAG,"empty fav");
+            emptyFav = new LyricsRes("Store your favorites!","Save them now", LyricsRes.Type.FAV);
+            ArrayList<LyricsRes> emptys = new ArrayList<>();
+            emptys.add(emptyFav);
+            gridView2.setAdapter(new CustomGrid(this, emptys));
+        }
+        else{
+            gridView2.setAdapter(new CustomGrid(this, last_fav));
+            gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
+
+                    LyricsRes selected = last_fav.get(position);
+                    LyricsRes pass = selected;
+                    try {
+                        pass = api.getLyrics(selected);
+                    } catch (Exception e) {
+                        Log.d(TAG, e.toString());
+                    }
+                    Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
+                    intent.putExtra("view", pass);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
-                intent.putExtra("view", pass);
-                startActivity(intent);
-            }
-        });
+            });
+        }
 
         gridView2.setOnTouchListener(new View.OnTouchListener(){
 
@@ -129,24 +152,34 @@ public class MainActivity extends AppCompatActivity{
         super.onResume();
 
         final ArrayList<LyricsRes> last_searches = db.get_last_six_searched_songs();
-        gridView.setAdapter(new CustomGrid(this, last_searches));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
+        if (last_searches.isEmpty()){
+            Log.d(TAG,"empty search");
+            emptySearch = new LyricsRes("Make your first Search!","Start singing now", LyricsRes.Type.SEARCH);
+            ArrayList<LyricsRes> emptys = new ArrayList<>();
+            emptys.add(emptySearch);
+            Log.d(TAG,emptySearch.type.toString());
+            Log.d(TAG,emptys.get(0).artist);
+            gridView.setAdapter(new CustomGrid(this, emptys));
+        }
+        else{
+            gridView.setAdapter(new CustomGrid(this, last_searches));
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
 
-                LyricsRes selected = last_searches.get(position);
-                LyricsRes pass = selected;
-                try {
-                    pass = api.getLyrics(selected);
-                } catch (Exception e) {
-                    Log.d(TAG, e.toString());
+                    LyricsRes selected = last_searches.get(position);
+                    LyricsRes pass = selected;
+                    try {
+                        pass = api.getLyrics(selected);
+                    } catch (Exception e) {
+                        Log.d(TAG, e.toString());
+                    }
+                    Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
+                    intent.putExtra("view", pass);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
-                intent.putExtra("view", pass);
-                startActivity(intent);
-            }
-        });
-
+            });
+        }
 
         gridView.setOnTouchListener(new View.OnTouchListener(){
 
@@ -160,28 +193,34 @@ public class MainActivity extends AppCompatActivity{
 
         });
 
-
-
-
-        gridView2 = (MyGridView) findViewById(R.id.gridView2);
         final ArrayList<LyricsRes> last_fav = db.get_last_six_favorites_songs();
-        gridView2.setAdapter(new CustomGrid(this, last_fav));
-        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
 
-                LyricsRes selected = last_fav.get(position);
-                LyricsRes pass = selected;
-                try {
-                    pass = api.getLyrics(selected);
-                } catch (Exception e) {
-                    Log.d(TAG, e.toString());
+        if (last_fav.size() == 0){
+            Log.d(TAG,"empty fav");
+            emptyFav = new LyricsRes("Store your favorites!","Save them now", LyricsRes.Type.FAV);
+            ArrayList<LyricsRes> emptys = new ArrayList<>();
+            emptys.add(emptyFav);
+            gridView2.setAdapter(new CustomGrid(this, emptys));
+        }
+        else{
+            gridView2.setAdapter(new CustomGrid(this, last_fav));
+            gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
+
+                    LyricsRes selected = last_fav.get(position);
+                    LyricsRes pass = selected;
+                    try {
+                        pass = api.getLyrics(selected);
+                    } catch (Exception e) {
+                        Log.d(TAG, e.toString());
+                    }
+                    Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
+                    intent.putExtra("view", pass);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
-                intent.putExtra("view", pass);
-                startActivity(intent);
-            }
-        });
+            });
+        }
 
         gridView2.setOnTouchListener(new View.OnTouchListener(){
 
@@ -194,6 +233,7 @@ public class MainActivity extends AppCompatActivity{
             }
 
         });
+
     }
 
 

@@ -33,15 +33,14 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.custom_row,parent,false);
         final LyricsRes result = getItem(position);
 
         TextView artistText = (TextView) customView.findViewById(R.id.artistText);
         TextView songText = (TextView) customView.findViewById(R.id.songText);
-        Log.d(TAG,"set components");
         de.hdodenhof.circleimageview.CircleImageView artistImage = (de.hdodenhof.circleimageview.CircleImageView) customView.findViewById(R.id.profile_image);
-        Log.d(TAG,"set image");
         new DownloadImageTask(artistImage)
                 .execute(result.thumbnailURL);
         artistText.setText(result.artist);
@@ -50,9 +49,6 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
         Animation animation = AnimationUtils.loadAnimation(getContext(),(position>lastPosition)? R.anim.up_from_buttom : R.anim.down_from_top);
         customView.startAnimation(animation);
         lastPosition = position;
-
-            //result.image = bmp;
-
 
         return customView;
     }

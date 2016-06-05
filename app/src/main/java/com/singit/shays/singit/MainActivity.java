@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.widget.AdapterView;
@@ -19,7 +20,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
 
-    private GridView gridView;
+    private MyGridView gridView;
+    private MyGridView gridView2;
     private SingItDBHelper db;
     private Toolbar toolbar;
     private LyricsAPI api;
@@ -36,8 +38,8 @@ public class MainActivity extends AppCompatActivity{
 
         api = new LyricsAPI();
         this.db = new SingItDBHelper(this);
-        gridView = (GridView) findViewById(R.id.gridView);
-        final ArrayList<LyricsRes> last_searches = db.get_last_nine_searched_songs();
+        gridView = (MyGridView) findViewById(R.id.gridView);
+        final ArrayList<LyricsRes> last_searches = db.get_last_six_searched_songs();
         gridView.setAdapter(new CustomGrid(this, last_searches));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -55,6 +57,52 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        gridView.setOnTouchListener(new View.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    return true;
+                }
+                return false;
+            }
+
+        });
+
+
+        gridView2 = (MyGridView) findViewById(R.id.gridView2);
+        final ArrayList<LyricsRes> last_fav = db.get_last_six_favorites_songs();
+        gridView2.setAdapter(new CustomGrid(this, last_fav));
+        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                LyricsRes selected = last_fav.get(position);
+                LyricsRes pass = selected;
+                try {
+                    pass = api.getLyrics(selected);
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
+                Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
+                intent.putExtra("view", pass);
+                startActivity(intent);
+            }
+        });
+
+        gridView2.setOnTouchListener(new View.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    return true;
+                }
+                return false;
+            }
+
+        });
+
     }
 
 
@@ -80,8 +128,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 
-        final ArrayList<LyricsRes> last_searches = db.get_last_nine_searched_songs();
-        gridView.setAdapter(new CustomGrid(this, last_searches));
+        final ArrayList<LyricsRes> last_searches = db.get_last_six_searched_songs();
         gridView.setAdapter(new CustomGrid(this, last_searches));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -98,6 +145,54 @@ public class MainActivity extends AppCompatActivity{
                 intent.putExtra("view", pass);
                 startActivity(intent);
             }
+        });
+
+
+        gridView.setOnTouchListener(new View.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    return true;
+                }
+                return false;
+            }
+
+        });
+
+
+
+
+        gridView2 = (MyGridView) findViewById(R.id.gridView2);
+        final ArrayList<LyricsRes> last_fav = db.get_last_six_favorites_songs();
+        gridView2.setAdapter(new CustomGrid(this, last_fav));
+        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                LyricsRes selected = last_fav.get(position);
+                LyricsRes pass = selected;
+                try {
+                    pass = api.getLyrics(selected);
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
+                Intent intent = new Intent(MainActivity.this, LyricsViewActivity.class);
+                intent.putExtra("view", pass);
+                startActivity(intent);
+            }
+        });
+
+        gridView2.setOnTouchListener(new View.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    return true;
+                }
+                return false;
+            }
+
         });
     }
 
@@ -121,6 +216,13 @@ public class MainActivity extends AppCompatActivity{
     public void onMoreSearchesButtonClick(View view) {
 
         Intent intent = new Intent(this, MoreSearchesActivity.class);
+        this.startActivity(intent);
+
+    }
+
+    public void onMoreFavButtonClick(View view) {
+
+        Intent intent = new Intent(this, FavoritesViewActivity.class);
         this.startActivity(intent);
 
     }

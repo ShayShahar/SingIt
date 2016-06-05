@@ -25,9 +25,12 @@
     <string name="menu_search" />
     <string name="search_hint">Search</string>
     <string name="last_searches_txt">Last Searches</string>
+    <string name="last_fav_txt">New Favorites</string>
     <string name="lastSearchesHint">Display your last searches</string>
+    <string name="lastFavHint">Display your recently added favorites</string>
     <string name="more">MORE</string>
     <string name="more_searches_activity_name">Last Searches</string>
+
 
 
 

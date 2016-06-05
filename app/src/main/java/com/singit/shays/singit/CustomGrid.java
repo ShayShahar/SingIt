@@ -93,6 +93,7 @@ public class CustomGrid extends BaseAdapter {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                mIcon11 = BitmapFactory.decodeResource(context.getResources(),R.drawable.no_img);
             }
             return mIcon11;
         }

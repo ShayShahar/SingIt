@@ -1,17 +1,22 @@
 package com.singit.shays.singit;
 
 import android.content.ContentValues;
+import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 /**
  * Created by lions on 07/05/2016.
@@ -34,7 +39,11 @@ class SingItDBHelper extends SQLiteOpenHelper {
     private static final String SONGS_TABLE = "songs";
     private static final String FAVORITES_TABLE = "favorites";
     private static final String LAST_SEARCHES_TABLE = "last_searches";
+    private static final String IMAGE_DIR = "image_directory";
+    private static final String THUMBNAIL_DIR = "thumbnail_directory";
 
+    private ImageSaver image_manager;
+    private Context context;
     /**
      * Create a helper object to create, open, and/or manage a database.
      * This method always returns very quickly.  The database is not actually
@@ -46,6 +55,9 @@ class SingItDBHelper extends SQLiteOpenHelper {
     public SingItDBHelper(Context context) {
         //The second parameter is th DB name, null for debug purpose.
         super(context, DB_NAME, null, DB_VERSION);
+        this.context = context;
+        this.image_manager = new ImageSaver(context);
+        this.image_manager.setDirectoryName("image_directory");
         Log.d(TAG, "DB creation started");
     }
 
@@ -155,6 +167,28 @@ class SingItDBHelper extends SQLiteOpenHelper {
 
         db.execSQL(sql_create_table);
     }
+    private void save_image(String directory, String name, Bitmap image)
+    {
+        if(image != null)
+        {
+            new ImageSaver(this.context).
+                    setFileName(name + ".png").
+                    setDirectoryName(directory).
+                    save(image);
+        }
+    }
+
+    private Bitmap load_picture(String directory, String name, Bitmap image)
+    {
+        if(image != null)
+        {
+            return new ImageSaver(this.context).
+                    setFileName(name + ".png").
+                    setDirectoryName(directory).
+                    load();
+        }
+        return null;
+    }
 
     /**
      * Insert song to the song table, after translation.
@@ -190,7 +224,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
      * @param lyrics         LyricsRes object of the song.
      * @param thumbnail_path Thumbnail path in device.
      */
-    public DBResult insert_song_to_favorites_table(LyricsRes lyrics, String image_path, String thumbnail_path)
+    public DBResult insert_song_to_favorites_table(LyricsRes lyrics, Bitmap image, Bitmap thumbnail)
             throws SQLiteConstraintException {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
@@ -201,8 +235,11 @@ class SingItDBHelper extends SQLiteOpenHelper {
         song_values.put(LYRICS, lyrics.lyrics);
         song_values.put(IMAGE_URL, lyrics.imageURL);
         song_values.put(THUMBNAIL_URL, lyrics.thumbnailURL);
-        song_values.put(IMAGE_PATH, image_path);
-        song_values.put(THUMBNAIL_PATH, thumbnail_path);
+        //song_values.put(IMAGE_PATH, image_path);
+        //song_values.put(THUMBNAIL_PATH, thumbnail_path);
+
+        save_image(IMAGE_DIR, String.valueOf(lyrics.id), image);
+        save_image(THUMBNAIL_DIR, String.valueOf(lyrics.id), thumbnail);
 
         try {
             db.insertOrThrow(FAVORITES_TABLE, null, song_values);
@@ -222,7 +259,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
      * @return DBResult of OK.
      * @throws SQLiteConstraintException
      */
-    public DBResult insert_song_to_last_searches_table(LyricsRes lyrics, String image_path, String thumbnail_path)
+    public DBResult insert_song_to_last_searches_table(LyricsRes lyrics, Bitmap image, Bitmap thumbnail)
             throws SQLiteConstraintException {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
@@ -233,14 +270,17 @@ class SingItDBHelper extends SQLiteOpenHelper {
         song_values.put(LYRICS, lyrics.lyrics);
         song_values.put(IMAGE_URL, lyrics.imageURL);
         song_values.put(THUMBNAIL_URL, lyrics.thumbnailURL);
-        song_values.put(IMAGE_PATH, image_path);
-        song_values.put(THUMBNAIL_PATH, thumbnail_path);
+        //song_values.put(IMAGE_PATH, image_path);
+        //song_values.put(THUMBNAIL_PATH, thumbnail_path);
+
+        save_image(IMAGE_DIR, String.valueOf(lyrics.id), image);
+        save_image(THUMBNAIL_DIR, String.valueOf(lyrics.id), thumbnail);
 
         try {
             db.insertOrThrow(LAST_SEARCHES_TABLE, null, song_values);
         } catch (SQLiteConstraintException e) {
             delete_song_by_song_id(LAST_SEARCHES_TABLE, lyrics.id);
-            insert_song_to_last_searches_table(lyrics, image_path, thumbnail_path);
+            insert_song_to_last_searches_table(lyrics, null, null);
         }
         return DBResult.OK;
     }
@@ -302,12 +342,13 @@ class SingItDBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Get the last nine searched songs from the DB.
      *
-     * @return ArrayList of all the nine first rows in a last_searches table as LyricsRes objects.
+     * @param table The table to get from the songs.
+     * @return      The last six songs from a table.
      */
-    public ArrayList<LyricsRes> get_last_six_searched_songs() {
-        ArrayList<LyricsRes> result_list = get_all_songs(LAST_SEARCHES_TABLE);
+    private ArrayList<LyricsRes> get_last_six_songs(String table)
+    {
+        ArrayList<LyricsRes> result_list = get_all_songs(table);
         int limit = 6;
 
         Collections.reverse(result_list);
@@ -328,26 +369,23 @@ class SingItDBHelper extends SQLiteOpenHelper {
         return result_list;
     }
 
-    public ArrayList<LyricsRes> get_last_six_favorites_songs() {
-        ArrayList<LyricsRes> result_list = get_all_songs(FAVORITES_TABLE);
-        int limit = 6;
+        /**
+         * Get the last six searched songs from the DB.
+         *
+         * @return ArrayList of all the six first rows in a last_searches table as LyricsRes objects.
+         */
+    public ArrayList<LyricsRes> get_last_six_searched_songs() {
+        return get_last_six_songs("last_searches");
+    }
 
-        Collections.reverse(result_list);
-        if(result_list.size() <= limit)
-        {
-            return result_list;
-        }
-        else
-        {
-            int num_to_remove, result_size;
-            result_size = result_list.size();
-            num_to_remove = result_list.size() - limit;
-            for (int i = 0; i< num_to_remove ; i++)
-            {
-                result_list.remove(result_size - i - 1);
-            }
-        }
-        return result_list;
+    /**
+     * Get the last six favorites songs from the DB.
+     *
+     * @return ArrayList of all the six first rows in a favorites table as LyricsRes objects.
+     */
+    public ArrayList<LyricsRes> get_last_six_favorites_songs() {
+        return get_last_six_songs("favorites");
+
     }
 
     /**
@@ -415,7 +453,6 @@ class SingItDBHelper extends SQLiteOpenHelper {
         result.close();
         return DBResult.ITEM_EXISTS;
     }
-
 }
 
 /**

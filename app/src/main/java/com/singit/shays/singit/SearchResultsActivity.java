@@ -140,7 +140,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             return null;
         }
 
-        protected void onPostExecute() {
+        protected void onPostExecute(Void e)  {
             dbHelper.insert_song_to_last_searches_table(curr,bmp2,bmp1);
 
         }

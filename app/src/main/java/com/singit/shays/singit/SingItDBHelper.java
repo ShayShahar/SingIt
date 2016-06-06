@@ -1,22 +1,18 @@
 package com.singit.shays.singit;
 
 import android.content.ContentValues;
-import android.content.ContextWrapper;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
 /**
  * Created by lions on 07/05/2016.
@@ -41,9 +37,9 @@ class SingItDBHelper extends SQLiteOpenHelper {
     private static final String LAST_SEARCHES_TABLE = "last_searches";
     private static final String IMAGE_DIR = "image_directory";
     private static final String THUMBNAIL_DIR = "thumbnail_directory";
-
     private ImageSaver image_manager;
     private Context context;
+
     /**
      * Create a helper object to create, open, and/or manage a database.
      * This method always returns very quickly.  The database is not actually
@@ -100,7 +96,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
      * @param oldVersion The old database version.
      * @param newVersion The new database version.
      */
-    public void updateMyDB(SQLiteDatabase db, int oldVersion, int newVersion) {
+    private void updateMyDB(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
             create_songs_table(db);
             create_favorites_table(db);
@@ -109,12 +105,20 @@ class SingItDBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public static String getImageDir() {
+        return IMAGE_DIR;
+    }
+
+    public static String getThumbnailDir() {
+        return THUMBNAIL_DIR;
+    }
+
     /**
      * Creates song table.
      *
      * @param db The database.
      */
-    public void create_songs_table(SQLiteDatabase db) {
+    private void create_songs_table(SQLiteDatabase db) {
         String sql_create_table;
         sql_create_table = "CREATE TABLE " + SONGS_TABLE + " ("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -131,7 +135,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
      *
      * @param db The database.
      */
-    public void create_favorites_table(SQLiteDatabase db) {
+    private void create_favorites_table(SQLiteDatabase db) {
         String sql_create_table;
         sql_create_table = "CREATE TABLE " + FAVORITES_TABLE + " ("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -152,7 +156,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
      *
      * @param db The database.
      */
-    public static void create_last_searches_table(SQLiteDatabase db) {
+    private static void create_last_searches_table(SQLiteDatabase db) {
         String sql_create_table;
         sql_create_table = "CREATE TABLE " + LAST_SEARCHES_TABLE + " ("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -167,7 +171,14 @@ class SingItDBHelper extends SQLiteOpenHelper {
 
         db.execSQL(sql_create_table);
     }
-    private void save_image(String directory, String name, Bitmap image)
+
+    /**
+     *
+     * @param directory
+     * @param name
+     * @param image
+     */
+    public void save_image(String directory, String name, Bitmap image)
     {
         if(image != null)
         {
@@ -178,7 +189,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    private Bitmap load_picture(String directory, String name, Bitmap image)
+    public Bitmap load_picture(String directory, String name, Bitmap image)
     {
         if(image != null)
         {
@@ -221,8 +232,11 @@ class SingItDBHelper extends SQLiteOpenHelper {
     /**
      * Insert song to the favorites table, after chose as favorite.
      *
-     * @param lyrics         LyricsRes object of the song.
-     * @param thumbnail_path Thumbnail path in device.
+     * @param lyrics        LyricsRes object of the song.
+     * @param image         The lyrics image.
+     * @param thumbnail     The lyrics thumbnail.
+     * @return              DBResult of the status.
+     * @throws              SQLiteConstraintException
      */
     public DBResult insert_song_to_favorites_table(LyricsRes lyrics, Bitmap image, Bitmap thumbnail)
             throws SQLiteConstraintException {
@@ -235,11 +249,9 @@ class SingItDBHelper extends SQLiteOpenHelper {
         song_values.put(LYRICS, lyrics.lyrics);
         song_values.put(IMAGE_URL, lyrics.imageURL);
         song_values.put(THUMBNAIL_URL, lyrics.thumbnailURL);
-        //song_values.put(IMAGE_PATH, image_path);
-        //song_values.put(THUMBNAIL_PATH, thumbnail_path);
 
-        save_image(IMAGE_DIR, String.valueOf(lyrics.id), image);
-        save_image(THUMBNAIL_DIR, String.valueOf(lyrics.id), thumbnail);
+        Thread t = new Thread(new SaveRunnable(this, lyrics, image, thumbnail));
+        t.start();
 
         try {
             db.insertOrThrow(FAVORITES_TABLE, null, song_values);
@@ -253,11 +265,11 @@ class SingItDBHelper extends SQLiteOpenHelper {
     /**
      * Insert song to last searches song.
      *
-     * @param lyrics         LyricsRes object of the song.
-     * @param image_path     The path of the image in the device.
-     * @param thumbnail_path Thumbnail path in device.
-     * @return DBResult of OK.
-     * @throws SQLiteConstraintException
+     * @param lyrics        LyricsRes object of the song.
+     * @param image         The lyrics image.
+     * @param thumbnail     The lyrics thumbnail.
+     * @return              DBResult of the status.
+     * @throws              SQLiteConstraintException
      */
     public DBResult insert_song_to_last_searches_table(LyricsRes lyrics, Bitmap image, Bitmap thumbnail)
             throws SQLiteConstraintException {
@@ -270,11 +282,9 @@ class SingItDBHelper extends SQLiteOpenHelper {
         song_values.put(LYRICS, lyrics.lyrics);
         song_values.put(IMAGE_URL, lyrics.imageURL);
         song_values.put(THUMBNAIL_URL, lyrics.thumbnailURL);
-        //song_values.put(IMAGE_PATH, image_path);
-        //song_values.put(THUMBNAIL_PATH, thumbnail_path);
 
-        save_image(IMAGE_DIR, String.valueOf(lyrics.id), image);
-        save_image(THUMBNAIL_DIR, String.valueOf(lyrics.id), thumbnail);
+        Thread t = new Thread(new SaveRunnable(this, lyrics, image, thumbnail));
+        t.start();
 
         try {
             db.insertOrThrow(LAST_SEARCHES_TABLE, null, song_values);
@@ -461,3 +471,5 @@ class SingItDBHelper extends SQLiteOpenHelper {
 enum DBResult {
     GENERIC_ERROR, OK, ITEM_NOT_EXISTS_ERROR, ITEM_NOT_EXISTS, ITEM_EXISTS
 }
+
+

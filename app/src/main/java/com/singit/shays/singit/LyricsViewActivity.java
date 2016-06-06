@@ -83,7 +83,8 @@ public class LyricsViewActivity extends AppCompatActivity {
 
         }
         else{
-            if (dbHelper.insert_song_to_favorites_table(lyrics,"","") == DBResult.OK){
+            //leave null right now
+            if (dbHelper.insert_song_to_favorites_table(lyrics,null,null) == DBResult.OK){
                 Toast.makeText(getApplicationContext(),"Lyrics added to favorites!",Toast.LENGTH_LONG).show();
                 isFav = true;
                 fab.setImageResource(R.drawable.star_gold);

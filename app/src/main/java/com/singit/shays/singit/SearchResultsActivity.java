@@ -3,7 +3,11 @@ package com.singit.shays.singit;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,10 +20,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class SearchResultsActivity extends AppCompatActivity {
@@ -29,6 +35,8 @@ public class SearchResultsActivity extends AppCompatActivity {
     private SingItDBHelper dbHelper = new SingItDBHelper(this);
     private TextView search;
     private Toolbar toolbar;
+    private Bitmap bmp1, bmp2;
+    private LyricsRes curr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +98,11 @@ public class SearchResultsActivity extends AppCompatActivity {
                     Log.d(TAG,Integer.toString(selected.id));
                     try{
                         pass = api.getLyrics(search.get(position));
+                        curr = pass;
                     }catch(Exception e){
                         Log.d(TAG,e.toString());
                     }
-                    dbHelper.insert_song_to_last_searches_table(pass,"","");
+                    new DownloadImageTask().execute(pass.thumbnailURL,pass.imageURL);
                     Intent intent = new Intent(SearchResultsActivity.this,LyricsViewActivity.class);
                     intent.putExtra("view",pass);
                     startActivity(intent);
@@ -103,6 +112,37 @@ public class SearchResultsActivity extends AppCompatActivity {
             };
 
             list.setOnItemClickListener(itemClickListener);
+        }
+    }
+
+
+    class DownloadImageTask extends AsyncTask<String, Void, Void> {
+
+        protected Void doInBackground(String... urls) {
+            String tmb = urls[0];
+            String img = urls[1];
+            Bitmap mIcon11 = null;
+            Bitmap mIcon12 = null;
+            try {
+                InputStream in = new java.net.URL(tmb).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+                bmp1 = mIcon11;
+                in = new java.net.URL(img).openStream();
+                mIcon12 = BitmapFactory.decodeStream(in);
+                bmp2 = mIcon12;
+                Log.d(TAG,"image set");
+
+            } catch (Exception e) {
+                Log.d(TAG,"no image");
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute() {
+            dbHelper.insert_song_to_last_searches_table(curr,bmp2,bmp1);
+
         }
     }
 }

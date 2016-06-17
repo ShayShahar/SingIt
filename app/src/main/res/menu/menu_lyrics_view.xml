@@ -14,15 +14,12 @@
         android:id="@+id/menu_translate"
         app:showAsAction="always"
         android:title="Translate"
-        android:icon="@drawable/ic_g_translate_white_48dp"
-        android:actionProviderClass=
-            "android.widget.ShareActionProvider" />
+        android:icon="@drawable/ic_g_translate_white_48dp" />
 
     <item
         android:id="@+id/menu_youtube"
         app:showAsAction="always"
         android:title="Video Clip"
         android:icon="@drawable/ic_music_video_white_48dp"
-        android:actionProviderClass=
-            "android.widget.ShareActionProvider" />
+/>
 </menu>

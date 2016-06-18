@@ -189,16 +189,42 @@ class SingItDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Bitmap load_picture(String directory, String name, Bitmap image)
+    /**
+     * Internal method for images loading.
+     * @param directory The image directory.
+     * @param name      The image name.
+     * @return          Bitmap of the image.
+     */
+    private Bitmap load_picture(String directory, String name)
     {
-        if(image != null)
-        {
-            return new ImageSaver(this.context).
-                    setFileName(name + ".png").
-                    setDirectoryName(directory).
-                    load();
-        }
-        return null;
+        return new ImageSaver(this.context).
+                setFileName(name + ".png").
+                setDirectoryName(directory).
+                load();
+    }
+
+    /**
+     * Returns image from the device.
+     * @param song_id   The name of the song.
+     * @return          Returns the Bitmap of the image.
+     */
+    private Bitmap get_image(int song_id)
+    {
+        String name = String.valueOf(song_id);
+
+        return load_picture(IMAGE_DIR, name);
+    }
+
+    /**
+     * Returns thumbnail from the device.
+     * @param song_id   The name of the song.
+     * @return          Returns the Bitmap of the image.
+     */
+    private Bitmap get_thumbnail(int song_id)
+    {
+        String name = String.valueOf(song_id);
+
+        return load_picture(THUMBNAIL_DIR, name);
     }
 
     /**
@@ -325,12 +351,15 @@ class SingItDBHelper extends SQLiteOpenHelper {
 
         // Looping through the map list and filling the result list.
         for (HashMap<String, String> song : map_list) {
+            int song_id = Integer.valueOf(song.get(SONG_id));
             LyricsRes lyrics_result = new LyricsRes(song.get(SONG_NAME),
                     song.get(ARTIST_NAME),
                     song.get(LYRICS),
                     song.get(IMAGE_URL),
                     song.get(THUMBNAIL_URL),
-                    Integer.valueOf(song.get(SONG_id)));
+                    song_id,
+                    get_image(song_id),
+                    get_thumbnail(song_id));
 
             result_list.add(lyrics_result);
         }

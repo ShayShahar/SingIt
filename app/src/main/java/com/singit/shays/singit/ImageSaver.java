@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 /**
  * Created by lions on 05/06/2016.
@@ -35,7 +36,6 @@ public class ImageSaver {
     }
 
     public void save(Bitmap bitmapImage) {
-        Log.d("DBTAG","public void save(Bitmap bitmapImage)");
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(createFile());
@@ -103,3 +103,22 @@ class SaveRunnable implements Runnable
     }
 }
 
+//class LoadCallable implements Callable<Bitmap>
+//{
+//    private SingItDBHelper db;
+//    private String dictionary;
+//    private String song_id;
+//
+//    public LoadCallable(SingItDBHelper db, String dictionary, String song_id)
+//    {
+//        this.db = db;
+//        this.dictionary = dictionary;
+//        this.song_id = song_id;
+//    }
+//
+//    @Override public Bitmap call()
+//            throws Exception
+//    {
+//        return db.load_picture(dictionary,song_id);
+//    }
+//}

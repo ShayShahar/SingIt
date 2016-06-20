@@ -1,7 +1,6 @@
 package com.singit.shays.singit;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -60,7 +59,6 @@ public class CustomGrid extends BaseAdapter {
 
         if (convertView == null) {
             Log.d(TAG,"create view");
-            grid = new View(context);
             grid = inflater.inflate(R.layout.custom_grid, null);
             artist =(TextView) grid.findViewById(R.id.artistNameGrid);
             song =(TextView) grid.findViewById(R.id.songNameGrid);

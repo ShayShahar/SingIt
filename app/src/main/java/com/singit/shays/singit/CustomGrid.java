@@ -69,15 +69,19 @@ public class CustomGrid extends BaseAdapter {
             artist.setText(result.get(position).artist);
             song.setText(result.get(position).title);
             if (result.get(0).type == LyricsRes.Type.SEARCH){
-
                 img.setImageResource(R.drawable.no_search);
             }
             else if (result.get(0).type == LyricsRes.Type.FAV) {
                 img.setImageResource(R.drawable.no_fav);
             }
             else{
-                new DownloadImageTask(img)
-                        .execute(result.get(position).imageURL);
+                if (result.get(position).image == null){
+                    new DownloadImageTask(img)
+                            .execute(result.get(position).imageURL);
+                }
+                else{
+                    img.setImageBitmap(result.get(position).image);
+                }
             }
 
         } else {

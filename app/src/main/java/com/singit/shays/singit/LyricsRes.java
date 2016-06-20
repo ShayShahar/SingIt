@@ -23,6 +23,8 @@ public class LyricsRes implements Serializable
         this.title = Title;
         this.artist = Artist;
         this.type = type;
+        this.thumbnail = null;
+        this.image = null;
     }
 
     /**
@@ -43,6 +45,8 @@ public class LyricsRes implements Serializable
         this.id= id;
         this.thumbnailURL= thumbnailURL;
         this.type = Type.LYRICS;
+        this.thumbnail = null;
+        this.image = null;
     }
 
     LyricsRes (String Title, String Artist, String Lyrics, String imageURL,

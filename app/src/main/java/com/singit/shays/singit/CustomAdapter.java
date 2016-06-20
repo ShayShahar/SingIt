@@ -41,8 +41,13 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
         TextView artistText = (TextView) customView.findViewById(R.id.artistText);
         TextView songText = (TextView) customView.findViewById(R.id.songText);
         de.hdodenhof.circleimageview.CircleImageView artistImage = (de.hdodenhof.circleimageview.CircleImageView) customView.findViewById(R.id.profile_image);
-        new DownloadImageTask(artistImage)
-                .execute(result.thumbnailURL);
+        if (result.thumbnail == null){
+            new DownloadImageTask(artistImage)
+                    .execute(result.thumbnailURL);
+        }
+        else{
+            artistImage.setImageBitmap(result.thumbnail);
+        }
         artistText.setText(result.artist);
         songText.setText(result.title);
 

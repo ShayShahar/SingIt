@@ -116,7 +116,7 @@ public class FavoritesViewActivity extends AppCompatActivity {
                 adb.setTitle("Delete?");
                 LyricsRes item = (LyricsRes)list.getItemAtPosition(position);
                 adb.setMessage("Are you sure you want to delete " +item.artist+" "+item.title+"?" );
-                final int positionToRemove = position;
+                //final int positionToRemove = position;
                 adb.setNegativeButton("Cancel", null);
                 adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

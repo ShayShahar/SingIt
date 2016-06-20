@@ -26,14 +26,17 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
     Bitmap bmp;
     private static final String TAG = "SingDebug";
     private int lastPosition = -1;
+    private SingItDBHelper dbHelper;
+    private Context context;
 
-    CustomAdapter(Context context, ArrayList<LyricsRes> details){
+    CustomAdapter(Context context,ArrayList<LyricsRes> details){
         super(context,R.layout.custom_row,details);
+        this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        dbHelper = new SingItDBHelper(context);
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.custom_row,parent,false);
         final LyricsRes result = getItem(position);
@@ -41,13 +44,16 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
         TextView artistText = (TextView) customView.findViewById(R.id.artistText);
         TextView songText = (TextView) customView.findViewById(R.id.songText);
         de.hdodenhof.circleimageview.CircleImageView artistImage = (de.hdodenhof.circleimageview.CircleImageView) customView.findViewById(R.id.profile_image);
-        if (result.thumbnail == null){
+        Bitmap bmp2 = dbHelper.get_thumbnail(result.id);
+
+        if (bmp2 == null){
             new DownloadImageTask(artistImage)
                     .execute(result.thumbnailURL);
         }
         else{
-            artistImage.setImageBitmap(result.thumbnail);
+            artistImage.setImageBitmap(bmp2);
         }
+
         artistText.setText(result.artist);
         songText.setText(result.title);
 

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class CustomGrid extends BaseAdapter {
 
     private static final String TAG = "SingDebug";
+    private SingItDBHelper dbHelper;
     private Context context;
     private ArrayList<LyricsRes> result;
     private ImageView img;
@@ -52,7 +53,7 @@ public class CustomGrid extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Log.d(TAG,"view");
-
+        dbHelper = new SingItDBHelper(context);
         View grid;
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -73,12 +74,14 @@ public class CustomGrid extends BaseAdapter {
                 img.setImageResource(R.drawable.no_fav);
             }
             else{
-                if (result.get(position).image == null){
+                Bitmap bmp = dbHelper.get_image(result.get(position).id);
+
+                if (bmp == null){
                     new DownloadImageTask(img)
                             .execute(result.get(position).imageURL);
                 }
                 else{
-                    img.setImageBitmap(result.get(position).image);
+                    img.setImageBitmap(bmp);
                 }
             }
 

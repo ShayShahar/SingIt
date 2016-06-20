@@ -58,9 +58,12 @@ public class MainActivity extends AppCompatActivity{
                                         int position, long id) {
 
                     LyricsRes selected = last_searches.get(position);
+                    Log.d(TAG,"get last searches click");
                     LyricsRes pass = selected;
                     try {
+                        Log.d(TAG,"in try");
                         pass = api.getLyrics(selected);
+                        Log.d(TAG,"after try");
                     } catch (Exception e) {
                         Log.d(TAG, e.toString());
                     }
@@ -168,9 +171,12 @@ public class MainActivity extends AppCompatActivity{
                                         int position, long id) {
 
                     LyricsRes selected = last_searches.get(position);
+                    Log.d(TAG,"get last searches click");
                     LyricsRes pass = selected;
                     try {
+                        Log.d(TAG,"in try");
                         pass = api.getLyrics(selected);
+                        Log.d(TAG,"after try");
                     } catch (Exception e) {
                         Log.d(TAG, e.toString());
                     }

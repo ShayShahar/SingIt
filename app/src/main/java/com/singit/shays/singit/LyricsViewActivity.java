@@ -19,7 +19,6 @@ import java.io.InputStream;
 
 public class LyricsViewActivity extends AppCompatActivity {
 
-
     private static final String TAG = "SingDebug";
     private LyricsRes lyrics;
     private SingItDBHelper dbHelper;
@@ -29,33 +28,33 @@ public class LyricsViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: lyrics view");
         setContentView(R.layout.activity_lyrics_view2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         fab = (android.support.design.widget.FloatingActionButton)findViewById(R.id.fab);
         dbHelper = new SingItDBHelper(this);
-        Intent intent = getIntent();
         lyrics = (LyricsRes)getIntent().getSerializableExtra("view");
-        if (dbHelper.is_favorite_song(lyrics.id) == DBResult.ITEM_EXISTS)
-        {
+        if (dbHelper.is_favorite_song(lyrics.id) == DBResult.ITEM_EXISTS){
             isFav = true;
             fab.setImageResource(R.drawable.star_gold);
         }
         ImageView image = (ImageView) findViewById(R.id.artistImage);
         TextView show = (TextView) findViewById(R.id.lyricsTextView);
-        TextView arist = (TextView) findViewById(R.id.artistName);
+        TextView artist = (TextView) findViewById(R.id.artistName);
         TextView song = (TextView) findViewById(R.id.songName);
         song.setText(lyrics.title);
-        arist.setText(lyrics.artist);
+        artist.setText(lyrics.artist);
         show.setText(lyrics.lyrics);
-        if (lyrics.image == null){
+
+        Bitmap bmp = dbHelper.get_image(lyrics.id);
+        if(bmp == null){
             new DownloadImageTask(image)
                     .execute(lyrics.imageURL);
         }
         else {
-            image.setImageBitmap(lyrics.image);
+            image.setImageBitmap(bmp);
         }
-
     }
 
     @Override
@@ -70,7 +69,7 @@ public class LyricsViewActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -84,7 +83,6 @@ public class LyricsViewActivity extends AppCompatActivity {
 
         }
         else{
-            //leave null right now
             if (dbHelper.insert_song_to_favorites_table(lyrics,null,null) == DBResult.OK){
                 Toast.makeText(getApplicationContext(),"Lyrics added to favorites!",Toast.LENGTH_LONG).show();
                 isFav = true;
@@ -92,7 +90,6 @@ public class LyricsViewActivity extends AppCompatActivity {
             }
         }
     }
-
 
     class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;

@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.singit.shays.singit.language.Language;
+import com.singit.shays.singit.translate.Translate;
+
 import java.io.InputStream;
 
 public class LyricsViewActivity extends AppCompatActivity {
@@ -85,6 +88,20 @@ public class LyricsViewActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.menu_translate){
+
+            try{
+                Log.d(TAG,"translate");
+                String translate = show.getText().toString();
+                Translate.setKey(ApiKeys.YANDEX_API_KEY);
+                String translatedText = Translate.execute(translate, Language.ENGLISH, Language.HEBREW);
+                show.setText(translatedText);
+            }catch(Exception e){
+                Log.d(TAG,e.toString());
+            }
+
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

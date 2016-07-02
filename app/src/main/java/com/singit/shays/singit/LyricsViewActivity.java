@@ -24,6 +24,9 @@ public class LyricsViewActivity extends AppCompatActivity {
     private SingItDBHelper dbHelper;
     private boolean isFav = false;
     private android.support.design.widget.FloatingActionButton fab;
+    TextView show;
+    TextView artist;
+    TextView song;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +43,9 @@ public class LyricsViewActivity extends AppCompatActivity {
             fab.setImageResource(R.drawable.star_gold);
         }
         ImageView image = (ImageView) findViewById(R.id.artistImage);
-        TextView show = (TextView) findViewById(R.id.lyricsTextView);
-        TextView artist = (TextView) findViewById(R.id.artistName);
-        TextView song = (TextView) findViewById(R.id.songName);
+        show = (TextView) findViewById(R.id.lyricsTextView);
+        artist = (TextView) findViewById(R.id.artistName);
+        song = (TextView) findViewById(R.id.songName);
         song.setText(lyrics.title);
         artist.setText(lyrics.artist);
         show.setText(lyrics.lyrics);
@@ -69,6 +72,18 @@ public class LyricsViewActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_share) {
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, show.getText());
+            intent.putExtra(Intent.EXTRA_SUBJECT,"Share " + song + " By " + artist);
+            this.startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

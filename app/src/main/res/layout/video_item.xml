@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:weightSum="1">
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/video_thumbnail"
+            android:layout_width="120dp"
+            android:layout_height="70dp"
+            android:src="@drawable/no_img"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/playImg"
+            android:layout_gravity="right|bottom"
+            android:layout_weight="0.53"
+            android:src="@drawable/play_icon" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Video Name"
+            android:id="@+id/video_title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:maxLines="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Description"
+            android:id="@+id/video_description"
+            android:layout_marginLeft="10dp"
+            android:textSize="12dp"
+            android:textColor="@color/hint_foreground_material_light"
+            android:layout_marginTop="5dp"
+            android:maxLines="2"
+            android:nestedScrollingEnabled="false"
+            android:maxLength="150"
+            android:textIsSelectable="false"
+            android:minLines="2" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/darker_gray"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="25dp"
+            android:clickable="true" />
+    </LinearLayout>
+
+
+</LinearLayout>

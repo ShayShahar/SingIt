@@ -25,6 +25,4 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile 'org.json:json:20160212'
-    compile files('libs/google-api-services-youtube-v3-rev176-1.22.0.jar')
 }

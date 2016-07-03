@@ -5,20 +5,26 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.singit.shays.singit.language.Language;
 import com.singit.shays.singit.translate.Translate;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
+import java.util.List;
 
 public class LyricsViewActivity extends AppCompatActivity {
 
@@ -91,7 +97,7 @@ public class LyricsViewActivity extends AppCompatActivity {
         if (id == R.id.menu_translate){
 
             try{
-                Log.d(TAG,"translate");
+                Log.d(TAG,"translate request");
                 String translate = show.getText().toString();
                 Translate.setKey(ApiKeys.YANDEX_API_KEY);
                 String translatedText = Translate.execute(translate, Language.ENGLISH, Language.HEBREW);
@@ -102,6 +108,16 @@ public class LyricsViewActivity extends AppCompatActivity {
 
             return true;
         }
+
+        if (id == R.id.menu_youtube){
+            Intent intent = new Intent(LyricsViewActivity.this, VideoSuggestionsActivity.class);
+            String qury = artist.getText().toString() + " " + song.getText().toString();
+            Log.d(TAG,"[Video request] " + qury);
+            intent.putExtra("query", qury);
+            startActivity(intent);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -147,4 +163,5 @@ public class LyricsViewActivity extends AppCompatActivity {
             bmImage.setImageBitmap(result);
         }
     }
+
 }

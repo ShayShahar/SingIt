@@ -10,7 +10,4 @@
     app:titleTextColor="#ffffff"
     app:theme="@style/ToolbarColoredBackArrow"
     >
-
-
-
 </android.support.v7.widget.Toolbar>

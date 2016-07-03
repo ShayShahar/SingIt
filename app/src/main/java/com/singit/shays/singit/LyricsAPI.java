@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LyricsAPI {
-    private final String API_KEY = "e971f3a40404f1b0eacaa5e567b28736";
+
     private final String baseURL = "http://api.musixmatch.com/ws/1.1/";
     private static final String TAG = "SingDebug";
     private static HashMap<Integer,LyricsRes> lyricsCache = new HashMap<Integer,LyricsRes>();
@@ -48,7 +48,7 @@ public class LyricsAPI {
             return searchesCache.get(query);
         }
         String encodedQuery = URLEncoder.encode(query, "UTF-8");
-        String searchURL = baseURL + "track.search?apikey="+this.API_KEY+"&f_has_lyrics=1&s_artist_rating=desc&s_track_rating=desc&q=" + encodedQuery;
+        String searchURL = baseURL + "track.search?apikey="+ApiKeys.LYRICS_API_KEY+"&f_has_lyrics=1&s_artist_rating=desc&s_track_rating=desc&q=" + encodedQuery;
         String json = httpRequest(searchURL);
         List<LyricsRes> resList = extractList(json);
         searchesCache.put(query, resList);
@@ -67,7 +67,7 @@ public class LyricsAPI {
         {
             return lyricsCache.get(song.id);
         }
-        String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+this.API_KEY;
+        String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+ApiKeys.LYRICS_API_KEY;
         String json = httpRequest(lyricsURL);
         JSONObject jsnOb = new JSONObject(json);
 

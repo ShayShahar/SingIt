@@ -55,16 +55,14 @@
             android:name=".FavoritesViewActivity"
             android:label="@string/title_activity_favorites_view"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MoreSearchesActivity"
-            android:label="@string/more_searches_activity_name"
-
-            >
-
+        <activity
+            android:name=".MoreSearchesActivity"
+            android:label="@string/more_searches_activity_name">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".SearchResultsActivity" />
-
         </activity>
+        <activity android:name=".VideoSuggestionsActivity"></activity>
     </application>
 
 </manifest>

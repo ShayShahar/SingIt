@@ -1,5 +1,6 @@
 package com.singit.shays.singit;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -29,6 +31,7 @@ public class VideoSuggestionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_suggestions);
         videosFound = (ListView)findViewById(R.id.videos_found);
+        addClickListener();
         String query = getIntent().getStringExtra("query");
         Log.d(TAG,"[Query recieved] " + query);
         handler = new Handler();
@@ -73,5 +76,17 @@ public class VideoSuggestionsActivity extends AppCompatActivity {
         };
 
         videosFound.setAdapter(adapter);
+    }
+
+    private void addClickListener(){
+        videosFound.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> av, View v, int pos, long id) {
+                Intent intent = new Intent(VideoSuggestionsActivity.this, PlayerActivity.class);
+                intent.putExtra("VIDEO_ID", searchResults.get(pos).getId());
+                startActivity(intent);
+            }
+        });
     }
 }

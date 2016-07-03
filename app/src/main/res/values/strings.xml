@@ -32,6 +32,7 @@
     <string name="more_searches_activity_name">Last Searches</string>
     <string name="image_directory">image_directory</string>
     <string name="video_suggest">Video Suggestions</string>
+    <string name="failed">Failed to load video</string>
 
 
 

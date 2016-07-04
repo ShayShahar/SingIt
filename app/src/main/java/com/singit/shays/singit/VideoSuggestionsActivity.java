@@ -84,7 +84,7 @@ public class VideoSuggestionsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int pos, long id) {
                 Intent intent = new Intent(VideoSuggestionsActivity.this, PlayerActivity.class);
-                intent.putExtra("VIDEO_ID", searchResults.get(pos).getId());
+                intent.putExtra("videoItm", searchResults.get(pos));
                 startActivity(intent);
             }
         });

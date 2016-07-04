@@ -1,9 +1,11 @@
 package com.singit.shays.singit;
 
+import java.io.Serializable;
+
 /**
  * Created by shays on 03/07/2016.
  */
-public class VideoItem {
+public class VideoItem implements Serializable {
 
     private String title;
     private String description;

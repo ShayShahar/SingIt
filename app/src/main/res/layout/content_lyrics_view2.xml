@@ -16,7 +16,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Song Name"
             android:id="@+id/songName"
@@ -26,6 +26,7 @@
             android:textSize="25dp"
             android:layout_weight="0.02"
             android:paddingTop="20dp"
+            android:paddingBottom="20dp"
             android:textAlignment="viewStart"
             android:paddingRight="15dp" />
 

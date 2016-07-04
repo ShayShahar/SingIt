@@ -11,7 +11,6 @@
     <string name="lastFavHint">מציג את המועדפים שנוספו לאחרונה</string>
     <string name="lastSearchesHint">מציג את החיפושים האחרונים</string>
     <string name="last_fav_txt">מועדפים חדשים</string>
-    <string name="last_searches" translatable="false"></string>
     <string name="last_searches_txt">חיפושים אחרונים</string>
     <string name="lyrics">מילים</string>
     <string name="more">עוד</string>
@@ -24,7 +23,6 @@
     <string name="title_activity_favorites_view">מועדפים</string>
     <string name="title_activity_search_view">תוצאות חיפוש</string>
     <string name="translate">תרגום</string>
-    <string name="translated_lyrics"></string>
     <string name="video_clip">וידאו</string>
     <string name="video_name_row">שם הוידאו</string>
     <string name="video_suggest">הצעות וידאו</string>

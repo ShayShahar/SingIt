@@ -49,6 +49,13 @@
     <string name="showing_results_for">Showing Results For</string>
     <string name="added_to_favorites">Lyrics removed from favorites</string>
     <string name="removed_from_favorites">Lyrics removed from favorites</string>
+    <string name="singit_application_about">SingIt application has developed as a final project for Android Development Course No. 61946 at Ort Braude College by Tomer Gal.</string>
+    <string name="developers">Developers:</string>
+    <string name="shay_shahar">Shay Shahar</string>
+    <string name="contact">Contact</string>
+    <string name="simon_raviv">Simon Raviv</string>
+    <string name="carmel_avni">Carmel Avni</string>
+    <string name="dalit_bitan">Dalit Bitan</string>
 
 
 </resources>

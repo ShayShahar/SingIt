@@ -1,8 +1,10 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.view;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.singit.shays.singit.R;
 
 
 public class SplashScreen extends Activity {

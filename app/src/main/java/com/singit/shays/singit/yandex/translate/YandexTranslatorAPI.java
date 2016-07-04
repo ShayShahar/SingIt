@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.singit.shays.singit;
+package com.singit.shays.singit.yandex.translate;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

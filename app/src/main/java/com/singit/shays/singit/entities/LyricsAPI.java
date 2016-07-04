@@ -1,11 +1,7 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.entities;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
-import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,7 +9,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -48,7 +43,7 @@ public class LyricsAPI {
             return searchesCache.get(query);
         }
         String encodedQuery = URLEncoder.encode(query, "UTF-8");
-        String searchURL = baseURL + "track.search?apikey="+ApiKeys.LYRICS_API_KEY+"&f_has_lyrics=1&s_artist_rating=desc&s_track_rating=desc&q=" + encodedQuery;
+        String searchURL = baseURL + "track.search?apikey="+ Config.LYRICS_API_KEY+"&f_has_lyrics=1&s_artist_rating=desc&s_track_rating=desc&q=" + encodedQuery;
         String json = httpRequest(searchURL);
         List<LyricsRes> resList = extractList(json);
         searchesCache.put(query, resList);
@@ -63,19 +58,19 @@ public class LyricsAPI {
      * @throws JSONException
      */
     public LyricsRes getLyrics(LyricsRes song) throws IOException, JSONException {
-        if (lyricsCache.containsKey(song.id)) // check if exist in the lyricsCache
+        if (lyricsCache.containsKey(song.getId())) // check if exist in the lyricsCache
         {
-            return lyricsCache.get(song.id);
+            return lyricsCache.get(song.getId());
         }
-        String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.id+"&apikey="+ApiKeys.LYRICS_API_KEY;
+        String lyricsURL = baseURL + "track.lyrics.get?track_id="+song.getId()+"&apikey="+ Config.LYRICS_API_KEY;
         String json = httpRequest(lyricsURL);
         JSONObject jsnOb = new JSONObject(json);
 
-        song.lyrics =jsnOb.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
-        song.lyrics = song.lyrics.split("\\*\\*\\*\\*\\*\\*\\*")[0];
+        song.setLyrics(jsnOb.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body"));
+        song.setLyrics(song.getLyrics().split("\\*\\*\\*\\*\\*\\*\\*")[0]);
 
         //add song to cache
-        lyricsCache.put(song.id, song);
+        lyricsCache.put(song.getId(), song);
         return song;
     }
 
@@ -93,8 +88,10 @@ public class LyricsAPI {
         List<LyricsRes> listRes = new ArrayList<LyricsRes>();
         for (int i=0; i<arrayOfJacksons.length(); i++)
         {
+
             JSONObject track = arrayOfJacksons.getJSONObject(i).getJSONObject("track");
-            LyricsRes tmp= new LyricsRes (track.getString("track_name"), track.getString("artist_name"), "", track.getString("album_coverart_500x500"), track.getString("album_coverart_100x100"), track.getInt("track_id") );
+            Log.d("Search",track.getString("track_name"));
+            LyricsRes tmp = new LyricsRes (track.getString("track_name"), track.getString("artist_name"), "", track.getString("album_coverart_500x500"), track.getString("album_coverart_100x100"), track.getInt("track_id") );
             listRes.add (tmp);
         }
 

@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.singit.shays.singit.translate;
+package com.singit.shays.singit.yandex.translate;
 
 import java.net.URL;
 import java.net.URLEncoder;
 
-import com.singit.shays.singit.ApiKeys;
-import com.singit.shays.singit.YandexTranslatorAPI;
-import com.singit.shays.singit.language.Language;
+import com.singit.shays.singit.entities.Config;
+import com.singit.shays.singit.yandex.translate.language.Language;
 
 /**
  * Makes calls to the Yandex machine translation web service API
@@ -45,7 +44,7 @@ public final class Translate extends YandexTranslatorAPI {
   public static String execute(final String text, final Language from, final Language to) throws Exception {
     validateServiceState(text); 
     final String params = 
-        PARAM_API_KEY + URLEncoder.encode(ApiKeys.YANDEX_API_KEY,ENCODING)
+        PARAM_API_KEY + URLEncoder.encode(Config.YANDEX_API_KEY,ENCODING)
         + PARAM_LANG_PAIR + URLEncoder.encode(from.toString(),ENCODING) + URLEncoder.encode("-",ENCODING) + URLEncoder.encode(to.toString(),ENCODING) 
         + PARAM_TEXT + URLEncoder.encode(text,ENCODING);
     final URL url = new URL(SERVICE_URL + params);

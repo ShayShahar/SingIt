@@ -1,4 +1,4 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.entities;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,7 +18,7 @@ import java.util.HashMap;
  * Created by lions on 07/05/2016.
  */
 
-class SingItDBHelper extends SQLiteOpenHelper {
+public class SingItDBHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DBDebug";
     private static final String DB_NAME = "SingItDataBase.db";
@@ -269,12 +269,12 @@ class SingItDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
 
-        song_values.put(SONG_id, lyrics.id);
-        song_values.put(ARTIST_NAME, lyrics.artist);
-        song_values.put(SONG_NAME, lyrics.title);
-        song_values.put(LYRICS, lyrics.lyrics);
-        song_values.put(IMAGE_URL, lyrics.imageURL);
-        song_values.put(THUMBNAIL_URL, lyrics.thumbnailURL);
+        song_values.put(SONG_id, lyrics.getId());
+        song_values.put(ARTIST_NAME, lyrics.getArtist());
+        song_values.put(SONG_NAME, lyrics.getTitle());
+        song_values.put(LYRICS, lyrics.getLyrics());
+        song_values.put(IMAGE_URL, lyrics.getImageURL());
+        song_values.put(THUMBNAIL_URL, lyrics.getThumbnailURL());
 
         Thread t = new Thread(new SaveRunnable(this, lyrics, image, thumbnail));
         t.start();
@@ -302,12 +302,12 @@ class SingItDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues song_values = new ContentValues();
 
-        song_values.put(SONG_id, lyrics.id);
-        song_values.put(ARTIST_NAME, lyrics.artist);
-        song_values.put(SONG_NAME, lyrics.title);
-        song_values.put(LYRICS, lyrics.lyrics);
-        song_values.put(IMAGE_URL, lyrics.imageURL);
-        song_values.put(THUMBNAIL_URL, lyrics.thumbnailURL);
+        song_values.put(SONG_id, lyrics.getId());
+        song_values.put(ARTIST_NAME, lyrics.getArtist());
+        song_values.put(SONG_NAME, lyrics.getTitle());
+        song_values.put(LYRICS, lyrics.getLyrics());
+        song_values.put(IMAGE_URL, lyrics.getImageURL());
+        song_values.put(THUMBNAIL_URL, lyrics.getThumbnailURL());
 
         Thread t = new Thread(new SaveRunnable(this, lyrics, image, thumbnail));
         t.start();
@@ -315,7 +315,7 @@ class SingItDBHelper extends SQLiteOpenHelper {
         try {
             db.insertOrThrow(LAST_SEARCHES_TABLE, null, song_values);
         } catch (SQLiteConstraintException e) {
-            delete_song_by_song_id(LAST_SEARCHES_TABLE, lyrics.id);
+            delete_song_by_song_id(LAST_SEARCHES_TABLE, lyrics.getId());
             insert_song_to_last_searches_table(lyrics, null, null);
         }
         return DBResult.OK;
@@ -489,13 +489,6 @@ class SingItDBHelper extends SQLiteOpenHelper {
         result.close();
         return DBResult.ITEM_EXISTS;
     }
-}
-
-/**
- * DBResult enum for DB returned value for error handling.
- */
-enum DBResult {
-    GENERIC_ERROR, OK, ITEM_NOT_EXISTS_ERROR, ITEM_NOT_EXISTS, ITEM_EXISTS
 }
 
 

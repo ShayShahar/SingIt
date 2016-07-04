@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main"
-    tools:context="com.singit.shays.singit.MainActivity">
+    tools:context=".view.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                             android:layout_height="22dp"
                             android:text="@string/more"
                             android:id="@+id/moreSearches"
-                            android:hint="More Searches"
+                            android:hint="@string/more_searches"
                             android:onClick="onMoreSearchesButtonClick"
                             android:enabled="true"
                             android:textSize="11.5dp"
@@ -68,10 +68,10 @@
                             android:elevation="1dp"
                             android:shadowColor="#000000"
                             android:translationZ="3.5dp"
-                            android:layout_gravity="top|right"
                             android:layout_marginLeft="190dp"
                             android:foreground="?android:attr/selectableItemBackground"
-                            android:clickable="true"/>
+                            android:clickable="true"
+                            android:layout_marginRight="95dp" />
 
                     </LinearLayout>
 
@@ -90,7 +90,7 @@
             </LinearLayout>
 
 
-            <com.singit.shays.singit.MyGridView
+            <com.singit.shays.singit.view.MyGridView
                 android:id="@+id/gridView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                 android:layout_marginTop="15dp"
                 android:translationZ="@dimen/abc_action_bar_default_padding_start_material">
 
-            </com.singit.shays.singit.MyGridView>
+            </com.singit.shays.singit.view.MyGridView>
 
 
             <LinearLayout
@@ -139,7 +139,7 @@
                             android:layout_height="22dp"
                             android:text="@string/more"
                             android:id="@+id/moreFav"
-                            android:hint="More Favorites"
+                            android:hint="@string/more_favorites"
                             android:onClick="onMoreFavButtonClick"
                             android:enabled="true"
                             android:textSize="11.5dp"
@@ -150,9 +150,10 @@
                             android:shadowColor="#000000"
                             android:translationZ="3.5dp"
                             android:layout_gravity="top|right"
-                            android:layout_marginLeft="190dp"
                             android:foreground="?android:attr/selectableItemBackground"
-                            android:clickable="true"/>
+                            android:clickable="true"
+                            android:layout_marginRight="100dp"
+                            android:layout_marginLeft="190dp" />
 
                     </LinearLayout>
 
@@ -171,7 +172,7 @@
             </LinearLayout>
 
 
-            <com.singit.shays.singit.MyGridView
+            <com.singit.shays.singit.view.MyGridView
                 android:id="@+id/gridView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -181,7 +182,7 @@
                 android:layout_marginTop="15dp"
                 android:translationZ="@dimen/abc_action_bar_default_padding_start_material">
 
-            </com.singit.shays.singit.MyGridView>
+            </com.singit.shays.singit.view.MyGridView>
 
         </LinearLayout>
     </ScrollView>

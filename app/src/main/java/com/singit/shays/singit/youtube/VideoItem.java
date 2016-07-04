@@ -1,4 +1,4 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.youtube;
 
 import java.io.Serializable;
 

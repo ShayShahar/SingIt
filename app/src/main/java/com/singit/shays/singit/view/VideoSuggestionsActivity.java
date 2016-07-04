@@ -1,4 +1,4 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.view;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -13,7 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import com.singit.shays.singit.R;
+import com.singit.shays.singit.youtube.VideoItem;
+import com.singit.shays.singit.youtube.YoutubeConnector;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

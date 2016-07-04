@@ -1,30 +1,28 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.view;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.singit.shays.singit.language.Language;
-import com.singit.shays.singit.translate.Translate;
-import com.squareup.picasso.Picasso;
+import com.singit.shays.singit.R;
+import com.singit.shays.singit.entities.Config;
+import com.singit.shays.singit.entities.DBResult;
+import com.singit.shays.singit.entities.LyricsRes;
+import com.singit.shays.singit.entities.SingItDBHelper;
+import com.singit.shays.singit.yandex.translate.language.Language;
+import com.singit.shays.singit.yandex.translate.Translate;
 
 import java.io.InputStream;
-import java.util.List;
 
 public class LyricsViewActivity extends AppCompatActivity {
 
@@ -47,7 +45,7 @@ public class LyricsViewActivity extends AppCompatActivity {
         fab = (android.support.design.widget.FloatingActionButton)findViewById(R.id.fab);
         dbHelper = new SingItDBHelper(this);
         lyrics = (LyricsRes)getIntent().getSerializableExtra("view");
-        if (dbHelper.is_favorite_song(lyrics.id) == DBResult.ITEM_EXISTS){
+        if (dbHelper.is_favorite_song(lyrics.getId()) == DBResult.ITEM_EXISTS){
             isFav = true;
             fab.setImageResource(R.drawable.star_gold);
         }
@@ -55,14 +53,14 @@ public class LyricsViewActivity extends AppCompatActivity {
         show = (TextView) findViewById(R.id.lyricsTextView);
         artist = (TextView) findViewById(R.id.artistName);
         song = (TextView) findViewById(R.id.songName);
-        song.setText(lyrics.title);
-        artist.setText(lyrics.artist);
-        show.setText(lyrics.lyrics);
+        song.setText(lyrics.getTitle());
+        artist.setText(lyrics.getArtist());
+        show.setText(lyrics.getLyrics());
 
-        Bitmap bmp = dbHelper.get_image(lyrics.id);
+        Bitmap bmp = dbHelper.get_image(lyrics.getId());
         if(bmp == null){
             new DownloadImageTask(image)
-                    .execute(lyrics.imageURL);
+                    .execute(lyrics.getImageURL());
         }
         else {
             image.setImageBitmap(bmp);
@@ -99,7 +97,7 @@ public class LyricsViewActivity extends AppCompatActivity {
             try{
                 Log.d(TAG,"translate request");
                 String translate = show.getText().toString();
-                Translate.setKey(ApiKeys.YANDEX_API_KEY);
+                Translate.setKey(Config.YANDEX_API_KEY);
                 String translatedText = Translate.execute(translate, Language.ENGLISH, Language.HEBREW);
                 show.setText(translatedText);
             }catch(Exception e){
@@ -124,15 +122,15 @@ public class LyricsViewActivity extends AppCompatActivity {
     public void onClickAddToFavorites(View view) {
 
         if (isFav == true){
-            dbHelper.delete_song_from_favorites(lyrics.id);
+            dbHelper.delete_song_from_favorites(lyrics.getId());
             isFav = false;
             fab.setImageResource(R.drawable.star);
-            Toast.makeText(getApplicationContext(),"Lyrics removed from favorites",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),R.string.removed_from_favorites,Toast.LENGTH_LONG).show();
 
         }
         else{
             if (dbHelper.insert_song_to_favorites_table(lyrics,null,null) == DBResult.OK){
-                Toast.makeText(getApplicationContext(),"Lyrics added to favorites!",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),R.string.added_to_favorites,Toast.LENGTH_LONG).show();
                 isFav = true;
                 fab.setImageResource(R.drawable.star_gold);
             }

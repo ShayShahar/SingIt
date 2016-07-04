@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.singit.shays.singit.detect;
+package com.singit.shays.singit.yandex.translate.detect;
 
 import java.net.URL;
 import java.net.URLEncoder;
 
-import com.singit.shays.singit.ApiKeys;
-import com.singit.shays.singit.YandexTranslatorAPI;
-import com.singit.shays.singit.language.Language;
-import com.singit.shays.singit.translate.Translate;
+import com.singit.shays.singit.entities.Config;
+import com.singit.shays.singit.yandex.translate.YandexTranslatorAPI;
+import com.singit.shays.singit.yandex.translate.language.Language;
 
 /**
  * Provides an interface to the Yandex Translator Detect service method
@@ -59,7 +58,7 @@ public final class Detect extends YandexTranslatorAPI {
     
     public static void main(String[] args) {
       try {
-        setKey(ApiKeys.YANDEX_API_KEY);
+        setKey(Config.YANDEX_API_KEY);
         Language translation = Detect.execute("The quick brown fox jumps over the lazy dog.");
         System.out.println("Detected: " + translation.toString());
       } catch (Exception e) {

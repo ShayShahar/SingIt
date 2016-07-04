@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:id="@+id/drawer_layout_m"
     android:background="#f5f5f5"
-    tools:context="com.singit.shays.singit.MoreSearchesActivity">
+    tools:context=".view.MoreSearchesActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

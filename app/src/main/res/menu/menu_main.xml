@@ -1,9 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.singit.shays.singit.MainActivity" >
+    tools:context=".view.MainActivity" >
 
     <item android:id="@+id/search"
-        android:title="Search"
+        android:title="@string/search"
         android:icon="@drawable/ic_search_2x"
         android:showAsAction="collapseActionView|ifRoom"
         android:actionViewClass="android.widget.SearchView"/>

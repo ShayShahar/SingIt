@@ -1,22 +1,24 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.view;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import com.singit.shays.singit.R;
+import com.singit.shays.singit.adapters.CustomAdapter;
+import com.singit.shays.singit.entities.LyricsAPI;
+import com.singit.shays.singit.entities.LyricsRes;
+import com.singit.shays.singit.entities.SingItDBHelper;
 
 import java.util.ArrayList;
 

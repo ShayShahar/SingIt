@@ -1,9 +1,8 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,14 +13,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.singit.shays.singit.entities.LyricsRes;
+import com.singit.shays.singit.R;
+import com.singit.shays.singit.entities.SingItDBHelper;
 import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
  * Created by shays on 20/05/2016.
  */
-class CustomAdapter extends ArrayAdapter<LyricsRes> {
+public class CustomAdapter extends ArrayAdapter<LyricsRes> {
 
     Bitmap bmp;
     private static final String TAG = "SingDebug";
@@ -29,8 +30,8 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
     private SingItDBHelper dbHelper;
     private Context context;
 
-    CustomAdapter(Context context,ArrayList<LyricsRes> details){
-        super(context,R.layout.custom_row,details);
+    public CustomAdapter(Context context,ArrayList<LyricsRes> details){
+        super(context, R.layout.custom_row,details);
         this.context = context;
     }
 
@@ -44,18 +45,18 @@ class CustomAdapter extends ArrayAdapter<LyricsRes> {
         TextView artistText = (TextView) customView.findViewById(R.id.artistText);
         TextView songText = (TextView) customView.findViewById(R.id.songText);
         de.hdodenhof.circleimageview.CircleImageView artistImage = (de.hdodenhof.circleimageview.CircleImageView) customView.findViewById(R.id.profile_image);
-        Bitmap bmp2 = dbHelper.get_thumbnail(result.id);
+        Bitmap bmp2 = dbHelper.get_thumbnail(result.getId());
 
         if (bmp2 == null){
             new DownloadImageTask(artistImage)
-                    .execute(result.thumbnailURL);
+                    .execute(result.getThumbnailURL());
         }
         else{
             artistImage.setImageBitmap(bmp2);
         }
 
-        artistText.setText(result.artist);
-        songText.setText(result.title);
+        artistText.setText(result.getArtist());
+        songText.setText(result.getTitle());
 
         Animation animation = AnimationUtils.loadAnimation(getContext(),(position>lastPosition)? R.anim.up_from_buttom : R.anim.down_from_top);
         customView.startAnimation(animation);

@@ -1,28 +1,28 @@
 <resources>
     <string name="app_name">SingIt</string>
     <string name="action_settings">Settings</string>
-    <string name="db_name">SingItDataBase.db</string>
+    <string name="db_name" translatable="false">SingItDataBase.db</string>
     <string name="title_activity_lyrics_view"></string>
     <string name="large_text">lyrics here</string>
     <string name="title_activity_search_view">Search Result</string>
     <string name="title_activity_favorites">Favorites</string>
     <string name="title_activity_favorites_view">Favorites</string>
-    <string name="artist_name">artist_name</string>
-    <string name="song_id">song_id</string>
-    <string name="song_name">song_name</string>
+    <string name="artist_name" translatable="false">artist_name</string>
+    <string name="song_id" translatable="false">song_id</string>
+    <string name="song_name" translatable="false">song_name</string>
     <string name="lyrics">lyrics</string>
-    <string name="translated_lyrics">translated_lyrics</string>
-    <string name="image_url">image_url</string>
-    <string name="thumbnail_url">thumbnail_url</string>
-    <string name="image_path">image_path</string>
-    <string name="thumbnail_path">thumbnail_path</string>
-    <string name="songs">songs_table</string>
-    <string name="favorites">favorites_table</string>
-    <string name="last_searches">last_searches_table</string>
+    <string name="translated_lyrics" translatable="false">translated_lyrics</string>
+    <string name="image_url" translatable="false">image_url</string>
+    <string name="thumbnail_url" translatable="false">thumbnail_url</string>
+    <string name="image_path" translatable="false">image_path</string>
+    <string name="thumbnail_path" translatable="false">thumbnail_path</string>
+    <string name="songs" translatable="false">songs_table</string>
+    <string name="favorites" translatable="false">favorites_table</string>
+    <string name="last_searches" translatable="false">last_searches_table</string>
     <string name="title_activity_favorites_no_items_to_show">There is no items to show.</string>
-    <string name="drawer_open">drawer open</string>
-    <string name="drawer_close">drawer close</string>
-    <string name="menu_search" />
+    <string name="drawer_open" translatable="false">drawer open</string>
+    <string name="drawer_close" translatable="false">drawer close</string>
+    <string name="menu_search" translatable="false" />
     <string name="search_hint">Search</string>
     <string name="last_searches_txt">Last Searches</string>
     <string name="last_fav_txt">New Favorites</string>
@@ -30,10 +30,25 @@
     <string name="lastFavHint">Display your recently added favorites</string>
     <string name="more">MORE</string>
     <string name="more_searches_activity_name">Last Searches</string>
-    <string name="image_directory">image_directory</string>
+    <string name="image_directory" translatable="false">image_directory</string>
     <string name="video_suggest">Video Suggestions</string>
     <string name="failed">Failed to load video</string>
-
+    <string name="artist_name_row">Artist Name</string>
+    <string name="song_name_row" translatable="false">Song Name</string>
+    <string name="description_row">Description</string>
+    <string name="video_name_row">Video Name</string>
+    <string name="share">Share</string>
+    <string name="translate">Translate</string>
+    <string name="video_clip">Video Clip</string>
+    <string name="search">Search</string>
+    <string name="favorites_menu">Favorites</string>
+    <string name="about">About</string>
+    <string name="lyrics2">Lyrics</string>
+    <string name="more_searches">More Searches</string>
+    <string name="more_favorites">More Favorites</string>
+    <string name="showing_results_for">Showing Results For</string>
+    <string name="added_to_favorites">Lyrics removed from favorites</string>
+    <string name="removed_from_favorites">Lyrics removed from favorites</string>
 
 
 </resources>

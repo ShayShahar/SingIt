@@ -1,4 +1,4 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.view;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -14,8 +14,14 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.util.Log;
+
+import com.singit.shays.singit.R;
+import com.singit.shays.singit.adapters.CustomGrid;
+import com.singit.shays.singit.entities.LyricsAPI;
+import com.singit.shays.singit.entities.LyricsRes;
+import com.singit.shays.singit.entities.SingItDBHelper;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
@@ -47,8 +53,6 @@ public class MainActivity extends AppCompatActivity{
             emptySearch = new LyricsRes("Make your first Search!","Start singing now", LyricsRes.Type.SEARCH);
             ArrayList<LyricsRes> emptys = new ArrayList<>();
             emptys.add(emptySearch);
-            Log.d(TAG,emptySearch.type.toString());
-            Log.d(TAG,emptys.get(0).artist);
             gridView.setAdapter(new CustomGrid(this, emptys));
         }
         else{
@@ -159,8 +163,6 @@ public class MainActivity extends AppCompatActivity{
             emptySearch = new LyricsRes("Make your first Search!","Start singing now", LyricsRes.Type.SEARCH);
             ArrayList<LyricsRes> emptys = new ArrayList<>();
             emptys.add(emptySearch);
-            Log.d(TAG,emptySearch.type.toString());
-            Log.d(TAG,emptys.get(0).artist);
             gridView.setAdapter(new CustomGrid(this, emptys));
         }
         else{

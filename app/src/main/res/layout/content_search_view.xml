@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SearchResultsActivity"
+    tools:context=".view.SearchResultsActivity"
     tools:showIn="@layout/activity_search_view">
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Showing Results For"
+            android:text="@string/showing_results_for"
             android:id="@+id/resultText"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
@@ -28,7 +28,8 @@
             android:textStyle="bold"
             android:layout_marginLeft="8dp"
             android:layout_marginBottom="8dp"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_marginRight="8dp" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.singit.shays.singit.language;
+package com.singit.shays.singit.yandex.translate.language;
 
 /**
  * Language - an enum of language codes supported by the Yandex API

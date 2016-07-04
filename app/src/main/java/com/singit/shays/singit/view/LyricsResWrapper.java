@@ -1,4 +1,6 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.view;
+
+import com.singit.shays.singit.entities.LyricsRes;
 
 import java.io.Serializable;
 import java.util.ArrayList;

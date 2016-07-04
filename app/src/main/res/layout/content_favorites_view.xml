@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.singit.shays.singit.FavoritesViewActivity"
+    tools:context=".view.FavoritesViewActivity"
     tools:showIn="@layout/activity_favorites_view">
 
     <ListView
@@ -23,5 +23,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="70dp"
         android:layout_marginLeft="10dp"
-        android:text="@string/title_activity_favorites_no_items_to_show"/>
+        android:text="@string/title_activity_favorites_no_items_to_show"
+        android:layout_marginRight="10dp" />
 </RelativeLayout>

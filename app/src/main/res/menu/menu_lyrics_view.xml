@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.singit.shays.singit.LyricsViewActivity">
+    tools:context=".view.LyricsViewActivity">
     <item
         android:id="@+id/menu_item_share"
         app:showAsAction="always"
-        android:title="Share"
+        android:title="@string/share"
         android:icon="@drawable/ic_share_white_48dp"
         android:actionProviderClass=
             "android.widget.ShareActionProvider" />
@@ -13,13 +13,13 @@
     <item
         android:id="@+id/menu_translate"
         app:showAsAction="always"
-        android:title="Translate"
+        android:title="@string/translate"
         android:icon="@drawable/ic_g_translate_white_48dp" />
 
     <item
         android:id="@+id/menu_youtube"
         app:showAsAction="always"
-        android:title="Video Clip"
+        android:title="@string/video_clip"
         android:icon="@drawable/ic_music_video_white_48dp"
 />
 </menu>

@@ -27,7 +27,6 @@
                 android:layout_width="120dp"
                 android:layout_height="16dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
                 android:id="@+id/songNameGrid"
                 android:textSize="12dp"
                 android:layout_marginLeft="5dp" />
@@ -36,7 +35,6 @@
                 android:layout_width="120dp"
                 android:layout_height="13dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Small Text"
                 android:id="@+id/artistNameGrid"
                 android:layout_below="@+id/songNameGrid"
                 android:textSize="10dp"

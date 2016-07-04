@@ -1,16 +1,13 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.view;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -19,11 +16,15 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.singit.shays.singit.R;
+import com.singit.shays.singit.adapters.CustomAdapter;
+import com.singit.shays.singit.entities.LyricsAPI;
+import com.singit.shays.singit.entities.LyricsRes;
+import com.singit.shays.singit.entities.SingItDBHelper;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -94,15 +95,13 @@ public class SearchResultsActivity extends AppCompatActivity {
                     Log.d(TAG,"On item click..");
                     LyricsRes selected = search.get(position);
                     LyricsRes pass = selected;
-                    Log.d(TAG,selected.artist);
-                    Log.d(TAG,Integer.toString(selected.id));
                     try{
                         pass = api.getLyrics(search.get(position));
                         curr = pass;
                     }catch(Exception e){
                         Log.d(TAG,e.toString());
                     }
-                    new DownloadImageTask().execute(pass.thumbnailURL,pass.imageURL);
+                    new DownloadImageTask().execute(pass.getThumbnailURL(),pass.getImageURL());
                     Intent intent = new Intent(SearchResultsActivity.this,LyricsViewActivity.class);
                     intent.putExtra("view",pass);
                     startActivity(intent);
@@ -130,10 +129,8 @@ public class SearchResultsActivity extends AppCompatActivity {
                 in = new java.net.URL(img).openStream();
                 mIcon12 = BitmapFactory.decodeStream(in);
                 bmp2 = mIcon12;
-                Log.d(TAG,"image set");
 
             } catch (Exception e) {
-                Log.d(TAG,"no image");
                 e.printStackTrace();
             }
 

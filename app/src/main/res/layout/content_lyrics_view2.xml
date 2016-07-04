@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.singit.shays.singit.LyricsViewActivity"
+    tools:context=".view.LyricsViewActivity"
     tools:showIn="@layout/activity_lyrics_view2">
 
     <LinearLayout
@@ -26,7 +26,8 @@
             android:textSize="25dp"
             android:layout_weight="0.02"
             android:paddingTop="20dp"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:paddingRight="15dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -39,19 +40,21 @@
             android:textColor="#f4f4f4"
             android:textSize="20dp"
             android:paddingLeft="15dp"
-            android:paddingTop="8dp" />
+            android:paddingTop="8dp"
+            android:paddingRight="15dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Lyrics"
+            android:text="@string/lyrics2"
             android:id="@+id/textView"
             android:layout_weight="0.02"
             android:paddingLeft="15dp"
             android:paddingTop="8dp"
             android:textColor="#d81b60"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingRight="15dp" />
 
         <TextView
             android:layout_width="match_parent"

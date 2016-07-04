@@ -1,16 +1,14 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.entities;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.concurrent.Callable;
 
 /**
  * Created by lions on 05/06/2016.
@@ -98,27 +96,7 @@ class SaveRunnable implements Runnable
 
     public void run()
     {
-        db.save_image(SingItDBHelper.getImageDir(), String.valueOf(lyrics.id), image);
-        db.save_image(SingItDBHelper.getThumbnailDir(), String.valueOf(lyrics.id), thumbnail);
+        db.save_image(SingItDBHelper.getImageDir(), String.valueOf(lyrics.getId()), image);
+        db.save_image(SingItDBHelper.getThumbnailDir(), String.valueOf(lyrics.getId()), thumbnail);
     }
 }
-
-//class LoadCallable implements Callable<Bitmap>
-//{
-//    private SingItDBHelper db;
-//    private String dictionary;
-//    private String song_id;
-//
-//    public LoadCallable(SingItDBHelper db, String dictionary, String song_id)
-//    {
-//        this.db = db;
-//        this.dictionary = dictionary;
-//        this.song_id = song_id;
-//    }
-//
-//    @Override public Bitmap call()
-//            throws Exception
-//    {
-//        return db.load_picture(dictionary,song_id);
-//    }
-//}

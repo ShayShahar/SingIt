@@ -1,4 +1,4 @@
-package com.singit.shays.singit;
+package com.singit.shays.singit.youtube;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
+import com.singit.shays.singit.entities.Config;
+import com.singit.shays.singit.R;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,7 @@ public class YoutubeConnector {
 
         try {
             query = youtube.search().list("id,snippet");
-            query.setKey(ApiKeys.YOUTUBE_API_KEY);
+            query.setKey(Config.YOUTUBE_API_KEY);
             query.setType("video");
             query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url)");
         } catch (IOException e) {

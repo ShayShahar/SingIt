@@ -56,6 +56,8 @@
     <string name="simon_raviv">Simon Raviv</string>
     <string name="carmel_avni">Carmel Avni</string>
     <string name="dalit_bitan">Dalit Bitan</string>
+    <string name="credits">Credits:</string>
+    <string name="credits_info" translatable="false">MusicMatch\nYandex\nYoutube</string>
 
 
 </resources>

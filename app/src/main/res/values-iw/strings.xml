@@ -32,11 +32,12 @@
     <string name="showing_results_for">מציג תוצאות עבור</string>
     <string name="removed_from_favorites">הוסר מהמועדפים</string>
     <string name="added_to_favorites">המילים נוספו לרשימת המועדפים</string>
-    <string name="developers">מפתחים:</string>
+    <string name="developers">מפתחים</string>
     <string name="dalit_bitan">דלית ביתאן</string>
     <string name="carmel_avni">כרמל אבני</string>
     <string name="contact">צור קשר</string>
     <string name="shay_shahar">שי שחר</string>
     <string name="simon_raviv">סימון רביב</string>
-    <string name="singit_application_about">האפליקציה פותחה כפרויקט סוף של קורס פיתוח אנדרואיד במכללת אורט בראודה, הקורס עובר ע"י תומר גל.</string>
+    <string name="singit_application_about">האפליקציה פותחה כפרויקט סוף של קורס פיתוח אנדרואיד במכללת אורט בראודה, הקורס עובר על ידי תומר גל.</string>
+    <string name="credits">תודות</string>
 </resources>

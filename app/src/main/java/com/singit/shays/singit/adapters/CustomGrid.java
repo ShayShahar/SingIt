@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 /**
  * Created by shays on 02/06/2016.
+ * The CustomGrid class connects between LyricRes list to Android's GridView component.
  */
 public class CustomGrid extends BaseAdapter {
 

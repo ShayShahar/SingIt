@@ -24,6 +24,10 @@ import com.singit.shays.singit.yandex.translate.Translate;
 
 import java.io.InputStream;
 
+/**
+ * Created by shays on 30/05/2016.
+ * The class handles to logics of the lyrics view screen.
+ */
 public class LyricsViewActivity extends AppCompatActivity {
 
     private static final String TAG = "SingDebug";
@@ -119,6 +123,10 @@ public class LyricsViewActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Handles the user's click on floating animated button to add / remove lyrics to / from favorites list.
+     * @param view
+     */
     public void onClickAddToFavorites(View view) {
 
         if (isFav == true){
@@ -137,6 +145,10 @@ public class LyricsViewActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * DownloadImageTask extends google's AsyncTask,
+     * used to download images in background.
+     */
     class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 

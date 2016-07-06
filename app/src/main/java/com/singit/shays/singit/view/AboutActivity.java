@@ -9,6 +9,11 @@ import android.view.View;
 
 import com.singit.shays.singit.R;
 
+
+/**
+ * AboutActivity handles the logics of About screen
+ * Created by shays on 05/07/2016.
+ */
 public class AboutActivity extends AppCompatActivity {
 
     @Override
@@ -21,6 +26,10 @@ public class AboutActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Intent to Shay's email.
+     * @param view
+     */
     public void onContactShayShahar(View view){
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -30,6 +39,10 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Intent to Carmel's email.
+     * @param view
+     */
     public void onContactCarmelAvni(View view){
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -39,6 +52,10 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Intent to Simon's email.
+     * @param view
+     */
     public void onContactSimonRaviv(View view){
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -48,6 +65,10 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Intent to Dalit's email.
+     * @param view
+     */
     public void onContactDalitBitan(View view){
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);

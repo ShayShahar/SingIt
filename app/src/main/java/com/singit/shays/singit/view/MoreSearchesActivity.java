@@ -21,7 +21,10 @@ import com.singit.shays.singit.entities.LyricsRes;
 import com.singit.shays.singit.entities.SingItDBHelper;
 
 import java.util.ArrayList;
-
+/**
+ * Created by shays on 30/05/2016.
+ * The class handles to logics of the all searches activity
+ */
 public class MoreSearchesActivity extends AppCompatActivity {
 
     private SingItDBHelper dbHelper;

@@ -6,7 +6,10 @@ import android.os.Bundle;
 
 import com.singit.shays.singit.R;
 
-
+/**
+ * Created by shays on 05/05/2016.
+ * The class creates a simple splash screen that view the application logo when launching the application.
+ */
 public class SplashScreen extends Activity {
 
     @Override

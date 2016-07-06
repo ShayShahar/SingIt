@@ -30,6 +30,11 @@ import com.singit.shays.singit.entities.SingItDBHelper;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+/**
+ * Created by shays on 05/06/2016.
+ * The class handles the search result activity logics.
+ * The class called by searchable activities.
+ */
 public class SearchResultsActivity extends AppCompatActivity {
 
     private static final String TAG = "SingDebug";
@@ -71,6 +76,10 @@ public class SearchResultsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Handle the search results and initialize the ListView.
+     * @param intent
+     */
     private void handleIntent(Intent intent) {
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -115,7 +124,9 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Download thumbnails in background.
+     */
     class DownloadImageTask extends AsyncTask<String, Void, Void> {
 
         protected Void doInBackground(String... urls) {

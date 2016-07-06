@@ -15,6 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
+/**
+ * Created by shays on 24/06/2016.
+ * The class implements YoutubeAPI and includes the Youtube fragment and other activity's logics.
+ */
+
 public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener{
     private String VIDEO_ID;
     private static final int RECOVERY_DIALOG_REQUEST = 1;

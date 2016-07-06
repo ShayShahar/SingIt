@@ -12,6 +12,8 @@ import java.io.IOException;
 
 /**
  * Created by lions on 05/06/2016.
+ * The ImageSaver stores images from last searches and favorites lists to improve loading time
+ * and prevent unnecessary http requests.
  */
 public class ImageSaver {
 

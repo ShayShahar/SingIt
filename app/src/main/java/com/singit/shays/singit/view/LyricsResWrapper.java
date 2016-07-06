@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 /**
  * Created by shays on 30/05/2016.
+ * This class wraps a list of LyicsRes object.
+ * Used to pass ArrayList between activities.
  */
 public class LyricsResWrapper implements Serializable {
 

@@ -38,6 +38,7 @@ import android.widget.ImageView;
 
 import com.singit.shays.singit.R;
 
+
 public class CircleImageView extends ImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 /**
  * Created by shays on 20/05/2016.
+ * This class connects between LyricsRes list to Android ListView component.
  */
 public class CustomAdapter extends ArrayAdapter<LyricsRes> {
 
@@ -30,11 +31,23 @@ public class CustomAdapter extends ArrayAdapter<LyricsRes> {
     private SingItDBHelper dbHelper;
     private Context context;
 
+    /**
+     * C'tor of CustomAdapter class
+     * @param context
+     * @param details
+     */
     public CustomAdapter(Context context,ArrayList<LyricsRes> details){
         super(context, R.layout.custom_row,details);
         this.context = context;
     }
 
+    /**
+     * See ArrayAdapter.getView
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         dbHelper = new SingItDBHelper(context);
@@ -66,6 +79,10 @@ public class CustomAdapter extends ArrayAdapter<LyricsRes> {
     }
 
 
+    /**
+     * DownloadImageTask extends google's AsyncTask
+     * This task download the artist's cover in background.
+     */
     class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
@@ -83,14 +100,7 @@ public class CustomAdapter extends ArrayAdapter<LyricsRes> {
                 Log.d(TAG,"image set");
 
             } catch (Exception e) {
-                //ImageView image = (ImageView) getView().findViewById(R.id.artistImage);
-               // InputStream is = getContext().getResources().openRawResource(drawable.no_img);
-                //Bitmap originalBitmap = BitmapFactory.decodeStream(is);
-                //bmp = originalBitmap;
-                /*bmp = BitmapFactory.decodeResource(getContext().getResources(),
-                        R.drawable.no_img);*/
                 Log.d(TAG,"no image");
-                e.printStackTrace();
             }
             return mIcon11;
         }

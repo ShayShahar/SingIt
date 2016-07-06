@@ -20,6 +20,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+/**
+ * Created by shays on 24/06/2016.
+ * The class implements YoutubeAPI and includes the result list of available video clips from youtube.
+ */
 public class VideoSuggestionsActivity extends AppCompatActivity {
 
     private List<VideoItem> searchResults;
@@ -43,6 +47,10 @@ public class VideoSuggestionsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.video_suggest);
     }
 
+    /**
+     * Search videos on youtube with the requested keywords.
+     * @param keywords
+     */
     private void searchOnYoutube(final String keywords){
         new Thread(){
             public void run(){
@@ -57,6 +65,9 @@ public class VideoSuggestionsActivity extends AppCompatActivity {
         }.start();
     }
 
+    /**
+     * Update the available videos list with the search result.
+     */
     private void updateVideosFound() {
         ArrayAdapter<VideoItem> adapter = new ArrayAdapter<VideoItem>(getApplicationContext(), R.layout.video_item, searchResults) {
             @Override
@@ -80,6 +91,9 @@ public class VideoSuggestionsActivity extends AppCompatActivity {
         videosFound.setAdapter(adapter);
     }
 
+    /**
+     * Set item click listener to results list.
+     */
     private void addClickListener(){
         videosFound.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

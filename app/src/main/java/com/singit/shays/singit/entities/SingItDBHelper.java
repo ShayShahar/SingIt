@@ -27,12 +27,10 @@ public class SingItDBHelper extends SQLiteOpenHelper {
     private static final String SONG_id = "song_id";
     private static final String SONG_NAME = "song_name";
     private static final String LYRICS = "lyrics";
-    private static final String TRANSLATED_LYRICS = "translated_lyrics";
     private static final String IMAGE_URL = "image_url";
     private static final String THUMBNAIL_URL = "thumbnail_url";
     private static final String IMAGE_PATH = "image_path";
     private static final String THUMBNAIL_PATH = "thumbnail_path";
-    private static final String SONGS_TABLE = "songs";
     private static final String FAVORITES_TABLE = "favorites";
     private static final String LAST_SEARCHES_TABLE = "last_searches";
     private static final String IMAGE_DIR = "image_directory";
@@ -98,7 +96,6 @@ public class SingItDBHelper extends SQLiteOpenHelper {
      */
     private void updateMyDB(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
-            create_songs_table(db);
             create_favorites_table(db);
             create_last_searches_table(db);
             Log.d(TAG, "DB creation finished.");
@@ -113,22 +110,6 @@ public class SingItDBHelper extends SQLiteOpenHelper {
         return THUMBNAIL_DIR;
     }
 
-    /**
-     * Creates song table.
-     *
-     * @param db The database.
-     */
-    private void create_songs_table(SQLiteDatabase db) {
-        String sql_create_table;
-        sql_create_table = "CREATE TABLE " + SONGS_TABLE + " ("
-                + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + SONG_id + " INTEGER NOT NULL UNIQUE, "
-                + ARTIST_NAME + " TEXT NOT NULL, "
-                + SONG_NAME + " TEXT NOT NULL, "
-                + TRANSLATED_LYRICS + " TEXT NOT NULL); ";
-
-        db.execSQL(sql_create_table);
-    }
 
     /**
      * Creates favorites table.
@@ -227,33 +208,6 @@ public class SingItDBHelper extends SQLiteOpenHelper {
         return load_picture(THUMBNAIL_DIR, name);
     }
 
-    /**
-     * Insert song to the song table, after translation.
-     *
-     * @param song_id           Song id in api web.
-     * @param song_name         Name of the song to insert.
-     * @param artist_name       Name of the song's artist to insert.
-     * @param translated_lyrics The song after being translated.
-     */
-    public DBResult insert_song_to_songs_table(int song_id, String song_name, String artist_name, String translated_lyrics)
-            throws SQLiteConstraintException {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues song_values = new ContentValues();
-
-        song_values.put(SONG_id, song_id);
-        song_values.put(SONG_NAME, song_name);
-        song_values.put(ARTIST_NAME, artist_name);
-        song_values.put(TRANSLATED_LYRICS, translated_lyrics);
-
-        try {
-
-            db.insertOrThrow(SONGS_TABLE, null, song_values);
-        } catch (SQLiteConstraintException e) {
-            Log.d(TAG, "SQLiteConstraintException " + e.getStackTrace().toString());
-            return DBResult.ITEM_NOT_EXISTS_ERROR;
-        }
-        return DBResult.OK;
-    }
 
     /**
      * Insert song to the favorites table, after chose as favorite.

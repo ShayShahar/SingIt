@@ -17,14 +17,14 @@
             >
 
             <ImageView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:id="@+id/coverImage"
                 android:src="@drawable/no_img"
                 android:layout_marginBottom="3dp" />
 
             <TextView
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="16dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/songNameGrid"
@@ -34,7 +34,7 @@
                 android:minLines="2" />
 
             <TextView
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="13dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/artistNameGrid"
